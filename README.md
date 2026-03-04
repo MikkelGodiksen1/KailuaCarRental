@@ -1,50 +1,114 @@
-# Kailua CarRental (Console, Java 21, Maven, MySQL)
+# Godik.ai
 
-## Krav
-- Java 21, Maven
-- MySQL lokalt med database `kailua_carrental`
+> We build websites and automations.
 
-## Opsætning af database (skriv SQL manuelt)
+A sharp, minimal personal website for [Godik.ai](https://godik.ai) — built with Next.js 15 and Tailwind CSS, designed to deploy instantly on Vercel.
+
+---
+
+## Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org) (App Router)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com)
+- **Font**: [Geist](https://vercel.com/font) via `next/font`
+- **Language**: TypeScript
+- **Deploy**: [Vercel](https://vercel.com)
+
+---
+
+## Sections
+
+| Section | Description |
+|---------|-------------|
+| **Hero** | Headline, subtext, dual CTA buttons |
+| **Services** | Websites + Automations cards |
+| **About** | Who we are + key stats |
+| **Contact** | Contact form with service selector |
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm / yarn / pnpm
+
+### Install & Run
+
 ```bash
-mysql -u root -e "SOURCE sql/001_schema.sql"
-mysql -u root -e "SOURCE sql/002_seed.sql"
+# Clone the repo
+git clone https://github.com/your-username/godik-ai.git
+cd godik-ai
+
+# Install dependencies
+npm install
+
+# Start dev server
+npm run dev
 ```
 
-## Kørsel
-```bash
-mvn -q package
-mvn -q exec:java
+Open [http://localhost:3000](http://localhost:3000) to see the site.
+
+---
+
+## Deploy on Vercel
+
+The fastest way to go live:
+
+1. Push this repo to GitHub
+2. Go to [vercel.com/new](https://vercel.com/new)
+3. Import the repository
+4. Click **Deploy** — no configuration needed
+
+Vercel auto-detects Next.js and handles everything.
+
+---
+
+## Customization
+
+| File | What to change |
+|------|---------------|
+| `app/layout.tsx` | Site title, meta description, OG tags |
+| `components/Hero.tsx` | Headline, subtext, CTA links |
+| `components/Services.tsx` | Service cards content |
+| `components/About.tsx` | About text, stats |
+| `components/Contact.tsx` | Form submission handler (wire to Resend / Formspree / your API) |
+| `components/Footer.tsx` | Footer links, copyright |
+| `app/globals.css` | Global styles, grid background |
+
+### Wiring up the contact form
+
+The form in `components/Contact.tsx` currently simulates a submission. To make it real, replace the `handleSubmit` function with a `fetch` call to your preferred email service:
+
+- [Resend](https://resend.com) — recommended, developer-friendly
+- [Formspree](https://formspree.io) — no backend needed
+- Custom Next.js API route at `app/api/contact/route.ts`
+
+---
+
+## Project Structure
+
+```
+├── app/
+│   ├── globals.css       # Global styles + Tailwind config
+│   ├── layout.tsx        # Root layout, metadata
+│   └── page.tsx          # Main page (assembles all sections)
+├── components/
+│   ├── Navbar.tsx        # Sticky nav with scroll effect
+│   ├── Hero.tsx          # Hero section
+│   ├── Services.tsx      # Services cards
+│   ├── About.tsx         # About + stats
+│   ├── Contact.tsx       # Contact form
+│   └── Footer.tsx        # Footer
+├── public/               # Static assets
+├── next.config.ts
+├── tailwind.config.ts    # (auto-configured via Tailwind v4)
+└── tsconfig.json
 ```
 
-## Konfiguration uden secrets
-`Db.java` læser fra system properties / env variabler. Default er tomt password.
-- System properties: `-Ddb.url`, `-Ddb.user`, `-Ddb.pass`
-- Environment: `DB_URL`, `DB_USER`, `DB_PASS`
+---
 
-Eksempel (hvis du senere får password):
-```bash
-mvn -q exec:java -Ddb.user=root -Ddb.pass='HEMMELIG' -Ddb.url='jdbc:mysql://127.0.0.1:3306/kailua_carrental?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC'
-```
+## License
 
-## Funktionalitet
-- Konsol-UI (`ConsoleUI`) med menupunkter: list/find/update car, create customer, create/return/delete rental.
-- DAO-klasser: `CarDao`, `CustomerDao`, `RentalDao`.
-
-## Struktur
-```
-KailuaCarRental/
-├── pom.xml
-├── src/main/java/com/kailua/carrental/
-│   ├── App.java
-│   ├── Db.java
-│   ├── ConsoleUI.java
-│   ├── CarDao.java
-│   ├── CustomerDao.java
-│   └── RentalDao.java
-├── sql/
-│   ├── 001_schema.sql
-│   └── 002_seed.sql
-├── docs/
-│   └── er-diagram.mmd (læg dit diagram eller brug Mermaid)
-└── .gitignore
-```
+MIT — use it, ship it, make it yours.
