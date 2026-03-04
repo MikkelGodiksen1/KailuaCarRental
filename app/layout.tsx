@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Godik.ai — We build websites and automations",
+  title: "Godik.ai — Vi bygger hjemmesider og automatiseringer",
   description:
-    "Godik.ai builds sharp, modern websites and intelligent automations that help businesses move faster.",
+    "Godik.ai bygger skarpe hjemmesider og intelligente automatiseringer, der hjælper virksomheder med at vækste hurtigere.",
   openGraph: {
-    title: "Godik.ai — We build websites and automations",
+    title: "Godik.ai — Vi bygger hjemmesider og automatiseringer",
     description:
-      "Sharp websites and intelligent automations for modern businesses.",
+      "Skarpe hjemmesider og intelligente automatiseringer til moderne virksomheder.",
     type: "website",
   },
 };
@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="da" className="dark">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -28,7 +28,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-sans antialiased bg-[#0a0a0a] text-white">
+      <body className="font-sans antialiased bg-[#080814] text-white">
         {children}
       </body>
     </html>

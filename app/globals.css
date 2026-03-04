@@ -95,3 +95,6 @@ body {
 .is-walking .char-arm-left  { animation: walkArmLeft  0.45s ease-in-out infinite; }
 .is-walking .char-arm-right { animation: walkArmRight 0.45s ease-in-out infinite; }
 .is-walking .char-body      { animation: bodyBob      0.45s ease-in-out infinite; }
+
+/* ── Hide scrollbar on snap container ── */
+.snap-scroll::-webkit-scrollbar { display: none; }
