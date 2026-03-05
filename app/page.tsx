@@ -7,7 +7,9 @@ import { useRef, useState, useCallback, useEffect } from "react";
    ──────────────────────────────────────────────────────────── */
 const TRANSLATIONS = {
   da: {
-    badge: "ÅBEN FOR PROJEKTER",
+    badge: "ÅBEN FOR PROJEKTER", // ubrugt — erstattes af dynamisk badge
+    badgePrefix: "2 SPOTS TILBAGE I",
+    months: ["JANUAR","FEBRUAR","MARTS","APRIL","MAJ","JUNI","JULI","AUGUST","SEPTEMBER","OKTOBER","NOVEMBER","DECEMBER"],
     introP1: "Datamatiker. Uddannet coach (NLP). Født 97. Tidl. selvstændig forsikringsagent.",
     introP2a: "I dag laver jeg",
     introP2b: "og",
@@ -45,6 +47,7 @@ const TRANSLATIONS = {
     level4Label: "▶ LEVEL 04 KONTAKT",
     level4H1: "Tag fat i",
     level4H2: "mig.",
+    level4Tagline: "Har du en opgave? Stor som lille — tag fat i mig.",
     formSentBadge: "BESKED SENDT!",
     formSentMsg: "Jeg vender tilbage hurtigst muligt.",
     formName: "NAVN *",
@@ -65,7 +68,9 @@ const TRANSLATIONS = {
     scrollHint: "▶ SCROLL",
   },
   en: {
-    badge: "OPEN FOR PROJECTS",
+    badge: "OPEN FOR PROJECTS", // ubrugt — erstattes af dynamisk badge
+    badgePrefix: "2 SPOTS LEFT IN",
+    months: ["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"],
     introP1: "Computer scientist. Certified NLP coach. Born '97. Former independent insurance agent.",
     introP2a: "Today I build",
     introP2b: "and",
@@ -103,6 +108,7 @@ const TRANSLATIONS = {
     level4Label: "▶ LEVEL 04 CONTACT",
     level4H1: "Get in",
     level4H2: "touch.",
+    level4Tagline: "Got a project? Big or small — reach out.",
     formSentBadge: "MESSAGE SENT!",
     formSentMsg: "I will get back to you as soon as possible.",
     formName: "NAME *",
@@ -452,7 +458,7 @@ function SceneHej({ goTo, t }: { goTo: (i: number) => void; t: T }) {
           marginBottom: 12,
         }}>
           <span style={{ width: 8, height: 8, background: "white", display: "inline-block", animation: "blink 1s step-end infinite" }} />
-          {t.badge}
+          {t.badgePrefix} {t.months[new Date().getMonth() === 11 ? 0 : new Date().getMonth() + 1]}
         </div>
 
         <h1 className="scene-enter-d1" style={{
@@ -903,6 +909,12 @@ function SceneKontakt({ t }: { t: T }) {
         }}>
           {t.level4H2}
         </h2>
+        <p className="scene-enter-d1" style={{
+          color: "#6a5820", fontSize: "clamp(0.9rem,1.5vw,1.05rem)", lineHeight: 1.5,
+          marginBottom: 12, fontWeight: 500,
+        }}>
+          {t.level4Tagline}
+        </p>
 
         {status === "sent" ? (
           <div style={{ padding: "14px 18px", border: "4px solid #008030", background: "white", textAlign: "center" }}>
