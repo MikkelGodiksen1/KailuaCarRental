@@ -2,17 +2,17 @@
 
 import { useRef, useState, useCallback, useEffect } from "react";
 
-/* ──────────────────────────────────────────────────────
-   MIKKEL CHARACTER  (SVG: blonde hair · turtleneck · beard)
-   ────────────────────────────────────────────────────── */
+/* ────────────────────────────────────────────────────────────
+   MIKKEL CHARACTER
+   ──────────────────────────────────────────────────────────── */
 function MikkelCharacter({ walking }: { walking: boolean }) {
   return (
     <div
       className={walking ? "is-walking" : ""}
-      style={{ width: 84, height: 136, filter: "drop-shadow(0 10px 24px rgba(0,0,0,0.8))" }}
+      style={{ width: 84, height: 136, filter: "drop-shadow(0 8px 16px rgba(0,0,0,0.9))" }}
     >
       <svg viewBox="0 0 84 136" xmlns="http://www.w3.org/2000/svg" overflow="visible">
-        <ellipse cx="42" cy="134" rx="22" ry="4" fill="rgba(0,0,0,0.35)" />
+        <ellipse cx="42" cy="134" rx="22" ry="4" fill="rgba(0,0,0,0.5)" />
         <g className="char-leg-left">
           <rect x="20" y="92" width="16" height="38" rx="6" fill="#1a1f38" />
           <ellipse cx="25" cy="130" rx="12" ry="5" fill="#0e1020" />
@@ -52,7 +52,7 @@ function MikkelCharacter({ walking }: { walking: boolean }) {
           <path d="M34,48 Q42,54 50,48" stroke="#b86840" strokeWidth="1.6" fill="none" strokeLinecap="round" />
           <path d="M17,28 Q16,14 42,10 Q68,14 67,28 Q65,16 42,14 Q19,16 17,28 Z" fill="#c8922a" />
           <path d="M18,26 Q18,8 42,6 Q66,8 66,26 Q62,12 42,10 Q22,12 18,26 Z" fill="#d9a030" />
-          <path d="M26,16 Q34,8 42,7 Q50,8 55,14" stroke="#f0c040" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.6" />
+          <path d="M26,16 Q34,8 42,7 Q50,8 55,14" stroke="#f0c040" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.7" />
           <path d="M18,26 Q16,32 18,38 Q20,30 22,26" fill="#c8922a" />
           <path d="M66,26 Q68,32 66,38 Q64,30 62,26" fill="#c8922a" />
         </g>
@@ -61,396 +61,342 @@ function MikkelCharacter({ walking }: { walking: boolean }) {
   );
 }
 
-/* ──────────────────────────────────────────────────────
-   SCENE 1 — HEJ  (deep space · hero)
-   ────────────────────────────────────────────────────── */
-function SceneHej({ goTo }: { goTo: (i: number) => void }) {
-  const stars = Array.from({ length: 100 }, (_, i) => ({
+/* ────────────────────────────────────────────────────────────
+   PIXEL STARS background helper
+   ──────────────────────────────────────────────────────────── */
+function PixelStars({ count = 60 }: { count?: number }) {
+  const stars = Array.from({ length: count }, (_, i) => ({
     x: (i * 137.5) % 100,
-    y: (i * 97.3) % 85,
-    r: ((i % 4) + 1) * 0.5,
-    delay: (i % 5) * 0.4,
-    dur: 2 + (i % 4) * 0.8,
+    y: (i * 97.3) % 80,
+    size: (i % 3 === 0) ? 3 : 2,
+    delay: (i % 7) * 0.5,
+    dur: 1.5 + (i % 4) * 0.6,
   }));
-
   return (
-    <div
-      className="relative flex-shrink-0 overflow-hidden"
-      style={{ width: "100vw", height: "100vh", background: "linear-gradient(160deg,#05051a 0%,#0a0825 50%,#0e0530 100%)" }}
-    >
-      {/* Stars */}
-      <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-        {stars.map((s, i) => (
-          <circle key={i} cx={`${s.x}%`} cy={`${s.y}%`} r={s.r} fill="white"
-            style={{ animation: `twinkle ${s.dur}s ${s.delay}s ease-in-out infinite` }} />
-        ))}
-        {/* Large background orbs */}
-        <ellipse cx="75%" cy="30%" rx="280" ry="200" fill="rgba(120,60,240,0.09)" />
-        <ellipse cx="20%" cy="65%" rx="200" ry="140" fill="rgba(60,80,240,0.06)" />
-        <ellipse cx="55%" cy="80%" rx="160" ry="100" fill="rgba(200,80,240,0.04)" />
-      </svg>
+    <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" style={{ imageRendering: "pixelated" }}>
+      {stars.map((s, i) => (
+        <rect key={i}
+          x={`${s.x}%`} y={`${s.y}%`}
+          width={s.size} height={s.size}
+          fill="white"
+          style={{ animation: `twinkle ${s.dur}s ${s.delay}s ease-in-out infinite` }}
+        />
+      ))}
+    </svg>
+  );
+}
 
-      {/* Floating orb decorations */}
-      <div className="absolute" style={{ right: "12%", top: "22%", animation: "orbPulse 3.5s ease-in-out infinite" }}>
-        <div style={{ width: 280, height: 280, borderRadius: "50%", background: "radial-gradient(circle,rgba(124,58,237,0.18) 0%,transparent 70%)" }} />
-      </div>
-
-      {/* Floating laptop */}
-      <div className="absolute" style={{ right: "6%", top: "14%", animation: "floatSlow 4s ease-in-out infinite" }}>
-        <svg width="180" height="124" viewBox="0 0 155 108" fill="none" xmlns="http://www.w3.org/2000/svg"
-          style={{ filter: "drop-shadow(0 0 30px rgba(124,58,237,0.35))" }}>
-          <rect x="18" y="0" width="119" height="78" rx="8" fill="#1a1f3e" stroke="#3a2880" strokeWidth="1.5" />
-          <rect x="24" y="6" width="107" height="62" rx="5" fill="#0a0820" />
-          <rect x="30" y="13" width="44" height="3" rx="1.5" fill="#9d6aff" opacity="0.9" />
-          <rect x="30" y="20" width="68" height="3" rx="1.5" fill="#4a9eff" opacity="0.7" />
-          <rect x="30" y="27" width="52" height="3" rx="1.5" fill="#4a9eff" opacity="0.5" />
-          <rect x="36" y="34" width="38" height="3" rx="1.5" fill="#3ecfcf" opacity="0.8" />
-          <rect x="36" y="41" width="58" height="3" rx="1.5" fill="#9d6aff" opacity="0.6" />
-          <rect x="30" y="48" width="32" height="3" rx="1.5" fill="#4a9eff" opacity="0.4" />
-          <rect x="90" y="54" width="2" height="10" rx="1" fill="#9d6aff" opacity="0.9"
-            style={{ animation: "twinkle 1s ease-in-out infinite" }} />
-          <path d="M4 81 L151 81 L144 93 L11 93 Z" fill="#1a1f3e" stroke="#3a2880" strokeWidth="1.5" />
-          <rect x="53" y="78" width="49" height="5" rx="2" fill="#2a2060" />
-        </svg>
-      </div>
-
-      {/* Small floating orbs */}
-      <div className="absolute" style={{ right: "30%", top: "60%", animation: "floatMed 2.8s 1s ease-in-out infinite" }}>
-        <div style={{ width: 10, height: 10, borderRadius: "50%", background: "rgba(74,158,255,0.7)", boxShadow: "0 0 20px rgba(74,158,255,0.5)" }} />
-      </div>
-      <div className="absolute" style={{ right: "20%", top: "40%", animation: "floatMed 3.2s 0.5s ease-in-out infinite" }}>
-        <div style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(180,80,240,0.7)", boxShadow: "0 0 16px rgba(180,80,240,0.5)" }} />
-      </div>
-
-      {/* Content */}
-      <div className="absolute z-10 flex flex-col" style={{ left: "6%", top: "50%", transform: "translateY(-50%)", maxWidth: 520 }}>
-        {/* Badge */}
-        <div className="scene-content-enter" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 16px", borderRadius: 999, border: "1px solid rgba(157,106,255,0.35)", background: "rgba(157,106,255,0.1)", marginBottom: 28, width: "fit-content" }}>
-          <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#9d6aff", animation: "pulseGlow 2s ease-in-out infinite", display: "inline-block" }} />
-          <span style={{ fontSize: 12, color: "#b090ff", letterSpacing: "0.06em", fontWeight: 500 }}>Åben for nye projekter</span>
-        </div>
-
-        {/* Headline */}
-        <h1 className="scene-content-enter-delay-1" style={{ fontSize: "clamp(2.6rem,5vw,4.4rem)", fontWeight: 900, lineHeight: 1.05, color: "white", marginBottom: 22, letterSpacing: "-0.02em" }}>
-          Hej, jeg er{" "}
-          <span style={{ background: "linear-gradient(135deg,#a78bfa 0%,#ec4899 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-            Mikkel.
-          </span>
-        </h1>
-
-        {/* Body */}
-        <p className="scene-content-enter-delay-2" style={{ fontSize: "clamp(1rem,1.8vw,1.2rem)", color: "#8888b8", lineHeight: 1.75, marginBottom: 36 }}>
-          Jeg er freelance webudvikler fra Danmark. Jeg laver{" "}
-          <strong style={{ color: "#c4b5fd" }}>hjemmesider</strong> folk faktisk bruger,
-          og <strong style={{ color: "#67e8f9" }}>automatiseringer</strong> der sparer timer hver uge.
-          Ingen bureau-priser, ingen unødvendig ventetid.
-        </p>
-
-        {/* CTAs */}
-        <div className="scene-content-enter-delay-3" style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
-          <button
-            onClick={() => goTo(3)}
-            className="cta-primary"
-            style={{
-              padding: "15px 34px",
-              borderRadius: 10,
-              background: "linear-gradient(135deg,#7c3aed,#a855f7,#ec4899)",
-              color: "white",
-              fontWeight: 700,
-              fontSize: 15,
-              border: "none",
-              cursor: "pointer",
-              boxShadow: "0 0 40px rgba(124,58,237,0.45)",
-              letterSpacing: "0.01em",
-            }}
-          >
-            Kom i gang →
-          </button>
-          <button
-            onClick={() => goTo(1)}
-            className="cta-secondary"
-            style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.4)", fontSize: 14, display: "flex", alignItems: "center", gap: 8, fontWeight: 500 }}
-          >
-            Se hvad jeg tilbyder ↓
-          </button>
-        </div>
-      </div>
-
-      {/* Ground */}
-      <div className="absolute bottom-0 left-0 right-0" style={{ height: "14vh", background: "linear-gradient(to top,#05051a 0%,#080820 60%,transparent 100%)" }} />
-      <div className="absolute left-0 right-0" style={{ bottom: "14vh", height: 1, background: "linear-gradient(90deg,transparent,rgba(124,58,237,0.4),rgba(200,80,240,0.3),transparent)" }} />
+/* ────────────────────────────────────────────────────────────
+   PIXEL GROUND  (platform stripe at bottom)
+   ──────────────────────────────────────────────────────────── */
+function PixelGround({ color = "#1a3a1a" }: { color?: string }) {
+  return (
+    <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "14vh" }}>
+      {/* Ground line */}
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 4, background: "#50c850", boxShadow: "0 0 12px rgba(80,200,80,0.5)" }} />
+      {/* Ground fill */}
+      <div style={{ position: "absolute", top: 4, left: 0, right: 0, bottom: 0, background: color }} />
+      {/* Pixel detail row */}
+      <div style={{ position: "absolute", top: 4, left: 0, right: 0, height: 4, background: "#3a9a3a" }} />
     </div>
   );
 }
 
-/* ──────────────────────────────────────────────────────
-   SCENE 2 — HJEMMESIDER  (city night)
-   ────────────────────────────────────────────────────── */
+/* ────────────────────────────────────────────────────────────
+   SCENE 1 — HEJ
+   ──────────────────────────────────────────────────────────── */
+function SceneHej({ goTo }: { goTo: (i: number) => void }) {
+  return (
+    <div
+      className="relative flex-shrink-0 overflow-hidden"
+      style={{ width: "100vw", height: "100vh", background: "#050010" }}
+    >
+      <PixelStars count={80} />
+
+      {/* Moon */}
+      <div style={{ position: "absolute", right: "12%", top: "12%" }}>
+        <svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" style={{ imageRendering: "pixelated" }}>
+          <circle cx="40" cy="40" r="34" fill="#f8e800" />
+          <circle cx="40" cy="40" r="30" fill="#f0d800" />
+          {/* Craters */}
+          <circle cx="28" cy="32" r="5" fill="#d8c000" />
+          <circle cx="50" cy="50" r="4" fill="#d8c000" />
+          <circle cx="38" cy="54" r="3" fill="#d8c000" />
+        </svg>
+      </div>
+
+      {/* Pixel clouds */}
+      <div style={{ position: "absolute", right: "28%", top: "20%", animation: "floatSlow 5s ease-in-out infinite" }}>
+        <svg width="100" height="36" viewBox="0 0 100 36" xmlns="http://www.w3.org/2000/svg" style={{ imageRendering: "pixelated" }}>
+          <rect x="16" y="20" width="68" height="16" fill="#1a1a40" />
+          <rect x="8"  y="12" width="84" height="16" fill="#1a1a40" />
+          <rect x="24" y="4"  width="52" height="12" fill="#1a1a40" />
+        </svg>
+      </div>
+      <div style={{ position: "absolute", left: "20%", top: "32%", animation: "floatSlow 6s 1s ease-in-out infinite" }}>
+        <svg width="70" height="28" viewBox="0 0 70 28" xmlns="http://www.w3.org/2000/svg" style={{ imageRendering: "pixelated" }}>
+          <rect x="10" y="14" width="50" height="14" fill="#1a1a40" />
+          <rect x="4"  y="8"  width="62" height="12" fill="#1a1a40" />
+          <rect x="18" y="2"  width="34" height="10" fill="#1a1a40" />
+        </svg>
+      </div>
+
+      {/* Content */}
+      <div className="absolute z-10" style={{ left: "6%", top: "14%", maxWidth: 560 }}>
+
+        {/* Pixel badge */}
+        <div className="scene-enter font-pixel" style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "8px 14px", border: "2px solid #50c850", background: "rgba(80,200,80,0.12)", marginBottom: 28, fontSize: 8, color: "#50c850", letterSpacing: "0.05em" }}>
+          <span style={{ width: 8, height: 8, background: "#50c850", display: "inline-block", animation: "blink 1s step-end infinite" }} />
+          ÅBEN FOR NYE PROJEKTER
+        </div>
+
+        {/* Headline */}
+        <h1 className="scene-enter-d1" style={{ fontSize: "clamp(2.8rem,5.5vw,5rem)", fontWeight: 900, lineHeight: 1.0, color: "white", marginBottom: 10, letterSpacing: "-0.02em" }}>
+          Hej, jeg er
+        </h1>
+        <h1 className="scene-enter-d1" style={{ fontSize: "clamp(2.8rem,5.5vw,5rem)", fontWeight: 900, lineHeight: 1.0, marginBottom: 28, letterSpacing: "-0.02em", color: "#f8e800", textShadow: "0 0 30px rgba(248,232,0,0.5), 3px 3px 0px rgba(180,140,0,0.6)" }}>
+          Mikkel.
+        </h1>
+
+        {/* Body */}
+        <p className="scene-enter-d2" style={{ fontSize: "clamp(1rem,1.8vw,1.25rem)", color: "#c8c8e8", lineHeight: 1.7, marginBottom: 36, maxWidth: 480 }}>
+          Freelance webudvikler fra Danmark.<br />
+          Jeg laver <strong style={{ color: "#f8e800" }}>hjemmesider</strong> folk faktisk bruger
+          og <strong style={{ color: "#00e8e8" }}>automatiseringer</strong> der sparer dig for timer hver uge.
+          Ingen bureau-priser, ingen venteliste på 3 måneder.
+        </p>
+
+        {/* CTAs */}
+        <div className="scene-enter-d3" style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+          <button
+            onClick={() => goTo(3)}
+            className="cta-btn font-pixel"
+            style={{
+              padding: "14px 24px",
+              fontSize: 10,
+              background: "#f8e800",
+              color: "#050010",
+              border: "none",
+              cursor: "pointer",
+              fontWeight: 700,
+              boxShadow: "4px 4px 0px #a09000",
+              letterSpacing: "0.04em",
+            }}
+          >
+            KOM I GANG
+          </button>
+          <button
+            onClick={() => goTo(1)}
+            className="font-pixel"
+            style={{ background: "none", border: "2px solid rgba(255,255,255,0.2)", cursor: "pointer", color: "rgba(255,255,255,0.5)", fontSize: 8, padding: "12px 18px", letterSpacing: "0.04em" }}
+          >
+            SE MERE ▶
+          </button>
+        </div>
+      </div>
+
+      <PixelGround />
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   SCENE 2 — HJEMMESIDER
+   ──────────────────────────────────────────────────────────── */
 function SceneHjemmesider({ goTo }: { goTo: (i: number) => void }) {
   return (
     <div
       className="relative flex-shrink-0 overflow-hidden"
-      style={{ width: "100vw", height: "100vh", background: "linear-gradient(160deg,#030812 0%,#060c20 50%,#080c1e 100%)" }}
+      style={{ width: "100vw", height: "100vh", background: "#000428" }}
     >
-      {/* City silhouette */}
-      <svg className="absolute bottom-0 left-0 right-0" style={{ width: "100%", height: "40vh" }}
+      <PixelStars count={50} />
+
+      {/* Pixel city skyline */}
+      <svg className="absolute bottom-0 left-0 right-0" style={{ width: "100%", height: "42vh", imageRendering: "pixelated" }}
         viewBox="0 0 1440 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="0"   y="160" width="60"  height="140" fill="#080e20" />
-        <rect x="20"  y="130" width="30"  height="170" fill="#080e20" />
-        <rect x="70"  y="180" width="50"  height="120" fill="#080e20" />
-        <rect x="130" y="120" width="45"  height="180" fill="#0a1025" />
-        <rect x="145" y="90"  width="20"  height="210" fill="#0a1025" />
-        <rect x="190" y="155" width="70"  height="145" fill="#080e20" />
-        <rect x="270" y="100" width="55"  height="200" fill="#0a1025" />
-        <rect x="290" y="80"  width="18"  height="220" fill="#0a1025" />
-        <rect x="340" y="140" width="80"  height="160" fill="#080e20" />
-        <rect x="430" y="110" width="40"  height="190" fill="#0a1025" />
-        <rect x="480" y="160" width="90"  height="140" fill="#080e20" />
-        <rect x="580" y="90"  width="60"  height="210" fill="#0a1025" />
-        <rect x="600" y="60"  width="22"  height="240" fill="#0a1025" />
-        <rect x="650" y="150" width="70"  height="150" fill="#080e20" />
-        <rect x="730" y="110" width="50"  height="190" fill="#0a1025" />
-        <rect x="790" y="170" width="80"  height="130" fill="#080e20" />
-        <rect x="880" y="100" width="45"  height="200" fill="#0a1025" />
-        <rect x="895" y="70"  width="18"  height="230" fill="#0a1025" />
-        <rect x="940" y="140" width="70"  height="160" fill="#080e20" />
-        <rect x="1020" y="115" width="55" height="185" fill="#0a1025" />
-        <rect x="1085" y="155" width="90" height="145" fill="#080e20" />
-        <rect x="1185" y="100" width="50" height="200" fill="#0a1025" />
-        <rect x="1200" y="70"  width="20" height="230" fill="#0a1025" />
-        <rect x="1250" y="145" width="65" height="155" fill="#080e20" />
-        <rect x="1330" y="120" width="55" height="180" fill="#0a1025" />
-        <rect x="1390" y="160" width="50" height="140" fill="#080e20" />
-        {[30,85,140,155,205,280,350,440,500,595,660,740,800,890,950,1030,1095,1195,1260,1345].map((x, i) => {
-          const y = [140,160,100,110,160,110,150,120,170,100,160,120,180,110,150,125,165,110,155,130][i];
-          return <rect key={i} x={x} y={y} width="4" height="4" fill={i%3===0?"#4a9eff":i%3===1?"#7c6aec":"#ffcc44"} opacity="0.8"
-            style={{ animation: `twinkle ${2+(i%4)*0.5}s ${(i%5)*0.3}s ease-in-out infinite` }} />;
-        })}
-        <rect x="0" y="270" width="1440" height="30" fill="#030812" />
+        {/* Buildings — flat pixel blocks */}
+        <rect x="0"   y="180" width="70"  height="120" fill="#0a1040" />
+        <rect x="80"  y="140" width="50"  height="160" fill="#0c1248" />
+        <rect x="140" y="160" width="60"  height="140" fill="#0a1040" />
+        <rect x="210" y="100" width="40"  height="200" fill="#0c1248" />
+        <rect x="260" y="150" width="80"  height="150" fill="#0a1040" />
+        <rect x="350" y="120" width="50"  height="180" fill="#0c1248" />
+        <rect x="410" y="170" width="70"  height="130" fill="#0a1040" />
+        <rect x="490" y="90"  width="60"  height="210" fill="#0c1248" />
+        <rect x="560" y="155" width="80"  height="145" fill="#0a1040" />
+        <rect x="650" y="130" width="45"  height="170" fill="#0c1248" />
+        <rect x="705" y="160" width="75"  height="140" fill="#0a1040" />
+        <rect x="790" y="105" width="55"  height="195" fill="#0c1248" />
+        <rect x="855" y="145" width="80"  height="155" fill="#0a1040" />
+        <rect x="945" y="120" width="50"  height="180" fill="#0c1248" />
+        <rect x="1005" y="165" width="70" height="135" fill="#0a1040" />
+        <rect x="1085" y="95"  width="55" height="205" fill="#0c1248" />
+        <rect x="1150" y="150" width="80" height="150" fill="#0a1040" />
+        <rect x="1240" y="125" width="50" height="175" fill="#0c1248" />
+        <rect x="1300" y="160" width="75" height="140" fill="#0a1040" />
+        <rect x="1385" y="140" width="55" height="160" fill="#0c1248" />
+        {/* Yellow windows */}
+        {[30,100,160,225,285,370,430,510,580,665,730,810,875,965,1025,1105,1170,1260,1320,1405].map((x, i) => (
+          <rect key={i} x={x} y={[190,150,170,115,162,130,182,100,165,140,170,115,155,130,175,105,160,135,170,150][i]}
+            width="8" height="8" fill="#f8e800" opacity="0.85"
+            style={{ animation: `twinkle ${2+(i%3)*0.7}s ${(i%5)*0.4}s ease-in-out infinite` }} />
+        ))}
+        {/* Ground */}
+        <rect x="0" y="290" width="1440" height="10" fill="#050010" />
       </svg>
 
-      {/* Glow behind city */}
-      <div className="absolute bottom-0 left-0 right-0" style={{ height: "30vh", background: "radial-gradient(ellipse 80% 60% at 50% 100%,rgba(60,100,255,0.1) 0%,transparent 70%)" }} />
-
-      {/* Floating browser windows */}
-      <div className="scene-deco-enter absolute" style={{ right: "4%", top: "8%", animation: "floatSlow 4.5s ease-in-out infinite" }}>
-        <svg width="240" height="162" viewBox="0 0 220 148" fill="none" xmlns="http://www.w3.org/2000/svg"
-          style={{ filter: "drop-shadow(0 0 24px rgba(74,158,255,0.2))" }}>
-          <rect width="220" height="148" rx="10" fill="#0a1030" stroke="#1e3060" strokeWidth="1.5" />
-          <rect width="220" height="28" rx="10" fill="#0e1840" />
-          <rect x="0" y="18" width="220" height="10" fill="#0e1840" />
-          <circle cx="14" cy="14" r="4" fill="#ff5f57" />
-          <circle cx="26" cy="14" r="4" fill="#ffbd2e" />
-          <circle cx="38" cy="14" r="4" fill="#28c840" />
-          <rect x="50" y="8" width="120" height="12" rx="4" fill="#1a2860" />
-          <rect x="56" y="12" width="40" height="4" rx="2" fill="#4a9fff" opacity="0.8" />
-          <rect x="12" y="38" width="90" height="8"  rx="3" fill="#7c6aec" opacity="0.9" />
-          <rect x="12" y="52" width="130" height="5" rx="2" fill="#3060a0" opacity="0.7" />
-          <rect x="12" y="62" width="110" height="5" rx="2" fill="#3060a0" opacity="0.5" />
-          <rect x="12" y="80" width="55"  height="22" rx="6" fill="#7c6aec" opacity="0.8" />
-          <rect x="80" y="83" width="35"  height="16" rx="5" fill="transparent" stroke="#7c6aec" strokeWidth="1.2" />
-          <rect x="130" y="38" width="78" height="96" rx="6" fill="#08102a" stroke="#1e3060" strokeWidth="1" />
-          <circle cx="169" cy="70" r="20" fill="#121e40" />
-          <circle cx="169" cy="70" r="12" fill="#1e2e60" />
-        </svg>
-      </div>
-      <div className="absolute" style={{ right: "26%", top: "54%", animation: "floatMed 3.2s 1.2s ease-in-out infinite" }}>
-        <svg width="148" height="96" viewBox="0 0 138 88" fill="none" xmlns="http://www.w3.org/2000/svg"
-          style={{ filter: "drop-shadow(0 0 16px rgba(74,158,255,0.15))" }}>
-          <rect width="138" height="88" rx="8" fill="#0a1030" stroke="#1e3060" strokeWidth="1.2" />
-          <rect width="138" height="20" rx="8" fill="#0e1840" />
-          <rect x="0" y="12" width="138" height="8" fill="#0e1840" />
-          <circle cx="10" cy="10" r="3" fill="#ff5f57" />
-          <circle cx="19" cy="10" r="3" fill="#ffbd2e" />
-          <circle cx="28" cy="10" r="3" fill="#28c840" />
-          <rect x="8" y="28" width="60" height="6" rx="2" fill="#3ecfcf" opacity="0.8" />
-          <rect x="8" y="38" width="90" height="4" rx="2" fill="#3060a0" opacity="0.6" />
-          <rect x="8" y="60" width="40" height="16" rx="5" fill="#3ecfcf" opacity="0.7" />
+      {/* Floating pixel laptop */}
+      <div style={{ position: "absolute", right: "5%", top: "12%", animation: "floatSlow 4s ease-in-out infinite" }}>
+        <svg width="200" height="140" viewBox="0 0 200 140" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ imageRendering: "pixelated" }}>
+          {/* Screen */}
+          <rect x="20" y="0" width="160" height="100" fill="#0a1040" stroke="#4060f0" strokeWidth="3" />
+          <rect x="28" y="8" width="144" height="82" fill="#00040a" />
+          {/* Code lines */}
+          <rect x="34" y="16" width="50" height="4" fill="#f8e800" opacity="0.9" />
+          <rect x="34" y="24" width="80" height="4" fill="#4060f0" opacity="0.8" />
+          <rect x="34" y="32" width="65" height="4" fill="#00e8e8" opacity="0.7" />
+          <rect x="42" y="40" width="45" height="4" fill="#f8e800" opacity="0.6" />
+          <rect x="42" y="48" width="70" height="4" fill="#4060f0" opacity="0.7" />
+          <rect x="34" y="56" width="40" height="4" fill="#00e8e8" opacity="0.5" />
+          {/* Cursor blink */}
+          <rect x="34" y="64" width="8" height="8" fill="#f8e800" style={{ animation: "blink 1s step-end infinite" }} />
+          {/* Base */}
+          <path d="M8 104 L192 104 L184 122 L16 122 Z" fill="#0a1040" stroke="#4060f0" strokeWidth="3" />
+          <rect x="72" y="100" width="56" height="6" fill="#1a2060" />
         </svg>
       </div>
 
       {/* Content */}
-      <div className="absolute z-10 flex flex-col" style={{ left: "6%", top: "50%", transform: "translateY(-50%)", maxWidth: 480 }}>
-        <p className="scene-content-enter" style={{ fontSize: 11, letterSpacing: "0.2em", color: "#4a9eff", marginBottom: 16, fontWeight: 700, textTransform: "uppercase", fontFamily: "monospace" }}>
-          LEVEL 01 — HJEMMESIDER
+      <div className="absolute z-10" style={{ left: "6%", top: "12%", maxWidth: 500 }}>
+        <p className="scene-enter font-pixel" style={{ fontSize: 9, color: "#4060f0", marginBottom: 20, letterSpacing: "0.12em" }}>
+          ▶ LEVEL 01
         </p>
-        <h2 className="scene-content-enter-delay-1" style={{ fontSize: "clamp(2.2rem,4.5vw,4rem)", fontWeight: 900, lineHeight: 1.05, color: "white", marginBottom: 18, letterSpacing: "-0.02em" }}>
-          Skarpe{" "}
-          <span style={{ background: "linear-gradient(135deg,#60a5fa,#818cf8)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-            hjemmesider.
-          </span>
+        <h2 className="scene-enter-d1" style={{ fontSize: "clamp(2.4rem,4.5vw,4rem)", fontWeight: 900, lineHeight: 1.05, color: "white", marginBottom: 8, letterSpacing: "-0.02em" }}>
+          Skarpe
         </h2>
-        <p className="scene-content-enter-delay-2" style={{ color: "#6070a0", fontSize: "clamp(0.9rem,1.6vw,1.05rem)", lineHeight: 1.75, marginBottom: 28 }}>
+        <h2 className="scene-enter-d1" style={{ fontSize: "clamp(2.4rem,4.5vw,4rem)", fontWeight: 900, lineHeight: 1.05, marginBottom: 22, letterSpacing: "-0.02em", color: "#4080ff", textShadow: "3px 3px 0px rgba(30,50,180,0.6)" }}>
+          hjemmesider.
+        </h2>
+        <p className="scene-enter-d2" style={{ color: "#a0b0d8", fontSize: "clamp(0.95rem,1.6vw,1.1rem)", lineHeight: 1.7, marginBottom: 24, maxWidth: 420 }}>
           Ingen tunge CMS-systemer, ingen måneder i venteposition.
-          Jeg bygger din hjemmeside i Next.js — den er hurtig, ser skarp ud og er klar inden for få uger.
+          Din hjemmeside er hurtig, ser skarp ud og er klar inden for få uger.
         </p>
-        <ul className="scene-content-enter-delay-2" style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10, marginBottom: 32 }}>
+        <ul className="scene-enter-d2" style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
           {["Next.js + Tailwind", "Mobilvenlig & tilgængelig", "SEO-optimeret fra dag ét", "Deployeret på Vercel"].map((p) => (
-            <li key={p} style={{ display: "flex", alignItems: "center", gap: 10, color: "#7080a8", fontSize: 14 }}>
-              <span style={{ color: "#4a9eff", fontSize: 14, fontWeight: 700 }}>✦</span>
+            <li key={p} style={{ display: "flex", alignItems: "center", gap: 10, color: "#8898c0", fontSize: 15 }}>
+              <span style={{ color: "#4080ff", fontWeight: 900, fontSize: 16 }}>■</span>
               {p}
             </li>
           ))}
         </ul>
-        <div className="scene-content-enter-delay-3">
-          <button
-            onClick={() => goTo(3)}
-            className="cta-primary"
-            style={{
-              padding: "13px 28px",
-              borderRadius: 9,
-              background: "linear-gradient(135deg,#1d4ed8,#4a9eff)",
-              color: "white",
-              fontWeight: 700,
-              fontSize: 14,
-              border: "none",
-              cursor: "pointer",
-              boxShadow: "0 0 32px rgba(74,158,255,0.3)",
-            }}
-          >
-            Kontakt mig om dette →
+        <div className="scene-enter-d3">
+          <button onClick={() => goTo(3)} className="cta-btn font-pixel"
+            style={{ padding: "12px 22px", fontSize: 9, background: "#4060f0", color: "white", border: "none", cursor: "pointer", boxShadow: "4px 4px 0px #1a2080", letterSpacing: "0.04em" }}>
+            KONTAKT MIG ▶
           </button>
         </div>
       </div>
 
-      {/* Ground */}
-      <div className="absolute bottom-0 left-0 right-0" style={{ height: "14vh", background: "linear-gradient(to top,#030812 0%,#06091a 60%,transparent 100%)" }} />
-      <div className="absolute left-0 right-0" style={{ bottom: "14vh", height: 1, background: "linear-gradient(90deg,transparent,rgba(60,100,255,0.4),rgba(62,207,207,0.2),transparent)" }} />
+      <PixelGround color="#000428" />
     </div>
   );
 }
 
-/* ──────────────────────────────────────────────────────
-   SCENE 3 — AUTOMATISERING  (circuit board)
-   ────────────────────────────────────────────────────── */
+/* ────────────────────────────────────────────────────────────
+   SCENE 3 — AUTOMATISERING
+   ──────────────────────────────────────────────────────────── */
 function SceneAutomatisering({ goTo }: { goTo: (i: number) => void }) {
   return (
     <div
       className="relative flex-shrink-0 overflow-hidden"
-      style={{ width: "100vw", height: "100vh", background: "linear-gradient(160deg,#020c10 0%,#040e18 55%,#040c14 100%)" }}
+      style={{ width: "100vw", height: "100vh", background: "#001418" }}
     >
-      {/* Circuit board bg */}
-      <svg className="absolute inset-0" style={{ width: "100%", height: "100%", opacity: 0.28 }}
-        viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-        {[80,160,240,320,420,520,620,720].map((y, i) => (
-          <line key={`h${i}`} x1="0" y1={y} x2="1440" y2={y} stroke="#0ea5a5" strokeWidth="0.8"
-            strokeDasharray="20 40" style={{ animation: `dash ${3+i*0.4}s linear infinite` }} />
-        ))}
-        {[120,240,380,520,660,800,960,1100,1280].map((x, i) => (
-          <line key={`v${i}`} x1={x} y1="0" x2={x} y2="900" stroke="#0ea5a5" strokeWidth="0.8"
-            strokeDasharray="20 60" style={{ animation: `dash ${4+i*0.3}s linear infinite` }} />
-        ))}
-        {[[120,80],[240,160],[380,240],[520,80],[660,160],[800,320],[960,80],[1100,240],[1280,160],
-          [120,420],[380,520],[660,420],[960,520],[1280,420]].map(([x, y], i) => (
-          <circle key={`n${i}`} cx={x} cy={y} r="4" fill="none" stroke="#0ea5a5" strokeWidth="1.2"
-            style={{ animation: `twinkle ${2+(i%4)*0.6}s ${(i%5)*0.4}s ease-in-out infinite` }} />
-        ))}
-      </svg>
+      <PixelStars count={40} />
 
-      {/* Glow orb */}
-      <div className="absolute" style={{ right: "15%", top: "20%", animation: "orbPulse 4s ease-in-out infinite" }}>
-        <div style={{ width: 240, height: 240, borderRadius: "50%", background: "radial-gradient(circle,rgba(20,180,180,0.14) 0%,transparent 70%)" }} />
-      </div>
-
-      {/* Gear large */}
-      <div className="scene-deco-enter absolute" style={{ right: "8%", top: "12%", animation: "spinSlow 12s linear infinite" }}>
-        <svg width="108" height="108" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg"
-          style={{ filter: "drop-shadow(0 0 16px rgba(20,200,200,0.25))" }}>
-          <circle cx="48" cy="48" r="28" stroke="#0ea5a5" strokeWidth="2.5" fill="none" />
-          <circle cx="48" cy="48" r="13" stroke="#0ea5a5" strokeWidth="2.5" fill="#030e14" />
-          {[0,45,90,135,180,225,270,315].map((a, i) => {
-            const r = (a*Math.PI)/180, x1=48+28*Math.cos(r), y1=48+28*Math.sin(r), x2=48+40*Math.cos(r), y2=48+40*Math.sin(r);
-            return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#0ea5a5" strokeWidth="7" strokeLinecap="round" />;
-          })}
+      {/* Pixel terminal / computer */}
+      <div style={{ position: "absolute", right: "5%", top: "10%", animation: "floatSlow 4.5s ease-in-out infinite" }}>
+        <svg width="230" height="180" viewBox="0 0 230 180" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ imageRendering: "pixelated" }}>
+          {/* Monitor body */}
+          <rect x="0" y="0" width="230" height="150" fill="#001a20" stroke="#00e8e8" strokeWidth="3" />
+          <rect x="8" y="8" width="214" height="132" fill="#000c10" />
+          {/* Terminal text lines */}
+          <rect x="16" y="18" width="12" height="8" fill="#00e8e8" />
+          <rect x="32" y="18" width="90" height="8" fill="#00e8e8" opacity="0.8" />
+          <rect x="16" y="32" width="12" height="8" fill="#00e8e8" opacity="0.4" />
+          <rect x="32" y="32" width="60" height="8" fill="#38d838" opacity="0.9" />
+          <rect x="16" y="46" width="12" height="8" fill="#00e8e8" opacity="0.4" />
+          <rect x="32" y="46" width="110" height="8" fill="#38d838" opacity="0.7" />
+          <rect x="16" y="60" width="12" height="8" fill="#00e8e8" opacity="0.4" />
+          <rect x="32" y="60" width="75" height="8" fill="#f8e800" opacity="0.8" />
+          <rect x="16" y="74" width="12" height="8" fill="#00e8e8" opacity="0.4" />
+          <rect x="32" y="74" width="130" height="8" fill="#00e8e8" opacity="0.6" />
+          <rect x="16" y="88" width="12" height="8" fill="#00e8e8" opacity="0.4" />
+          <rect x="32" y="88" width="50" height="8" fill="#38d838" opacity="0.9" />
+          {/* Blinking cursor */}
+          <rect x="86" y="88" width="10" height="8" fill="#38d838" style={{ animation: "blink 1s step-end infinite" }} />
+          {/* Stand */}
+          <rect x="95" y="150" width="40" height="12" fill="#001a20" stroke="#00e8e8" strokeWidth="2" />
+          <rect x="70" y="162" width="90" height="10" fill="#001a20" stroke="#00e8e8" strokeWidth="2" />
         </svg>
       </div>
 
-      {/* Gear small reverse */}
-      <div className="absolute" style={{ right: "18%", top: "36%", animation: "spinSlowRev 7s linear infinite" }}>
-        <svg width="60" height="60" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-          style={{ filter: "drop-shadow(0 0 10px rgba(62,207,207,0.3))" }}>
-          <circle cx="26" cy="26" r="14" stroke="#3ecfcf" strokeWidth="2.2" fill="none" />
-          <circle cx="26" cy="26" r="6"  stroke="#3ecfcf" strokeWidth="2" fill="#030e14" />
-          {[0,60,120,180,240,300].map((a, i) => {
-            const r=(a*Math.PI)/180, x1=26+14*Math.cos(r), y1=26+14*Math.sin(r), x2=26+22*Math.cos(r), y2=26+22*Math.sin(r);
-            return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#3ecfcf" strokeWidth="5" strokeLinecap="round" />;
-          })}
-        </svg>
-      </div>
-
-      {/* AI flow diagram */}
-      <div className="absolute" style={{ right: "3%", top: "52%", animation: "floatMed 3.8s 0.8s ease-in-out infinite" }}>
-        <svg width="210" height="124" viewBox="0 0 196 116" fill="none" xmlns="http://www.w3.org/2000/svg"
-          style={{ filter: "drop-shadow(0 0 12px rgba(20,180,180,0.15))" }}>
-          <circle cx="18"  cy="58" r="13" fill="#061420" stroke="#0ea5a5" strokeWidth="1.5" />
-          <circle cx="98"  cy="28" r="13" fill="#061420" stroke="#3ecfcf" strokeWidth="1.5" />
-          <circle cx="98"  cy="88" r="13" fill="#061420" stroke="#3ecfcf" strokeWidth="1.5" />
-          <circle cx="178" cy="58" r="13" fill="#061420" stroke="#0ea5a5" strokeWidth="1.5" />
-          <line x1="31" y1="53" x2="85" y2="33" stroke="#0ea5a5" strokeWidth="1.2" strokeDasharray="4 4" />
-          <line x1="31" y1="63" x2="85" y2="83" stroke="#0ea5a5" strokeWidth="1.2" strokeDasharray="4 4" />
-          <line x1="111" y1="33" x2="165" y2="53" stroke="#3ecfcf" strokeWidth="1.2" strokeDasharray="4 4" />
-          <line x1="111" y1="83" x2="165" y2="63" stroke="#3ecfcf" strokeWidth="1.2" strokeDasharray="4 4" />
-          <text x="12"  y="62" fontSize="10" fill="#0ea5a5">⚡</text>
-          <text x="92"  y="32" fontSize="9"  fill="#3ecfcf">⚙</text>
-          <text x="92"  y="92" fontSize="9"  fill="#3ecfcf">🤖</text>
-          <text x="172" y="62" fontSize="10" fill="#0ea5a5">✓</text>
+      {/* Rotating pixel gear */}
+      <div style={{ position: "absolute", right: "8%", top: "52%", animation: "spinSlow 8s linear infinite" }}>
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ imageRendering: "pixelated" }}>
+          <rect x="20" y="0"  width="24" height="8"  fill="#00e8e8" />
+          <rect x="20" y="56" width="24" height="8"  fill="#00e8e8" />
+          <rect x="0"  y="20" width="8"  height="24" fill="#00e8e8" />
+          <rect x="56" y="20" width="8"  height="24" fill="#00e8e8" />
+          <rect x="8"  y="8"  width="8"  height="8"  fill="#00e8e8" />
+          <rect x="48" y="8"  width="8"  height="8"  fill="#00e8e8" />
+          <rect x="8"  y="48" width="8"  height="8"  fill="#00e8e8" />
+          <rect x="48" y="48" width="8"  height="8"  fill="#00e8e8" />
+          <rect x="8"  y="8"  width="48" height="48" fill="none" stroke="#00e8e8" strokeWidth="2" />
+          <rect x="20" y="20" width="24" height="24" fill="#001418" stroke="#00e8e8" strokeWidth="2" />
+          <rect x="26" y="26" width="12" height="12" fill="#00e8e8" />
         </svg>
       </div>
 
       {/* Content */}
-      <div className="absolute z-10 flex flex-col" style={{ left: "6%", top: "50%", transform: "translateY(-50%)", maxWidth: 480 }}>
-        <p className="scene-content-enter" style={{ fontSize: 11, letterSpacing: "0.2em", color: "#3ecfcf", marginBottom: 16, fontWeight: 700, textTransform: "uppercase", fontFamily: "monospace" }}>
-          LEVEL 02 — AUTOMATISERING
+      <div className="absolute z-10" style={{ left: "6%", top: "12%", maxWidth: 500 }}>
+        <p className="scene-enter font-pixel" style={{ fontSize: 9, color: "#00e8e8", marginBottom: 20, letterSpacing: "0.12em" }}>
+          ▶ LEVEL 02
         </p>
-        <h2 className="scene-content-enter-delay-1" style={{ fontSize: "clamp(2.2rem,4.5vw,4rem)", fontWeight: 900, lineHeight: 1.05, color: "white", marginBottom: 18, letterSpacing: "-0.02em" }}>
-          Intelligente{" "}
-          <span style={{ background: "linear-gradient(135deg,#22d3ee,#34d399)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-            automatiseringer.
-          </span>
+        <h2 className="scene-enter-d1" style={{ fontSize: "clamp(2.4rem,4.5vw,4rem)", fontWeight: 900, lineHeight: 1.05, color: "white", marginBottom: 8, letterSpacing: "-0.02em" }}>
+          Intelligente
         </h2>
-        <p className="scene-content-enter-delay-2" style={{ color: "#4a7070", fontSize: "clamp(0.9rem,1.6vw,1.05rem)", lineHeight: 1.75, marginBottom: 28 }}>
-          Har du opgaver der gentages igen og igen? Dem løser vi én gang — og så kører det selv.
-          Jeg sætter flows op der faktisk virker, uden at du skal forstå en linje kode.
+        <h2 className="scene-enter-d1" style={{ fontSize: "clamp(2.4rem,4.5vw,4rem)", fontWeight: 900, lineHeight: 1.05, marginBottom: 22, letterSpacing: "-0.02em", color: "#00e8e8", textShadow: "3px 3px 0px rgba(0,120,120,0.6)" }}>
+          automatiseringer.
+        </h2>
+        <p className="scene-enter-d2" style={{ color: "#80b0a8", fontSize: "clamp(0.95rem,1.6vw,1.1rem)", lineHeight: 1.7, marginBottom: 24, maxWidth: 420 }}>
+          Har du opgaver der gentages igen og igen?
+          Dem løser vi én gang — og så kører det selv.
+          Du behøver ikke forstå en linje kode.
         </p>
-        <ul className="scene-content-enter-delay-2" style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10, marginBottom: 32 }}>
-          {["AI-drevne workflows", "CRM & værktøjsintegrationer", "Datapipelines", "Skræddersyede bots & agenter"].map((p) => (
-            <li key={p} style={{ display: "flex", alignItems: "center", gap: 10, color: "#508080", fontSize: 14 }}>
-              <span style={{ color: "#3ecfcf", fontSize: 14, fontWeight: 700 }}>✦</span>
+        <ul className="scene-enter-d2" style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
+          {["AI-drevne workflows", "CRM & systemintegrationer", "Automatiske datapipelines", "Bots & agenter der faktisk virker"].map((p) => (
+            <li key={p} style={{ display: "flex", alignItems: "center", gap: 10, color: "#6a9890", fontSize: 15 }}>
+              <span style={{ color: "#00e8e8", fontWeight: 900, fontSize: 16 }}>■</span>
               {p}
             </li>
           ))}
         </ul>
-        <div className="scene-content-enter-delay-3">
-          <button
-            onClick={() => goTo(3)}
-            className="cta-primary"
-            style={{
-              padding: "13px 28px",
-              borderRadius: 9,
-              background: "linear-gradient(135deg,#0f766e,#3ecfcf)",
-              color: "white",
-              fontWeight: 700,
-              fontSize: 14,
-              border: "none",
-              cursor: "pointer",
-              boxShadow: "0 0 32px rgba(62,207,207,0.25)",
-            }}
-          >
-            Kontakt mig om dette →
+        <div className="scene-enter-d3">
+          <button onClick={() => goTo(3)} className="cta-btn font-pixel"
+            style={{ padding: "12px 22px", fontSize: 9, background: "#00c8c8", color: "#001418", border: "none", cursor: "pointer", boxShadow: "4px 4px 0px #006868", letterSpacing: "0.04em" }}>
+            KONTAKT MIG ▶
           </button>
         </div>
       </div>
 
-      {/* Ground */}
-      <div className="absolute bottom-0 left-0 right-0" style={{ height: "14vh", background: "linear-gradient(to top,#020c10 0%,#040a14 60%,transparent 100%)" }} />
-      <div className="absolute left-0 right-0" style={{ bottom: "14vh", height: 1, background: "linear-gradient(90deg,transparent,rgba(14,165,165,0.4),rgba(62,207,207,0.3),transparent)" }} />
+      <PixelGround color="#001418" />
     </div>
   );
 }
 
-/* ──────────────────────────────────────────────────────
+/* ────────────────────────────────────────────────────────────
    SCENE 4 — KONTAKT
-   ────────────────────────────────────────────────────── */
+   ──────────────────────────────────────────────────────────── */
 function SceneKontakt() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -474,151 +420,111 @@ function SceneKontakt() {
 
   const inputStyle: React.CSSProperties = {
     width: "100%",
-    padding: "12px 16px",
-    borderRadius: 8,
-    border: "1px solid rgba(180,80,240,0.25)",
-    background: "rgba(255,255,255,0.05)",
+    padding: "12px 14px",
+    border: "2px solid rgba(248,232,0,0.3)",
+    background: "rgba(248,232,0,0.05)",
     color: "white",
-    fontSize: 14,
+    fontSize: 15,
     outline: "none",
-    transition: "border-color 0.2s ease",
+    fontFamily: "Inter, sans-serif",
   };
-
-  const stars = Array.from({ length: 50 }, (_, i) => ({
-    x: (i * 97.5) % 100, y: (i * 63.7) % 80,
-    r: ((i % 3) + 1) * 0.5, delay: (i % 5) * 0.5, dur: 2.5 + (i % 3) * 0.7,
-  }));
 
   return (
     <div
       className="relative flex-shrink-0 overflow-hidden"
-      style={{ width: "100vw", height: "100vh", background: "linear-gradient(160deg,#07081a 0%,#0e0620 55%,#160418 100%)" }}
+      style={{ width: "100vw", height: "100vh", background: "#0a0010" }}
     >
-      {/* Stars */}
-      <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-        {stars.map((s, i) => (
-          <circle key={i} cx={`${s.x}%`} cy={`${s.y}%`} r={s.r} fill="white"
-            style={{ animation: `twinkle ${s.dur}s ${s.delay}s ease-in-out infinite` }} />
-        ))}
-        <ellipse cx="60%" cy="35%" rx="280" ry="180" fill="rgba(150,40,220,0.07)" />
-        <ellipse cx="85%" cy="70%" rx="200" ry="140" fill="rgba(200,60,240,0.05)" />
-      </svg>
+      <PixelStars count={60} />
 
-      {/* Large glow */}
-      <div className="absolute" style={{ left: "50%", top: "30%", transform: "translate(-50%,-50%)", animation: "orbPulse 5s ease-in-out infinite" }}>
-        <div style={{ width: 500, height: 500, borderRadius: "50%", background: "radial-gradient(circle,rgba(168,85,247,0.1) 0%,transparent 65%)" }} />
-      </div>
-
-      {/* Floating envelope */}
-      <div className="scene-deco-enter absolute" style={{ right: "6%", top: "16%", animation: "floatSlow 5s ease-in-out infinite" }}>
-        <svg width="160" height="112" viewBox="0 0 138 98" fill="none" xmlns="http://www.w3.org/2000/svg"
-          style={{ filter: "drop-shadow(0 0 28px rgba(168,85,247,0.3))" }}>
-          <rect x="4" y="4" width="130" height="90" rx="10" fill="#110620" stroke="#4a1e70" strokeWidth="1.5" />
-          <path d="M4,14 L69,56 L134,14" stroke="#7a2eb0" strokeWidth="1.5" fill="none" />
-          <path d="M4,94 L50,50" stroke="#4a1e70" strokeWidth="1" />
-          <path d="M134,94 L88,50" stroke="#4a1e70" strokeWidth="1" />
-          <circle cx="69" cy="48" r="18" fill="rgba(168,85,247,0.12)" />
-          <path d="M59,43 L69,50 L79,43" stroke="#a855f7" strokeWidth="1.8" fill="none" />
+      {/* Big pixel envelope decoration */}
+      <div style={{ position: "absolute", right: "5%", top: "14%", animation: "floatSlow 5s ease-in-out infinite" }}>
+        <svg width="180" height="130" viewBox="0 0 180 130" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ imageRendering: "pixelated" }}>
+          {/* Envelope body */}
+          <rect x="0" y="20" width="180" height="110" fill="#1a0828" stroke="#f8e800" strokeWidth="3" />
+          {/* Flap */}
+          <path d="M0,20 L90,75 L180,20" stroke="#f8e800" strokeWidth="3" fill="none" />
+          {/* Bottom corners */}
+          <line x1="0" y1="130" x2="65" y2="75" stroke="#c0a800" strokeWidth="2" />
+          <line x1="180" y1="130" x2="115" y2="75" stroke="#c0a800" strokeWidth="2" />
+          {/* Pixel heart/star */}
+          <rect x="76" y="62" width="28" height="8" fill="#f8e800" />
+          <rect x="68" y="70" width="44" height="8" fill="#f8e800" />
+          <rect x="76" y="78" width="28" height="8" fill="#f8e800" />
         </svg>
       </div>
 
-      {/* Orbs */}
-      <div className="absolute" style={{ right: "18%", top: "60%", animation: "floatMed 3.5s 0.3s ease-in-out infinite" }}>
-        <div style={{ width: 18, height: 18, borderRadius: "50%", background: "rgba(168,85,247,0.6)", boxShadow: "0 0 30px rgba(168,85,247,0.5)" }} />
-      </div>
-      <div className="absolute" style={{ right: "30%", top: "72%", animation: "floatMed 2.8s 0.9s ease-in-out infinite" }}>
-        <div style={{ width: 10, height: 10, borderRadius: "50%", background: "rgba(236,72,153,0.5)", boxShadow: "0 0 20px rgba(236,72,153,0.4)" }} />
-      </div>
-
-      {/* Content + Form */}
-      <div className="absolute z-10 flex flex-col" style={{ left: "6%", top: "50%", transform: "translateY(-50%)", maxWidth: 480 }}>
-        <p className="scene-content-enter" style={{ fontSize: 11, letterSpacing: "0.2em", color: "#c084fc", marginBottom: 16, fontWeight: 700, textTransform: "uppercase", fontFamily: "monospace" }}>
-          LEVEL 03 — KONTAKT
+      {/* Content */}
+      <div className="absolute z-10" style={{ left: "6%", top: "10%", maxWidth: 500 }}>
+        <p className="scene-enter font-pixel" style={{ fontSize: 9, color: "#f8e800", marginBottom: 20, letterSpacing: "0.12em" }}>
+          ▶ LEVEL 03
         </p>
-        <h2 className="scene-content-enter-delay-1" style={{ fontSize: "clamp(2rem,4vw,3.6rem)", fontWeight: 900, lineHeight: 1.05, color: "white", marginBottom: 12, letterSpacing: "-0.02em" }}>
-          Tag fat i{" "}
-          <span style={{ background: "linear-gradient(135deg,#c084fc,#f472b6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-            mig.
-          </span>
+        <h2 className="scene-enter-d1" style={{ fontSize: "clamp(2.2rem,4vw,3.8rem)", fontWeight: 900, lineHeight: 1.05, color: "white", marginBottom: 8, letterSpacing: "-0.02em" }}>
+          Tag fat i
         </h2>
-        <p className="scene-content-enter-delay-1" style={{ color: "#70508a", fontSize: 14, lineHeight: 1.65, marginBottom: 16 }}>
-          Skriv dit navn og nummer — så ringer jeg op. Ingen salgspitch, bare en snak om hvad du har brug for.
+        <h2 className="scene-enter-d1" style={{ fontSize: "clamp(2.2rem,4vw,3.8rem)", fontWeight: 900, lineHeight: 1.05, marginBottom: 16, letterSpacing: "-0.02em", color: "#f8e800", textShadow: "3px 3px 0px rgba(160,120,0,0.6)" }}>
+          mig.
+        </h2>
+        <p className="scene-enter-d1" style={{ color: "#a890b8", fontSize: 16, lineHeight: 1.65, marginBottom: 16 }}>
+          Skriv dit navn og nummer — så ringer jeg op.<br />
+          Ingen salgspitch, bare en snak.
         </p>
 
-        {/* Phone number — prominent */}
-        <a
-          href="tel:+4531552108"
-          className="scene-content-enter-delay-2"
-          style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 22, color: "white", fontSize: 17, fontWeight: 700, textDecoration: "none", padding: "10px 18px", borderRadius: 10, border: "1px solid rgba(168,85,247,0.3)", background: "rgba(168,85,247,0.1)", width: "fit-content", transition: "background 0.2s ease" }}
-        >
-          <span style={{ fontSize: 16 }}>📞</span>
-          +45 31 55 21 08
-          <span style={{ fontSize: 11, color: "#a070c8", fontWeight: 400 }}>— ring direkte</span>
+        {/* Phone */}
+        <a href="tel:+4531552108" className="scene-enter-d2 font-pixel"
+          style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 20, color: "#f8e800", fontSize: 9, textDecoration: "none", padding: "10px 16px", border: "2px solid #f8e800", background: "rgba(248,232,0,0.08)", letterSpacing: "0.04em" }}>
+          ☎ +45 31 55 21 08
         </a>
 
         {status === "sent" ? (
-          <div style={{ padding: "24px 28px", borderRadius: 14, border: "1px solid rgba(168,85,247,0.35)", background: "rgba(168,85,247,0.1)", textAlign: "center" }}>
-            <div style={{ fontSize: 32, marginBottom: 8 }}>🎉</div>
-            <p style={{ color: "white", fontWeight: 700, fontSize: 16, marginBottom: 6 }}>Tak — beskeden er sendt!</p>
-            <p style={{ color: "#806880", fontSize: 13 }}>Jeg vender tilbage hurtigst muligt.</p>
+          <div style={{ padding: "20px 24px", border: "3px solid #38d838", background: "rgba(56,216,56,0.08)", textAlign: "center" }}>
+            <p className="font-pixel" style={{ color: "#38d838", fontWeight: 700, fontSize: 10, marginBottom: 8 }}>BESKED SENDT!</p>
+            <p style={{ color: "#80b080", fontSize: 14 }}>Jeg vender tilbage hurtigst muligt.</p>
           </div>
         ) : (
-          <form className="scene-content-enter-delay-3" onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <form className="scene-enter-d3" onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
               <div>
-                <label style={{ display: "block", fontSize: 11, color: "#70508a", marginBottom: 6, letterSpacing: "0.06em", textTransform: "uppercase" }}>Navn *</label>
+                <label className="font-pixel" style={{ display: "block", fontSize: 7, color: "#907898", marginBottom: 6, letterSpacing: "0.06em" }}>NAVN *</label>
                 <input style={inputStyle} type="text" required placeholder="Dit navn"
                   value={name} onChange={e => setName(e.target.value)} />
               </div>
               <div>
-                <label style={{ display: "block", fontSize: 11, color: "#70508a", marginBottom: 6, letterSpacing: "0.06em", textTransform: "uppercase" }}>Telefon *</label>
-                <input style={inputStyle} type="tel" required placeholder="Dit telefonnr."
+                <label className="font-pixel" style={{ display: "block", fontSize: 7, color: "#907898", marginBottom: 6, letterSpacing: "0.06em" }}>TELEFON *</label>
+                <input style={inputStyle} type="tel" required placeholder="Dit nr."
                   value={phone} onChange={e => setPhone(e.target.value)} />
               </div>
             </div>
             <div>
-              <label style={{ display: "block", fontSize: 11, color: "#70508a", marginBottom: 6, letterSpacing: "0.06em", textTransform: "uppercase" }}>Virksomhed *</label>
+              <label className="font-pixel" style={{ display: "block", fontSize: 7, color: "#907898", marginBottom: 6, letterSpacing: "0.06em" }}>VIRKSOMHED *</label>
               <input style={inputStyle} type="text" required placeholder="Din virksomhed"
                 value={company} onChange={e => setCompany(e.target.value)} />
             </div>
             {status === "error" && (
-              <p style={{ fontSize: 12, color: "#f87171" }}>Noget gik galt — prøv igen eller ring til mig.</p>
+              <p className="font-pixel" style={{ fontSize: 7, color: "#f83838" }}>FEJL — prøv igen eller ring direkte.</p>
             )}
-            <button
-              type="submit"
-              disabled={status === "sending"}
-              className="cta-primary"
+            <button type="submit" disabled={status === "sending"} className="cta-btn font-pixel"
               style={{
-                padding: "14px 28px",
-                borderRadius: 9,
-                background: "linear-gradient(135deg,#7c3aed,#a855f7,#ec4899)",
-                color: "white",
-                fontWeight: 700,
-                fontSize: 15,
-                border: "none",
-                cursor: status === "sending" ? "not-allowed" : "pointer",
-                opacity: status === "sending" ? 0.7 : 1,
-                boxShadow: "0 0 36px rgba(168,85,247,0.4)",
-                marginTop: 4,
-                letterSpacing: "0.01em",
-              }}
-            >
-              {status === "sending" ? "Sender..." : "Send besked →"}
+                padding: "14px 24px", fontSize: 10,
+                background: status === "sending" ? "#806000" : "#f8e800",
+                color: "#050010",
+                border: "none", cursor: status === "sending" ? "not-allowed" : "pointer",
+                boxShadow: status === "sending" ? "none" : "4px 4px 0px #a09000",
+                marginTop: 4, letterSpacing: "0.04em",
+              }}>
+              {status === "sending" ? "SENDER..." : "SEND BESKED ▶"}
             </button>
           </form>
         )}
       </div>
 
-      {/* Ground */}
-      <div className="absolute bottom-0 left-0 right-0" style={{ height: "14vh", background: "linear-gradient(to top,#07081a 0%,#0c0618 60%,transparent 100%)" }} />
-      <div className="absolute left-0 right-0" style={{ bottom: "14vh", height: 1, background: "linear-gradient(90deg,transparent,rgba(168,85,247,0.35),rgba(236,72,153,0.25),transparent)" }} />
+      <PixelGround color="#0a0010" />
     </div>
   );
 }
 
-/* ──────────────────────────────────────────────────────
+/* ────────────────────────────────────────────────────────────
    MAIN PAGE
-   ────────────────────────────────────────────────────── */
+   ──────────────────────────────────────────────────────────── */
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scene, setScene] = useState(0);
@@ -626,10 +532,10 @@ export default function Home() {
   const walkTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const scenes = [
-    { label: "HEJ",            color: "#a855f7" },
-    { label: "HJEMMESIDER",    color: "#4a9eff" },
-    { label: "AUTOMATISERING", color: "#3ecfcf" },
-    { label: "KONTAKT",        color: "#c084fc" },
+    { label: "HEJ",            color: "#f8e800" },
+    { label: "HJEMMESIDER",    color: "#4080ff" },
+    { label: "AUTOMATISERING", color: "#00e8e8" },
+    { label: "KONTAKT",        color: "#f8e800" },
   ];
 
   const handleScroll = useCallback(() => {
@@ -651,7 +557,7 @@ export default function Home() {
       if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
         setScene(prev => { const next = Math.min(prev + 1, scenes.length - 1); goTo(next); return prev; });
       }
-      if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
+      if (e.key === "ArrowLeft"  || e.key === "a" || e.key === "A") {
         setScene(prev => { const next = Math.max(prev - 1, 0); goTo(next); return prev; });
       }
     };
@@ -661,103 +567,60 @@ export default function Home() {
 
   return (
     <>
-      {/* ── Scanline overlay (game feel) ── */}
+      {/* ── Scanlines ── */}
       <div className="scanline-overlay" />
 
-      {/* ── Top progress bar ── */}
+      {/* ── Top pixel progress bar ── */}
       <div style={{
-        position: "fixed", top: 0, left: 0, height: 2,
+        position: "fixed", top: 0, left: 0, height: 4,
         width: `${(scene / (scenes.length - 1)) * 100}%`,
-        background: `linear-gradient(90deg,${scenes[0].color},${scenes[scene].color})`,
+        background: scenes[scene].color,
         zIndex: 100,
-        transition: "width 0.3s ease",
-        boxShadow: `0 0 10px ${scenes[scene].color}80`,
+        transition: "width 0.2s steps(20, end)",
+        imageRendering: "pixelated",
       }} />
 
-      {/* ── HUD — Scene nav dots (bottom center) ── */}
-      <div style={{
-        position: "fixed", bottom: 20, left: "50%", transform: "translateX(-50%)",
-        zIndex: 100, display: "flex", flexDirection: "row", gap: 14, alignItems: "center",
+      {/* ── HUD top-right: SCORE style scene label ── */}
+      <div className="font-pixel" style={{
+        position: "fixed", top: 12, right: 18, zIndex: 100,
+        display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4,
       }}>
-        {scenes.map((s, i) => (
-          <button key={s.label} onClick={() => goTo(i)} title={s.label}
-            style={{
-              position: "relative",
-              width: scene === i ? 12 : 8,
-              height: scene === i ? 12 : 8,
-              borderRadius: "50%",
-              background: scene === i ? s.color : "rgba(255,255,255,0.15)",
-              border: "none",
-              cursor: "pointer",
-              transition: "all 0.3s ease",
-              boxShadow: scene === i ? `0 0 14px ${s.color}` : "none",
-              padding: 0,
-            }}>
-            {scene === i && <span className="dot-ring" style={{ color: s.color }} />}
-          </button>
-        ))}
-      </div>
-
-      {/* ── HUD — Scene counter bottom-left ── */}
-      <div style={{
-        position: "fixed", bottom: 20, left: 22, zIndex: 100,
-        display: "flex", alignItems: "center", gap: 10,
-        fontFamily: "monospace",
-      }}>
-        <span style={{ fontSize: 10, color: "rgba(255,255,255,0.2)", letterSpacing: "0.15em" }}>
-          {(scene + 1).toString().padStart(2, "0")} / 04
+        <span style={{ fontSize: 7, color: "rgba(255,255,255,0.3)", letterSpacing: "0.12em" }}>
+          {(scene + 1).toString().padStart(2, "0")} - 04
         </span>
-        <span style={{ width: 1, height: 10, background: "rgba(255,255,255,0.12)" }} />
-        <span style={{ fontSize: 10, color: scenes[scene].color, letterSpacing: "0.15em", fontWeight: 600 }}>
+        <span style={{ fontSize: 8, color: scenes[scene].color, letterSpacing: "0.1em" }}>
           {scenes[scene].label}
         </span>
       </div>
 
-      {/* ── Arrow navigation buttons (Mario-style) ── */}
-      {scene > 0 && (
-        <button
-          onClick={() => goTo(scene - 1)}
-          style={{
-            position: "fixed", left: 16, top: "50%", transform: "translateY(-50%)",
-            zIndex: 100, width: 44, height: 44, borderRadius: "50%",
-            background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)",
-            color: "rgba(255,255,255,0.5)", fontSize: 20, cursor: "pointer",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            transition: "all 0.2s ease", backdropFilter: "blur(8px)",
-          }}
-          onMouseEnter={e => { (e.target as HTMLButtonElement).style.background = "rgba(255,255,255,0.12)"; (e.target as HTMLButtonElement).style.color = "white"; }}
-          onMouseLeave={e => { (e.target as HTMLButtonElement).style.background = "rgba(255,255,255,0.06)"; (e.target as HTMLButtonElement).style.color = "rgba(255,255,255,0.5)"; }}
-        >
-          ←
-        </button>
-      )}
-      {scene < scenes.length - 1 && (
-        <button
-          onClick={() => goTo(scene + 1)}
-          style={{
-            position: "fixed", right: 56, top: "50%", transform: "translateY(-50%)",
-            zIndex: 100, width: 44, height: 44, borderRadius: "50%",
-            background: `rgba(${scenes[scene].color === "#4a9eff" ? "74,158,255" : scenes[scene].color === "#3ecfcf" ? "62,207,207" : "168,85,247"},0.15)`,
-            border: `1px solid ${scenes[scene].color}40`,
-            color: scenes[scene].color, fontSize: 20, cursor: "pointer",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            transition: "all 0.2s ease", backdropFilter: "blur(8px)",
-            boxShadow: `0 0 20px ${scenes[scene].color}30`,
-            animation: "floatMed 2s ease-in-out infinite",
-          }}
-        >
-          →
-        </button>
-      )}
+      {/* ── Bottom dot nav ── */}
+      <div style={{
+        position: "fixed", bottom: 18, left: "50%", transform: "translateX(-50%)",
+        zIndex: 100, display: "flex", gap: 12, alignItems: "center",
+      }}>
+        {scenes.map((s, i) => (
+          <button key={s.label} onClick={() => goTo(i)} title={s.label}
+            style={{
+              width: scene === i ? 14 : 8,
+              height: scene === i ? 14 : 8,
+              background: scene === i ? s.color : "rgba(255,255,255,0.2)",
+              border: scene === i ? `2px solid ${s.color}` : "2px solid rgba(255,255,255,0.15)",
+              cursor: "pointer",
+              padding: 0,
+              imageRendering: "pixelated",
+              boxShadow: scene === i ? `0 0 10px ${s.color}` : "none",
+            }} />
+        ))}
+      </div>
 
-      {/* ── Key hint (scene 0 only) ── */}
+      {/* ── Scroll hint scene 0 ── */}
       {scene === 0 && (
-        <div style={{
-          position: "fixed", bottom: 24, left: "50%", transform: "translateX(-50%)",
-          zIndex: 100, display: "flex", alignItems: "center", gap: 8,
+        <div className="font-pixel" style={{
+          position: "fixed", bottom: 18, right: 18, zIndex: 100,
+          fontSize: 7, color: "rgba(255,255,255,0.25)", letterSpacing: "0.1em",
           animation: "floatMed 1.8s ease-in-out infinite",
         }}>
-          <span style={{ fontSize: 10, color: "rgba(255,255,255,0.22)", letterSpacing: "0.15em", fontFamily: "monospace" }}>[ → ] eller klik</span>
+          ▶ SCROLL
         </div>
       )}
 
@@ -782,7 +645,7 @@ export default function Home() {
         <SceneKontakt />
       </div>
 
-      {/* ── Character — fixed on screen, stands on ground ── */}
+      {/* ── Mikkel character ── */}
       <div style={{ position: "fixed", bottom: "14vh", left: "46%", transform: "translateX(-50%)", zIndex: 30, pointerEvents: "none" }}>
         <MikkelCharacter walking={walking} />
       </div>
