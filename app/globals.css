@@ -114,6 +114,30 @@ body {
 .is-walking .char-arm-right { animation: walkArmRight 0.45s ease-in-out infinite; }
 .is-walking .char-body      { animation: bodyBob      0.45s ease-in-out infinite; }
 
+/* ── Scene pose animations ── */
+
+@keyframes waveArmAnim {
+  0%, 100% { transform: rotate(-135deg); }
+  50%       { transform: rotate(-155deg); }
+}
+@keyframes wowArmLeftAnim {
+  0%, 100% { transform: rotate(-130deg); }
+  50%       { transform: rotate(-152deg); }
+}
+@keyframes wowArmRightAnim {
+  0%, 100% { transform: rotate(130deg);  }
+  50%       { transform: rotate(152deg); }
+}
+@keyframes wowBodyAnim {
+  0%, 100% { transform: translateY(0px);  }
+  50%       { transform: translateY(-8px); }
+}
+
+.is-wave .char-arm-left  { animation: waveArmAnim     1s   ease-in-out infinite; }
+.is-wow  .char-arm-left  { animation: wowArmLeftAnim  0.7s ease-in-out infinite; }
+.is-wow  .char-arm-right { animation: wowArmRightAnim 0.7s ease-in-out infinite; }
+.is-wow  .char-body      { animation: wowBodyAnim     0.7s ease-in-out infinite; }
+
 /* ── Hide scrollbar ── */
 .snap-scroll::-webkit-scrollbar { display: none; }
 
