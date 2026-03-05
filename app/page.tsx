@@ -53,20 +53,20 @@ function MikkelCharacter({ walking, scene = 0 }: { walking: boolean; scene?: num
           {/* Left arm (= screen-right after scaleX flip) */}
           <g className="char-arm-left">
             {scene === 4 ? (
-              // 🤙 Call me — bent arm: upper arm outward, elbow bend, forearm straight up
+              // 🤙 Call me — horizontal upper arm → L-bend → forearm up to ear
               <>
-                {/* Upper arm: shoulder → elbow (goes left in SVG = right visually) */}
-                <path d="M 9,59 L 18,63 L -2,79 L -10,73 Z" fill="#111111" />
+                {/* Upper arm: shoulder → elbow (nearly horizontal, goes left in SVG = right visually) */}
+                <path d="M 11,57 L 17,65 L -21,67 L -26,59 Z" fill="#111111" />
                 {/* Elbow joint cap */}
-                <circle cx="-6" cy="76" r="7" fill="#111111" />
-                {/* Forearm: vertical, elbow → wrist */}
-                <rect x="-12" y="18" width="10" height="58" rx="4" fill="#111111" />
-                {/* Palm / fist */}
-                <circle cx="-7" cy="15" r="7" fill="#f3c49e" />
+                <circle cx="-23" cy="63" r="7" fill="#111111" />
+                {/* Forearm: straight up from elbow to ear level */}
+                <rect x="-28" y="30" width="10" height="33" rx="4" fill="#111111" />
+                {/* Palm / fist at ear level */}
+                <circle cx="-23" cy="27" r="7" fill="#f3c49e" />
                 {/* Thumb pointing UP */}
-                <rect x="-11" y="1"  width="8" height="13" rx="4" fill="#f3c49e" />
+                <rect x="-27" y="13" width="8" height="13" rx="4" fill="#f3c49e" />
                 {/* Pinky pointing DOWN */}
-                <rect x="-11" y="22" width="8" height="14" rx="4" fill="#f3c49e" />
+                <rect x="-27" y="34" width="8" height="13" rx="4" fill="#f3c49e" />
               </>
             ) : scene === 2 ? (
               // WOW — left arm raised high
@@ -282,8 +282,9 @@ function SceneHej({ goTo }: { goTo: (i: number) => void }) {
           lineHeight: 1.7, marginBottom: 28, maxWidth: 440,
         }}>
           Freelance webudvikler fra Danmark.
-          Jeg bygger <strong style={{ color: "#e80010" }}>hjemmesider</strong> folk faktisk bruger
-          og <strong style={{ color: "#0038c8" }}>automatiseringer</strong> der sparer timer hver uge.
+          Jeg bygger <strong style={{ color: "#e80010" }}>hjemmesider</strong> folk faktisk bruger,
+          <strong style={{ color: "#0038c8" }}>automatiseringer</strong> der sparer timer hver uge
+          og <strong style={{ color: "#38a830" }}>ADA</strong>-løsninger der virker for alle.
         </p>
 
         <div className="scene-enter-d3" style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
