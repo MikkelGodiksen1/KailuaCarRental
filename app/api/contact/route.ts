@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     }
 
     let text =
-      `🔔 Ny henvendelse – Godik.ai\n\n` +
+      `🔔 Ny henvendelse. Godik.ai\n\n` +
       `👤 Navn: ${name}\n` +
       `📞 Telefon: ${phone}\n` +
       `🌐 Hjemmeside: ${website}\n`;

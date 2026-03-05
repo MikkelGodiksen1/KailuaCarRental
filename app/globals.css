@@ -141,7 +141,7 @@ body {
 /* ── Hide scrollbar ── */
 .snap-scroll::-webkit-scrollbar { display: none; }
 
-/* ── Next.js dev portal — placering øverst ── */
+/* Next.js dev portal: placering øverst */
 nextjs-portal {
   top: 0 !important;
   left: 0 !important;
