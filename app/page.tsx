@@ -7,7 +7,9 @@ import { useRef, useState, useCallback, useEffect } from "react";
    ──────────────────────────────────────────────────────────── */
 const TRANSLATIONS = {
   da: {
-    badge: "ÅBEN FOR PROJEKTER",
+    badge: "ÅBEN FOR PROJEKTER", // ubrugt — erstattes af dynamisk badge
+    badgePrefix: "2 SPOTS TILBAGE I",
+    months: ["JANUAR","FEBRUAR","MARTS","APRIL","MAJ","JUNI","JULI","AUGUST","SEPTEMBER","OKTOBER","NOVEMBER","DECEMBER"],
     introP1: "Datamatiker. Uddannet coach (NLP). Født 97. Tidl. selvstændig forsikringsagent.",
     introP2a: "I dag laver jeg",
     introP2b: "og",
@@ -66,7 +68,9 @@ const TRANSLATIONS = {
     scrollHint: "▶ SCROLL",
   },
   en: {
-    badge: "OPEN FOR PROJECTS",
+    badge: "OPEN FOR PROJECTS", // ubrugt — erstattes af dynamisk badge
+    badgePrefix: "2 SPOTS LEFT IN",
+    months: ["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"],
     introP1: "Computer scientist. Certified NLP coach. Born '97. Former independent insurance agent.",
     introP2a: "Today I build",
     introP2b: "and",
@@ -454,7 +458,7 @@ function SceneHej({ goTo, t }: { goTo: (i: number) => void; t: T }) {
           marginBottom: 12,
         }}>
           <span style={{ width: 8, height: 8, background: "white", display: "inline-block", animation: "blink 1s step-end infinite" }} />
-          {t.badge}
+          {t.badgePrefix} {t.months[new Date().getMonth() === 11 ? 0 : new Date().getMonth() + 1]}
         </div>
 
         <h1 className="scene-enter-d1" style={{
