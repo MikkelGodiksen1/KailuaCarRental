@@ -42,6 +42,8 @@ const TRANSLATIONS = {
     level3H1: "Annoncer der",
     level3H2: "konverterer.",
     level3Body: "Få flere kunder med målrettede annoncer på LinkedIn og Meta. Vi opsætter, tester og optimerer. Du ser resultater.",
+    linkedinLabel: "LINKEDIN ANNONCER",
+    metaLabel: "META ANNONCER",
     linkedinFeatures: ["B2B-målretning på beslutningstagere", "Sponsored Content & Lead Gen", "Retargeting af besøgende"],
     metaFeatures: ["Facebook & Instagram annoncer", "Lookalike audiences", "A/B-test af kreativt"],
     level4Label: "▶ LEVEL 04 KONTAKT",
@@ -103,6 +105,8 @@ const TRANSLATIONS = {
     level3H1: "Ads that",
     level3H2: "convert.",
     level3Body: "Get more customers with targeted ads on LinkedIn and Meta. We set up, test and optimize. You see results.",
+    linkedinLabel: "LINKEDIN ADS",
+    metaLabel: "META ADS",
     linkedinFeatures: ["B2B targeting of decision-makers", "Sponsored Content & Lead Gen", "Retargeting of visitors"],
     metaFeatures: ["Facebook & Instagram ads", "Lookalike audiences", "A/B testing of creatives"],
     level4Label: "▶ LEVEL 04 CONTACT",
@@ -791,7 +795,7 @@ function SceneMarkedsforing({ goTo, t }: { goTo: (i: number) => void; t: T }) {
         <div className="scene-enter-d2" style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 10 }}>
           {/* LinkedIn */}
           <div>
-            <p style={{ ...labelStyle, fontSize: 7, color: "#0A66C2", marginBottom: 3 }}>LINKEDIN ADS</p>
+            <p style={{ ...labelStyle, fontSize: 7, color: "#0A66C2", marginBottom: 3 }}>{t.linkedinLabel}</p>
             <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 4 }}>
               {t.linkedinFeatures.map(p => (
                 <li key={p} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1040", fontSize: 12, fontWeight: 600, lineHeight: 1.3 }}>
@@ -803,7 +807,7 @@ function SceneMarkedsforing({ goTo, t }: { goTo: (i: number) => void; t: T }) {
           </div>
           {/* Meta */}
           <div>
-            <p style={{ ...labelStyle, fontSize: 7, color: "#1877F2", marginBottom: 3 }}>META ADS</p>
+            <p style={{ ...labelStyle, fontSize: 7, color: "#1877F2", marginBottom: 3 }}>{t.metaLabel}</p>
             <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 4 }}>
               {t.metaFeatures.map(p => (
                 <li key={p} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1040", fontSize: 12, fontWeight: 600, lineHeight: 1.3 }}>
