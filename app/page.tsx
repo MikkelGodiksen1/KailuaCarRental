@@ -11,7 +11,7 @@ import { useRef, useState, useCallback, useEffect } from "react";
    scene 4: call me 🤙, looking straight at viewer
    ──────────────────────────────────────────────────────────── */
 function MikkelCharacter({ walking, scene = 0 }: { walking: boolean; scene?: number }) {
-  const headRot = [−12, −8, −20, −4,  0][scene] ?? −12;
+  const headRot = [-12,  -8, -20,  -4,  0][scene] ?? -12;
   const pupilCy = [ 26,  27,  23,  28, 30][scene] ?? 26;
   const browY   = scene === 2 ? 14 : 20;
   const eyeR    = scene === 2 ? 7  :  6;
