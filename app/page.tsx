@@ -53,20 +53,18 @@ function MikkelCharacter({ walking, scene = 0 }: { walking: boolean; scene?: num
           {/* Left arm (= screen-right after scaleX flip) */}
           <g className="char-arm-left">
             {scene === 4 ? (
-              // 🤙 Call me — horizontal upper arm → L-bend → forearm up to ear
+              // 🤙 Call me — arm bends up to ear (phone-to-ear pose)
               <>
-                {/* Upper arm: shoulder → elbow (nearly horizontal, goes left in SVG = right visually) */}
-                <path d="M 11,57 L 17,65 L -21,67 L -26,59 Z" fill="#111111" />
-                {/* Elbow joint cap */}
-                <circle cx="-23" cy="63" r="7" fill="#111111" />
-                {/* Forearm: straight up from elbow to ear level */}
-                <rect x="-28" y="30" width="10" height="33" rx="4" fill="#111111" />
-                {/* Palm / fist at ear level */}
-                <circle cx="-23" cy="27" r="7" fill="#f3c49e" />
-                {/* Thumb pointing UP */}
-                <rect x="-27" y="13" width="8" height="13" rx="4" fill="#f3c49e" />
-                {/* Pinky pointing DOWN */}
-                <rect x="-27" y="34" width="8" height="13" rx="4" fill="#f3c49e" />
+                {/* Upper arm: shoulder → elbow (out to side) */}
+                <path d="M 11,57 L 8,62 L 4,58 L 4,52 L 8,50 Z" fill="#111111" />
+                {/* Elbow joint */}
+                <circle cx="6" cy="52" r="5" fill="#111111" />
+                {/* Forearm: elbow → up to ear (bends inward toward head) */}
+                <path d="M 4,50 L 8,48 L 14,38 L 16,32 L 20,32 L 18,42 L 12,50 Z" fill="#111111" />
+                {/* Palm at ear — hand right next to head */}
+                <circle cx="18" cy="30" r="6" fill="#f3c49e" />
+                {/* Thumb along "phone" */}
+                <rect x="21" y="26" width="6" height="10" rx="3" fill="#f3c49e" />
               </>
             ) : scene === 2 ? (
               // WOW — left arm raised high
@@ -281,10 +279,10 @@ function SceneHej({ goTo }: { goTo: (i: number) => void }) {
           fontSize: "clamp(1.05rem,1.9vw,1.2rem)", color: "#2a2848",
           lineHeight: 1.7, marginBottom: 28, maxWidth: 440,
         }}>
-          Freelance webudvikler fra Danmark.
-          Jeg bygger <strong style={{ color: "#e80010" }}>hjemmesider</strong> folk faktisk bruger,
-          <strong style={{ color: "#0038c8" }}>automatiseringer</strong> der sparer timer hver uge
-          og <strong style={{ color: "#38a830" }}>ADA</strong>-løsninger der virker for alle.
+          Datamatiker (fra 1997). Tidl. selvstændig forsikringsagent.
+          I dag laver jeg <strong style={{ color: "#e80010" }}>LinkedIn</strong> og <strong style={{ color: "#1877F2" }}>Meta ads</strong> der konverterer,
+          <strong style={{ color: "#0038c8" }}>automatiseringer</strong> der sparer timer
+          og <strong style={{ color: "#38a830" }}>hjemmesider</strong> folk faktisk bruger.
         </p>
 
         <div className="scene-enter-d3" style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
