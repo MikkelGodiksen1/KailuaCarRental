@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 
 /* ──────────────────────────────────────────────────────
    MIKKEL CHARACTER  (SVG: blonde hair · turtleneck · beard)
@@ -75,7 +75,7 @@ function SceneHej({ goTo }: { goTo: (i: number) => void }) {
 
   return (
     <div
-      className="relative overflow-hidden"
+      className="relative flex-shrink-0 overflow-hidden"
       style={{ width: "100vw", height: "100vh", background: "linear-gradient(160deg,#05051a 0%,#0a0825 50%,#0e0530 100%)" }}
     >
       {/* Stars */}
@@ -189,7 +189,7 @@ function SceneHej({ goTo }: { goTo: (i: number) => void }) {
 function SceneHjemmesider({ goTo }: { goTo: (i: number) => void }) {
   return (
     <div
-      className="relative overflow-hidden"
+      className="relative flex-shrink-0 overflow-hidden"
       style={{ width: "100vw", height: "100vh", background: "linear-gradient(160deg,#030812 0%,#060c20 50%,#080c1e 100%)" }}
     >
       {/* City silhouette */}
@@ -326,7 +326,7 @@ function SceneHjemmesider({ goTo }: { goTo: (i: number) => void }) {
 function SceneAutomatisering({ goTo }: { goTo: (i: number) => void }) {
   return (
     <div
-      className="relative overflow-hidden"
+      className="relative flex-shrink-0 overflow-hidden"
       style={{ width: "100vw", height: "100vh", background: "linear-gradient(160deg,#020c10 0%,#040e18 55%,#040c14 100%)" }}
     >
       {/* Circuit board bg */}
@@ -491,7 +491,7 @@ function SceneKontakt() {
 
   return (
     <div
-      className="relative overflow-hidden"
+      className="relative flex-shrink-0 overflow-hidden"
       style={{ width: "100vw", height: "100vh", background: "linear-gradient(160deg,#07081a 0%,#0e0620 55%,#160418 100%)" }}
     >
       {/* Stars */}
@@ -634,16 +634,30 @@ export default function Home() {
 
   const handleScroll = useCallback(() => {
     if (!containerRef.current) return;
-    const current = Math.round(containerRef.current.scrollTop / window.innerHeight);
+    const current = Math.round(containerRef.current.scrollLeft / window.innerWidth);
     setScene(Math.min(current, scenes.length - 1));
     setWalking(true);
     if (walkTimer.current) clearTimeout(walkTimer.current);
     walkTimer.current = setTimeout(() => setWalking(false), 300);
   }, [scenes.length]);
 
-  const goTo = (i: number) => {
-    containerRef.current?.scrollTo({ top: i * window.innerHeight, behavior: "smooth" });
-  };
+  const goTo = useCallback((i: number) => {
+    const target = Math.max(0, Math.min(i, scenes.length - 1));
+    containerRef.current?.scrollTo({ left: target * window.innerWidth, behavior: "smooth" });
+  }, [scenes.length]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
+        setScene(prev => { const next = Math.min(prev + 1, scenes.length - 1); goTo(next); return prev; });
+      }
+      if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
+        setScene(prev => { const next = Math.max(prev - 1, 0); goTo(next); return prev; });
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [goTo, scenes.length]);
 
   return (
     <>
@@ -660,10 +674,10 @@ export default function Home() {
         boxShadow: `0 0 10px ${scenes[scene].color}80`,
       }} />
 
-      {/* ── HUD — Scene nav dots (right side) ── */}
+      {/* ── HUD — Scene nav dots (bottom center) ── */}
       <div style={{
-        position: "fixed", right: 20, top: "50%", transform: "translateY(-50%)",
-        zIndex: 100, display: "flex", flexDirection: "column", gap: 18, alignItems: "center",
+        position: "fixed", bottom: 20, left: "50%", transform: "translateX(-50%)",
+        zIndex: 100, display: "flex", flexDirection: "row", gap: 14, alignItems: "center",
       }}>
         {scenes.map((s, i) => (
           <button key={s.label} onClick={() => goTo(i)} title={s.label}
@@ -699,26 +713,63 @@ export default function Home() {
         </span>
       </div>
 
-      {/* ── Scroll hint (scene 0 only) ── */}
+      {/* ── Arrow navigation buttons (Mario-style) ── */}
+      {scene > 0 && (
+        <button
+          onClick={() => goTo(scene - 1)}
+          style={{
+            position: "fixed", left: 16, top: "50%", transform: "translateY(-50%)",
+            zIndex: 100, width: 44, height: 44, borderRadius: "50%",
+            background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)",
+            color: "rgba(255,255,255,0.5)", fontSize: 20, cursor: "pointer",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            transition: "all 0.2s ease", backdropFilter: "blur(8px)",
+          }}
+          onMouseEnter={e => { (e.target as HTMLButtonElement).style.background = "rgba(255,255,255,0.12)"; (e.target as HTMLButtonElement).style.color = "white"; }}
+          onMouseLeave={e => { (e.target as HTMLButtonElement).style.background = "rgba(255,255,255,0.06)"; (e.target as HTMLButtonElement).style.color = "rgba(255,255,255,0.5)"; }}
+        >
+          ←
+        </button>
+      )}
+      {scene < scenes.length - 1 && (
+        <button
+          onClick={() => goTo(scene + 1)}
+          style={{
+            position: "fixed", right: 56, top: "50%", transform: "translateY(-50%)",
+            zIndex: 100, width: 44, height: 44, borderRadius: "50%",
+            background: `rgba(${scenes[scene].color === "#4a9eff" ? "74,158,255" : scenes[scene].color === "#3ecfcf" ? "62,207,207" : "168,85,247"},0.15)`,
+            border: `1px solid ${scenes[scene].color}40`,
+            color: scenes[scene].color, fontSize: 20, cursor: "pointer",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            transition: "all 0.2s ease", backdropFilter: "blur(8px)",
+            boxShadow: `0 0 20px ${scenes[scene].color}30`,
+            animation: "floatMed 2s ease-in-out infinite",
+          }}
+        >
+          →
+        </button>
+      )}
+
+      {/* ── Key hint (scene 0 only) ── */}
       {scene === 0 && (
         <div style={{
           position: "fixed", bottom: 24, left: "50%", transform: "translateX(-50%)",
-          zIndex: 100, display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
+          zIndex: 100, display: "flex", alignItems: "center", gap: 8,
           animation: "floatMed 1.8s ease-in-out infinite",
         }}>
-          <span style={{ fontSize: 10, color: "rgba(255,255,255,0.22)", letterSpacing: "0.15em", fontFamily: "monospace" }}>SCROLL</span>
-          <span style={{ fontSize: 20, color: "rgba(255,255,255,0.22)" }}>↓</span>
+          <span style={{ fontSize: 10, color: "rgba(255,255,255,0.22)", letterSpacing: "0.15em", fontFamily: "monospace" }}>[ → ] eller klik</span>
         </div>
       )}
 
-      {/* ── Vertical snap container ── */}
+      {/* ── Horizontal snap container ── */}
       <div
         ref={containerRef}
         className="snap-scroll"
         onScroll={handleScroll}
         style={{
-          overflowY: "scroll",
-          scrollSnapType: "y mandatory",
+          display: "flex",
+          overflowX: "scroll",
+          scrollSnapType: "x mandatory",
           WebkitOverflowScrolling: "touch",
           scrollbarWidth: "none",
           height: "100vh",
