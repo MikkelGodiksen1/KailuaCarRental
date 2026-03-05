@@ -262,12 +262,6 @@ function SceneHej({ goTo }: { goTo: (i: number) => void }) {
 
         <h1 className="scene-enter-d1" style={{
           fontSize: "clamp(2.6rem,5.5vw,4.8rem)", fontWeight: 900, lineHeight: 1.0,
-          color: "#0a0820", marginBottom: 4, letterSpacing: "-0.02em",
-        }}>
-          Hej,
-        </h1>
-        <h1 className="scene-enter-d1" style={{
-          fontSize: "clamp(2.6rem,5.5vw,4.8rem)", fontWeight: 900, lineHeight: 1.0,
           marginBottom: 14, letterSpacing: "-0.02em",
           color: "#e80010",
           textShadow: "4px 4px 0px rgba(180,0,0,0.3)",
