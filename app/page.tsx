@@ -45,6 +45,7 @@ const TRANSLATIONS = {
     level4Label: "▶ LEVEL 04 KONTAKT",
     level4H1: "Tag fat i",
     level4H2: "mig.",
+    level4Tagline: "Har du en opgave? Stor som lille — tag fat i mig.",
     formSentBadge: "BESKED SENDT!",
     formSentMsg: "Jeg vender tilbage hurtigst muligt.",
     formName: "NAVN *",
@@ -103,6 +104,7 @@ const TRANSLATIONS = {
     level4Label: "▶ LEVEL 04 CONTACT",
     level4H1: "Get in",
     level4H2: "touch.",
+    level4Tagline: "Got a project? Big or small — reach out.",
     formSentBadge: "MESSAGE SENT!",
     formSentMsg: "I will get back to you as soon as possible.",
     formName: "NAME *",
@@ -903,6 +905,12 @@ function SceneKontakt({ t }: { t: T }) {
         }}>
           {t.level4H2}
         </h2>
+        <p className="scene-enter-d1" style={{
+          color: "#6a5820", fontSize: "clamp(0.9rem,1.5vw,1.05rem)", lineHeight: 1.5,
+          marginBottom: 12, fontWeight: 500,
+        }}>
+          {t.level4Tagline}
+        </p>
 
         {status === "sent" ? (
           <div style={{ padding: "14px 18px", border: "4px solid #008030", background: "white", textAlign: "center" }}>
