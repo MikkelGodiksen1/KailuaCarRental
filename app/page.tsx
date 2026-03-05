@@ -34,37 +34,34 @@ function MikkelCharacter({ walking, scene = 0 }: { walking: boolean; scene?: num
       <svg viewBox="0 0 84 136" xmlns="http://www.w3.org/2000/svg" overflow="visible">
         <ellipse cx="42" cy="134" rx="22" ry="4" fill="rgba(0,0,0,0.12)" />
 
-        {/* Legs */}
+        {/* Legs — tykkere */}
         <g className="char-leg-left">
-          <rect x="20" y="92" width="16" height="38" rx="4" fill="#222244" />
-          <ellipse cx="25" cy="130" rx="12" ry="5" fill="#111130" />
+          <rect x="18" y="92" width="20" height="38" rx="4" fill="#222244" />
+          <ellipse cx="25" cy="130" rx="14" ry="6" fill="#111130" />
         </g>
         <g className="char-leg-right">
-          <rect x="48" y="92" width="16" height="38" rx="4" fill="#222244" />
-          <ellipse cx="59" cy="130" rx="12" ry="5" fill="#111130" />
+          <rect x="46" y="92" width="20" height="38" rx="4" fill="#222244" />
+          <ellipse cx="59" cy="130" rx="14" ry="6" fill="#111130" />
         </g>
 
-        {/* Body */}
+        {/* Body — bredere, mere robust */}
         <g className="char-body">
-          <path d="M16,60 Q10,63 10,76 L10,92 Q10,98 18,98 L66,98 Q74,98 74,92 L74,76 Q74,63 68,60 Z" fill="#111111" />
-          <rect x="30" y="50" width="24" height="18" rx="4" fill="#111111" />
-          <rect x="32" y="50" width="20" height="10" rx="3" fill="#1a1a1a" />
+          <path d="M14,60 Q8,63 8,76 L8,92 Q8,98 20,98 L64,98 Q76,98 76,92 L76,76 Q76,63 70,60 Z" fill="#111111" />
+          <rect x="26" y="50" width="32" height="20" rx="4" fill="#111111" />
+          <rect x="28" y="50" width="28" height="12" rx="3" fill="#1a1a1a" />
 
           {/* Left arm (= screen-right after scaleX flip) */}
           <g className="char-arm-left">
             {scene === 4 ? (
-              // 🤙 Call me — arm bends up to ear (phone-to-ear pose)
+              // KONTAKT — tykkere arm + telefon ved øret
               <>
-                {/* Upper arm: shoulder → elbow (out to side) */}
-                <path d="M 11,57 L 8,62 L 4,58 L 4,52 L 8,50 Z" fill="#111111" />
-                {/* Elbow joint */}
-                <circle cx="6" cy="52" r="5" fill="#111111" />
-                {/* Forearm: elbow → up to ear (bends inward toward head) */}
-                <path d="M 4,50 L 8,48 L 14,38 L 16,32 L 20,32 L 18,42 L 12,50 Z" fill="#111111" />
-                {/* Palm at ear — hand right next to head */}
-                <circle cx="18" cy="30" r="6" fill="#f3c49e" />
-                {/* Thumb along "phone" */}
-                <rect x="21" y="26" width="6" height="10" rx="3" fill="#f3c49e" />
+                {/* Arm: tykkere, fra skulder til øret */}
+                <path d="M 14,60 Q 6,64 2,60 Q 0,54 2,48 Q 4,38 10,32 Q 16,26 22,26 L 26,32 Q 20,38 14,44 Q 10,52 8,58 Q 12,62 14,60 Z" fill="#111111" />
+                {/* Hånd ved øret */}
+                <circle cx="18" cy="26" r="7" fill="#f3c49e" />
+                {/* Telefon ved øret */}
+                <rect x="10" y="12" width="10" height="22" rx="3" fill="#1a3a5c" />
+                <rect x="11" y="14" width="8" height="18" fill="#2a2a4a" />
               </>
             ) : scene === 2 ? (
               // WOW — left arm raised high
@@ -111,7 +108,7 @@ function MikkelCharacter({ walking, scene = 0 }: { walking: boolean; scene?: num
           </g>
 
           {/* Neck */}
-          <rect x="34" y="48" width="16" height="14" rx="4" fill="#f3c49e" />
+          <rect x="32" y="48" width="20" height="14" rx="4" fill="#f3c49e" />
 
           {/* Head */}
           <g transform={`rotate(${headRot}, 42, 34)`}>
@@ -119,13 +116,16 @@ function MikkelCharacter({ walking, scene = 0 }: { walking: boolean; scene?: num
             <path d="M20,37 Q20,55 42,59 Q64,55 64,37" fill="#d4a860" />
             <path d="M23,40 Q23,52 42,56 Q61,52 61,40" fill="#e0bc76" />
 
-            {/* Eyes — whites */}
-            <circle cx="32" cy="30" r={eyeR} fill="white" />
+            {/* Eyes — whites (kun venstre hvis ikke blink) */}
+            {!wink && <circle cx="32" cy="30" r={eyeR} fill="white" />}
             <circle cx="52" cy="30" r={eyeR} fill="white" />
 
-            {/* Left eye — wink on scene 3 */}
+            {/* Left eye — lukket/blink på scene 3, ingen hvid synlig */}
             {wink ? (
-              <path d="M26,30 Q32,24 38,30" stroke="#c8922a" strokeWidth="3.5" fill="#f3c49e" strokeLinecap="round" />
+              <>
+                <ellipse cx="32" cy="30" rx="7" ry="4" fill="#f3c49e" />
+                <path d="M26,30 Q32,27 38,30" stroke="#c8922a" strokeWidth="2" fill="none" strokeLinecap="round" />
+              </>
             ) : (
               <>
                 <circle cx="32" cy={pupilCy} r={pupilR}       fill="#3868c8" />
@@ -134,7 +134,7 @@ function MikkelCharacter({ walking, scene = 0 }: { walking: boolean; scene?: num
               </>
             )}
 
-            {/* Right eye — always visible */}
+            {/* Right eye — altid synlig */}
             <circle cx="52" cy={pupilCy} r={pupilR}       fill="#3868c8" />
             <circle cx="52" cy={pupilCy} r={pupilR * 0.5} fill="#0a0e1a" />
             <circle cx="53" cy={pupilCy - 1} r="1.1"      fill="white" />
@@ -279,7 +279,7 @@ function SceneHej({ goTo }: { goTo: (i: number) => void }) {
           fontSize: "clamp(1.05rem,1.9vw,1.2rem)", color: "#2a2848",
           lineHeight: 1.7, marginBottom: 28, maxWidth: 440,
         }}>
-          Datamatiker (fra 1997). Tidl. selvstændig forsikringsagent.
+          Datamatiker. Uddannet coach (NLP). Født 1997. Tidl. selvstændig forsikringsagent.
           I dag laver jeg <strong style={{ color: "#e80010" }}>LinkedIn</strong> og <strong style={{ color: "#1877F2" }}>Meta ads</strong> der konverterer,
           <strong style={{ color: "#0038c8" }}>automatiseringer</strong> der sparer timer
           og <strong style={{ color: "#38a830" }}>hjemmesider</strong> folk faktisk bruger.
@@ -363,7 +363,7 @@ function SceneHjemmesider({ goTo }: { goTo: (i: number) => void }) {
           Hurtig, skarp hjemmeside klar inden for få uger.
         </p>
         <ul className="scene-enter-d2" style={{ listStyle: "none", padding: 0, marginBottom: 24, display: "flex", flexDirection: "column", gap: 10 }}>
-          {["Next.js + Tailwind CSS", "Mobilvenlig & tilgængelig", "SEO-optimeret fra dag ét", "Deployeret på Vercel"].map(p => (
+          {["Next.js + Tailwind CSS", "Mobilvenlig & tilgængelig", "SEO-optimeret fra dag ét", "Hostet gratis på Vercel"].map(p => (
             <li key={p} style={{ display: "flex", alignItems: "center", gap: 10, color: "#3a3860", fontSize: 15, fontWeight: 500 }}>
               <span style={{ width: 12, height: 12, background: "#0038c8", display: "inline-block", flexShrink: 0 }} />
               {p}
@@ -619,28 +619,41 @@ function SceneMarkedsforing({ goTo }: { goTo: (i: number) => void }) {
 function SceneKontakt() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [company, setCompany] = useState("");
+  const [website, setWebsite] = useState("");
+  const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus("sending");
+    setErrorMsg("");
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, phone, company }),
+        body: JSON.stringify({ name, phone, website, message }),
       });
-      setStatus(res.ok ? "sent" : "error");
-    } catch { setStatus("error"); }
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setStatus("sent");
+      } else {
+        setStatus("error");
+        setErrorMsg(data.error || "Noget gik galt");
+      }
+    } catch {
+      setStatus("error");
+      setErrorMsg("Kunne ikke oprette forbindelse");
+    }
   }
 
   const inputStyle: React.CSSProperties = {
-    width: "100%", padding: "12px 14px",
+    width: "100%", padding: "clamp(10px, 2.5vw, 14px) clamp(12px, 3vw, 16px)",
     border: "3px solid #0a0820",
     background: "white", color: "#0a0820",
-    fontSize: 15, outline: "none",
+    fontSize: "clamp(14px, 2.5vw, 16px)", outline: "none",
     fontFamily: "Inter, sans-serif",
+    boxSizing: "border-box",
   };
 
   return (
@@ -664,9 +677,9 @@ function SceneKontakt() {
       </div>
 
       {/* Content */}
-      <div className="absolute z-10" style={{ left: "5%", top: "7%", maxWidth: 480 }}>
+      <div className="absolute z-10" style={{ left: "5%", top: "7%", maxWidth: "min(480px, 90vw)" }}>
         <p className="scene-enter" style={{ ...labelStyle, color: "#c08000", marginBottom: 18 }}>
-          ▶ LEVEL 04 — KONTAKT
+          ▶ LEVEL 04 KONTAKT
         </p>
         <h2 className="scene-enter-d1" style={{
           fontSize: "clamp(2.6rem,5vw,4.5rem)", fontWeight: 900, lineHeight: 1.0,
@@ -692,26 +705,30 @@ function SceneKontakt() {
             <p style={{ color: "#1a3020", fontSize: 15 }}>Jeg vender tilbage hurtigst muligt.</p>
           </div>
         ) : (
-          <form className="scene-enter-d2" onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+          <form className="scene-enter-d2" onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "clamp(10px, 2vw, 14px)" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(8px, 2vw, 12px)" }}>
               <div>
-                <label style={{ ...labelStyle, display: "block", fontSize: 9, color: "#6a5820", marginBottom: 6 }}>NAVN *</label>
+                <label style={{ ...labelStyle, display: "block", fontSize: "clamp(8px, 1.8vw, 10px)", color: "#6a5820", marginBottom: 4 }}>NAVN *</label>
                 <input style={inputStyle} type="text" required placeholder="Dit navn" value={name} onChange={e => setName(e.target.value)} />
               </div>
               <div>
-                <label style={{ ...labelStyle, display: "block", fontSize: 9, color: "#6a5820", marginBottom: 6 }}>TELEFON *</label>
+                <label style={{ ...labelStyle, display: "block", fontSize: "clamp(8px, 1.8vw, 10px)", color: "#6a5820", marginBottom: 4 }}>TELEFON *</label>
                 <input style={inputStyle} type="tel" required placeholder="Dit nr." value={phone} onChange={e => setPhone(e.target.value)} />
               </div>
             </div>
             <div>
-              <label style={{ ...labelStyle, display: "block", fontSize: 9, color: "#6a5820", marginBottom: 6 }}>VIRKSOMHED *</label>
-              <input style={inputStyle} type="text" required placeholder="Din virksomhed" value={company} onChange={e => setCompany(e.target.value)} />
+              <label style={{ ...labelStyle, display: "block", fontSize: "clamp(8px, 1.8vw, 10px)", color: "#6a5820", marginBottom: 4 }}>HJEMMESIDE *</label>
+              <input style={inputStyle} type="text" required placeholder="Din hjemmeside (fx godik.dk)" value={website} onChange={e => setWebsite(e.target.value)} />
+            </div>
+            <div>
+              <label style={{ ...labelStyle, display: "block", fontSize: "clamp(8px, 1.8vw, 10px)", color: "#6a5820", marginBottom: 4 }}>BESKED</label>
+              <textarea style={{ ...inputStyle, minHeight: "clamp(80px, 15vw, 120px)", resize: "vertical" }} placeholder="Din besked..." value={message} onChange={e => setMessage(e.target.value)} />
             </div>
             {status === "error" && (
-              <p style={{ ...labelStyle, fontSize: 9, color: "#e80010" }}>FEJL — prøv igen.</p>
+              <p style={{ ...labelStyle, fontSize: "clamp(8px, 1.8vw, 10px)", color: "#e80010" }}>FEJL. {errorMsg || "Prøv igen."}</p>
             )}
             <button type="submit" disabled={status === "sending"} className="cta-btn"
-              style={{ ...labelStyle, padding: "13px 22px", background: status === "sending" ? "#a08000" : "#c08000", color: "white", border: "none", cursor: status === "sending" ? "not-allowed" : "pointer", boxShadow: status === "sending" ? "none" : "4px 4px 0px #604000", marginTop: 4 }}>
+              style={{ ...labelStyle, padding: "clamp(11px, 2.5vw, 14px) clamp(18px, 4vw, 24px)", fontSize: "clamp(9px, 2vw, 11px)", background: status === "sending" ? "#a08000" : "#c08000", color: "white", border: "none", cursor: status === "sending" ? "not-allowed" : "pointer", boxShadow: status === "sending" ? "none" : "4px 4px 0px #604000", marginTop: 4 }}>
               {status === "sending" ? "SENDER..." : "SEND BESKED ▶"}
             </button>
           </form>

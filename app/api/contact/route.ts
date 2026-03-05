@@ -1,8 +1,8 @@
 export async function POST(req: Request) {
   try {
-    const { name, phone, company } = await req.json();
+    const { name, phone, website, message } = await req.json();
 
-    if (!name || !phone || !company) {
+    if (!name || !phone || !website) {
       return Response.json({ ok: false, error: "Manglende felter" }, { status: 400 });
     }
 
@@ -13,11 +13,12 @@ export async function POST(req: Request) {
       return Response.json({ ok: false, error: "Telegram ikke konfigureret" }, { status: 500 });
     }
 
-    const text =
+    let text =
       `🔔 Ny henvendelse – Godik.ai\n\n` +
       `👤 Navn: ${name}\n` +
       `📞 Telefon: ${phone}\n` +
-      `🏢 Virksomhed: ${company}`;
+      `🌐 Hjemmeside: ${website}\n`;
+    if (message) text += `\n💬 Besked:\n${message}`;
 
     const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: "POST",
