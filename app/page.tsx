@@ -17,6 +17,7 @@ const TRANSLATIONS = {
     introP2d: "der sparer timer",
     introP2e: "og",
     introP2f: "folk faktisk bruger.",
+    trustPoints: ["Full transparens", "Ingen bindingsperiode", "Direkte kontakt"],
     cta1: "KOM I GANG",
     cta2: "SE MERE ▶",
     level1Label: "▶ LEVEL 01 HJEMMESIDER",
@@ -42,6 +43,8 @@ const TRANSLATIONS = {
     level3H1: "Annoncer der",
     level3H2: "konverterer.",
     level3Body: "Få flere kunder med målrettede annoncer på LinkedIn og Meta. Vi opsætter, tester og optimerer. Du ser resultater.",
+    linkedinLabel: "LINKEDIN ANNONCER",
+    metaLabel: "META ANNONCER",
     linkedinFeatures: ["B2B-målretning på beslutningstagere", "Sponsored Content & Lead Gen", "Retargeting af besøgende"],
     metaFeatures: ["Facebook & Instagram annoncer", "Lookalike audiences", "A/B-test af kreativt"],
     level4Label: "▶ LEVEL 04 KONTAKT",
@@ -78,6 +81,7 @@ const TRANSLATIONS = {
     introP2d: "that save hours,",
     introP2e: "and",
     introP2f: "people actually use.",
+    trustPoints: ["Full transparency", "No lock-in period", "Direct contact"],
     cta1: "GET STARTED",
     cta2: "SEE MORE ▶",
     level1Label: "▶ LEVEL 01 WEBSITES",
@@ -103,6 +107,8 @@ const TRANSLATIONS = {
     level3H1: "Ads that",
     level3H2: "convert.",
     level3Body: "Get more customers with targeted ads on LinkedIn and Meta. We set up, test and optimize. You see results.",
+    linkedinLabel: "LINKEDIN ADS",
+    metaLabel: "META ADS",
     linkedinFeatures: ["B2B targeting of decision-makers", "Sponsored Content & Lead Gen", "Retargeting of visitors"],
     metaFeatures: ["Facebook & Instagram ads", "Lookalike audiences", "A/B testing of creatives"],
     level4Label: "▶ LEVEL 04 CONTACT",
@@ -480,6 +486,21 @@ function SceneHej({ goTo, t }: { goTo: (i: number) => void; t: T }) {
           {t.introP2e} <strong style={{ color: "#38a830" }}>websites</strong> {t.introP2f}
         </p>
 
+        <div className="scene-enter-d2" style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>
+          {t.trustPoints.map(p => (
+            <span key={p} style={{
+              ...labelStyle, fontSize: 7,
+              display: "inline-flex", alignItems: "center", gap: 5,
+              padding: "5px 9px",
+              background: "#f0f0ff", color: "#2a2848",
+              border: "2px solid #0a0820",
+              boxShadow: "2px 2px 0 #0a0820",
+            }}>
+              <span style={{ color: "#38a830", fontWeight: 900 }}>✓</span> {p}
+            </span>
+          ))}
+        </div>
+
         <div className="scene-enter-d3" style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
           <button onClick={() => goTo(4)} className="cta-btn"
             style={{ ...labelStyle, padding: "10px 18px", background: "#e80010", color: "white", border: "none", cursor: "pointer", boxShadow: "4px 4px 0px #880008" }}>
@@ -791,7 +812,7 @@ function SceneMarkedsforing({ goTo, t }: { goTo: (i: number) => void; t: T }) {
         <div className="scene-enter-d2" style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 10 }}>
           {/* LinkedIn */}
           <div>
-            <p style={{ ...labelStyle, fontSize: 7, color: "#0A66C2", marginBottom: 3 }}>LINKEDIN ADS</p>
+            <p style={{ ...labelStyle, fontSize: 7, color: "#0A66C2", marginBottom: 3 }}>{t.linkedinLabel}</p>
             <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 4 }}>
               {t.linkedinFeatures.map(p => (
                 <li key={p} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1040", fontSize: 12, fontWeight: 600, lineHeight: 1.3 }}>
@@ -803,7 +824,7 @@ function SceneMarkedsforing({ goTo, t }: { goTo: (i: number) => void; t: T }) {
           </div>
           {/* Meta */}
           <div>
-            <p style={{ ...labelStyle, fontSize: 7, color: "#1877F2", marginBottom: 3 }}>META ADS</p>
+            <p style={{ ...labelStyle, fontSize: 7, color: "#1877F2", marginBottom: 3 }}>{t.metaLabel}</p>
             <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 4 }}>
               {t.metaFeatures.map(p => (
                 <li key={p} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1040", fontSize: 12, fontWeight: 600, lineHeight: 1.3 }}>
@@ -852,6 +873,7 @@ function SceneKontakt({ t }: { t: T }) {
       const data = await res.json().catch(() => ({}));
       if (res.ok) {
         setStatus("sent");
+        fetch("/api/track", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "lead" }) }).catch(() => {});
       } else {
         setStatus("error");
         setErrorMsg(data.error || t.formErrorServer);
@@ -969,6 +991,18 @@ export default function Home() {
   const walkTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => { setMounted(true); }, []);
+
+  // Tracking: log besøg når sprog vælges
+  useEffect(() => {
+    if (lang !== null) {
+      fetch("/api/track", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "visit", lang }) }).catch(() => {});
+    }
+  }, [lang]);
+
+  // Tracking: log hvilken scene brugeren ser
+  useEffect(() => {
+    fetch("/api/track", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "scene", scene }) }).catch(() => {});
+  }, [scene]);
 
   const t = TRANSLATIONS[lang ?? "da"];
 
