@@ -53,12 +53,20 @@ function MikkelCharacter({ walking, scene = 0 }: { walking: boolean; scene?: num
           {/* Left arm (= screen-right after scaleX flip) */}
           <g className="char-arm-left">
             {scene === 4 ? (
-              // 🤙 Call me — thumb UP, pinky DOWN
+              // 🤙 Call me — bent arm: upper arm outward, elbow bend, forearm straight up
               <>
-                <path d="M14,61 Q10,54 10,42 Q10,30 14,24 L19,26 L20,58 L18,62 Z" fill="#111111" />
-                <circle cx="14" cy="20" r="6"   fill="#f3c49e" />
-                <rect   x="11" y="4"   width="7" height="13" rx="3.5" fill="#f3c49e" />
-                <rect   x="11" y="26"  width="7" height="14" rx="3.5" fill="#f3c49e" />
+                {/* Upper arm: shoulder → elbow (goes left in SVG = right visually) */}
+                <path d="M 9,59 L 18,63 L -2,79 L -10,73 Z" fill="#111111" />
+                {/* Elbow joint cap */}
+                <circle cx="-6" cy="76" r="7" fill="#111111" />
+                {/* Forearm: vertical, elbow → wrist */}
+                <rect x="-12" y="18" width="10" height="58" rx="4" fill="#111111" />
+                {/* Palm / fist */}
+                <circle cx="-7" cy="15" r="7" fill="#f3c49e" />
+                {/* Thumb pointing UP */}
+                <rect x="-11" y="1"  width="8" height="13" rx="4" fill="#f3c49e" />
+                {/* Pinky pointing DOWN */}
+                <rect x="-11" y="22" width="8" height="14" rx="4" fill="#f3c49e" />
               </>
             ) : scene === 2 ? (
               // WOW — left arm raised high
