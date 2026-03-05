@@ -4,11 +4,11 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Godik.ai — Vi bygger hjemmesider og automatiseringer",
+  title: "Godik.ai. Vi bygger hjemmesider og automatiseringer",
   description:
     "Godik.ai bygger skarpe hjemmesider og intelligente automatiseringer, der hjælper virksomheder med at vækste hurtigere.",
   openGraph: {
-    title: "Godik.ai — Vi bygger hjemmesider og automatiseringer",
+    title: "Godik.ai. Vi bygger hjemmesider og automatiseringer",
     description:
       "Skarpe hjemmesider og intelligente automatiseringer til moderne virksomheder.",
     type: "website",

@@ -6,7 +6,7 @@ import { useRef, useState, useCallback, useEffect } from "react";
    MIKKEL CHARACTER
    scene 0: looking up (default)
    scene 1: pointing at laptop (excited)
-   scene 2: WOW — both arms up, open mouth, "!!"
+   scene 2: WOW, both arms up, open mouth, "!!"
    scene 3: thumbs up + wink
    scene 4: call me 🤙, looking straight at viewer
    ──────────────────────────────────────────────────────────── */
@@ -34,7 +34,7 @@ function MikkelCharacter({ walking, scene = 0 }: { walking: boolean; scene?: num
       <svg viewBox="0 0 84 136" xmlns="http://www.w3.org/2000/svg" overflow="visible">
         <ellipse cx="42" cy="134" rx="22" ry="4" fill="rgba(0,0,0,0.12)" />
 
-        {/* Legs — tykkere */}
+        {/* Legs, tykkere */}
         <g className="char-leg-left">
           <rect x="18" y="92" width="20" height="38" rx="4" fill="#222244" />
           <ellipse cx="25" cy="130" rx="14" ry="6" fill="#111130" />
@@ -44,7 +44,7 @@ function MikkelCharacter({ walking, scene = 0 }: { walking: boolean; scene?: num
           <ellipse cx="59" cy="130" rx="14" ry="6" fill="#111130" />
         </g>
 
-        {/* Body — bredere, mere robust */}
+        {/* Body, bredere, mere robust */}
         <g className="char-body">
           <path d="M14,60 Q8,63 8,76 L8,92 Q8,98 20,98 L64,98 Q76,98 76,92 L76,76 Q76,63 70,60 Z" fill="#111111" />
           <rect x="26" y="50" width="32" height="20" rx="4" fill="#111111" />
@@ -53,7 +53,7 @@ function MikkelCharacter({ walking, scene = 0 }: { walking: boolean; scene?: num
           {/* Left arm (= screen-right after scaleX flip) */}
           <g className="char-arm-left">
             {scene === 4 ? (
-              // KONTAKT — tykkere arm + telefon ved øret
+              // KONTAKT: tykkere arm + telefon ved øret
               <>
                 {/* Arm: tykkere, fra skulder til øret */}
                 <path d="M 14,60 Q 6,64 2,60 Q 0,54 2,48 Q 4,38 10,32 Q 16,26 22,26 L 26,32 Q 20,38 14,44 Q 10,52 8,58 Q 12,62 14,60 Z" fill="#111111" />
@@ -64,7 +64,7 @@ function MikkelCharacter({ walking, scene = 0 }: { walking: boolean; scene?: num
                 <rect x="11" y="14" width="8" height="18" fill="#2a2a4a" />
               </>
             ) : scene === 2 ? (
-              // WOW — left arm raised high
+              // WOW: left arm raised high
               <>
                 <path d="M14,61 Q5,52 2,40 Q0,30 5,24 L11,28 L18,58 Z" fill="#111111" />
                 <circle cx="4" cy="22" r="7" fill="#f3c49e" />
@@ -83,7 +83,7 @@ function MikkelCharacter({ walking, scene = 0 }: { walking: boolean; scene?: num
                 <rect x="7"  y="14" width="8"  height="15" rx="4"   fill="#f3c49e" />
               </>
             ) : (
-              // Default — arm down
+              // Default: arm down
               <>
                 <path d="M7,63 Q4,67 4,82 Q4,93 12,95 L18,93 L20,68 L14,61 Z" fill="#111111" />
                 <circle cx="11" cy="96" r="7" fill="#f3c49e" />
@@ -94,7 +94,7 @@ function MikkelCharacter({ walking, scene = 0 }: { walking: boolean; scene?: num
           {/* Right arm (= screen-left after scaleX flip) */}
           <g className="char-arm-right">
             {scene === 2 ? (
-              // WOW — right arm raised high
+              // WOW: right arm raised high
               <>
                 <path d="M70,61 Q79,52 82,40 Q84,30 79,24 L73,28 L66,58 Z" fill="#111111" />
                 <circle cx="80" cy="22" r="7" fill="#f3c49e" />
@@ -116,11 +116,11 @@ function MikkelCharacter({ walking, scene = 0 }: { walking: boolean; scene?: num
             <path d="M20,37 Q20,55 42,59 Q64,55 64,37" fill="#d4a860" />
             <path d="M23,40 Q23,52 42,56 Q61,52 61,40" fill="#e0bc76" />
 
-            {/* Eyes — whites (kun venstre hvis ikke blink) */}
+            {/* Eyes: whites (kun venstre hvis ikke blink) */}
             {!wink && <circle cx="32" cy="30" r={eyeR} fill="white" />}
             <circle cx="52" cy="30" r={eyeR} fill="white" />
 
-            {/* Left eye — lukket/blink på scene 3, ingen hvid synlig */}
+            {/* Left eye: lukket/blink på scene 3, ingen hvid synlig */}
             {wink ? (
               <>
                 <ellipse cx="32" cy="30" rx="7" ry="4" fill="#f3c49e" />
@@ -134,7 +134,7 @@ function MikkelCharacter({ walking, scene = 0 }: { walking: boolean; scene?: num
               </>
             )}
 
-            {/* Right eye — altid synlig */}
+            {/* Right eye: altid synlig */}
             <circle cx="52" cy={pupilCy} r={pupilR}       fill="#3868c8" />
             <circle cx="52" cy={pupilCy} r={pupilR * 0.5} fill="#0a0e1a" />
             <circle cx="53" cy={pupilCy - 1} r="1.1"      fill="white" />
@@ -159,7 +159,7 @@ function MikkelCharacter({ walking, scene = 0 }: { walking: boolean; scene?: num
           </g>
         </g>
 
-        {/* WOW reaction — pixel "!!" marks above head */}
+        {/* WOW reaction: pixel "!!" marks above head */}
         {scene === 2 && (
           <>
             <text x="57" y="16" fontFamily="'Press Start 2P', monospace" fontSize="15" fill="#f8c800">!</text>
@@ -195,7 +195,7 @@ function PixelCloud({ style }: { style?: React.CSSProperties }) {
    ──────────────────────────────────────────────────────────── */
 function PixelGround() {
   return (
-    <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "13vh" }}>
+    <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "11vh" }}>
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 4, background: "#2a2a2a" }} />
       <div style={{ position: "absolute", top: 4, left: 0, right: 0, height: 8,  background: "#58d858" }} />
       <div style={{ position: "absolute", top: 12, left: 0, right: 0, height: 6, background: "#38b838" }} />
@@ -214,7 +214,7 @@ const labelStyle: React.CSSProperties = {
 };
 
 /* ────────────────────────────────────────────────────────────
-   SCENE 1 — HEJ
+   SCENE 1 HEJ
    ──────────────────────────────────────────────────────────── */
 function SceneHej({ goTo }: { goTo: (i: number) => void }) {
   return (
@@ -244,31 +244,31 @@ function SceneHej({ goTo }: { goTo: (i: number) => void }) {
       <PixelCloud style={{ position: "absolute", left: "10%", top: "10%", animation: "floatSlow 6s ease-in-out infinite" }} />
       <PixelCloud style={{ position: "absolute", right: "26%", top: "18%", width: 80, height: 32, animation: "floatSlow 8s 1s ease-in-out infinite", opacity: 0.8 }} />
 
-      {/* Content — pushed high */}
-      <div className="absolute z-10" style={{ left: "5%", top: "7%", maxWidth: 520 }}>
+      {/* Content: pushed high */}
+      <div className="absolute z-10" style={{ left: "5%", top: "5%", maxWidth: 520 }}>
 
         {/* Badge */}
         <div className="scene-enter" style={{
           ...labelStyle,
-          display: "inline-flex", alignItems: "center", gap: 10,
-          padding: "9px 14px",
+          display: "inline-flex", alignItems: "center", gap: 8,
+          padding: "7px 12px",
           background: "#e80010",
           color: "white",
-          marginBottom: 22,
+          marginBottom: 12,
         }}>
           <span style={{ width: 8, height: 8, background: "white", display: "inline-block", animation: "blink 1s step-end infinite" }} />
           ÅBEN FOR PROJEKTER
         </div>
 
         <h1 className="scene-enter-d1" style={{
-          fontSize: "clamp(3rem,6vw,5.5rem)", fontWeight: 900, lineHeight: 1.0,
-          color: "#0a0820", marginBottom: 6, letterSpacing: "-0.02em",
+          fontSize: "clamp(2.6rem,5.5vw,4.8rem)", fontWeight: 900, lineHeight: 1.0,
+          color: "#0a0820", marginBottom: 4, letterSpacing: "-0.02em",
         }}>
           Hej, jeg er
         </h1>
         <h1 className="scene-enter-d1" style={{
-          fontSize: "clamp(3rem,6vw,5.5rem)", fontWeight: 900, lineHeight: 1.0,
-          marginBottom: 24, letterSpacing: "-0.02em",
+          fontSize: "clamp(2.6rem,5.5vw,4.8rem)", fontWeight: 900, lineHeight: 1.0,
+          marginBottom: 14, letterSpacing: "-0.02em",
           color: "#e80010",
           textShadow: "4px 4px 0px rgba(180,0,0,0.3)",
         }}>
@@ -276,22 +276,22 @@ function SceneHej({ goTo }: { goTo: (i: number) => void }) {
         </h1>
 
         <p className="scene-enter-d2" style={{
-          fontSize: "clamp(1.05rem,1.9vw,1.2rem)", color: "#2a2848",
-          lineHeight: 1.7, marginBottom: 28, maxWidth: 440,
+          fontSize: "clamp(0.95rem,1.7vw,1.1rem)", color: "#2a2848",
+          lineHeight: 1.55, marginBottom: 14, maxWidth: 440,
         }}>
-          Datamatiker. Uddannet coach (NLP). Født 1997. Tidl. selvstændig forsikringsagent.
+          Datamatiker. Uddannet coach (NLP). Født 97. Tidl. selvstændig forsikringsagent.
           I dag laver jeg <strong style={{ color: "#e80010" }}>LinkedIn</strong> og <strong style={{ color: "#1877F2" }}>Meta ads</strong> der konverterer,
-          <strong style={{ color: "#0038c8" }}>automatiseringer</strong> der sparer timer
+          <strong style={{ color: "#0038c8" }}> automatiseringer</strong> der sparer timer
           og <strong style={{ color: "#38a830" }}>hjemmesider</strong> folk faktisk bruger.
         </p>
 
-        <div className="scene-enter-d3" style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+        <div className="scene-enter-d3" style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
           <button onClick={() => goTo(4)} className="cta-btn"
-            style={{ ...labelStyle, padding: "13px 22px", background: "#e80010", color: "white", border: "none", cursor: "pointer", boxShadow: "4px 4px 0px #880008" }}>
+            style={{ ...labelStyle, padding: "10px 18px", background: "#e80010", color: "white", border: "none", cursor: "pointer", boxShadow: "4px 4px 0px #880008" }}>
             KOM I GANG
           </button>
           <button onClick={() => goTo(1)}
-            style={{ ...labelStyle, background: "none", border: "3px solid #0a0820", cursor: "pointer", color: "#0a0820", padding: "10px 18px" }}>
+            style={{ ...labelStyle, background: "none", border: "3px solid #0a0820", cursor: "pointer", color: "#0a0820", padding: "8px 14px" }}>
             SE MERE ▶
           </button>
         </div>
@@ -303,7 +303,7 @@ function SceneHej({ goTo }: { goTo: (i: number) => void }) {
 }
 
 /* ────────────────────────────────────────────────────────────
-   SCENE 2 — HJEMMESIDER
+   SCENE 2 HJEMMESIDER
    ──────────────────────────────────────────────────────────── */
 function SceneHjemmesider({ goTo }: { goTo: (i: number) => void }) {
   return (
@@ -314,7 +314,7 @@ function SceneHjemmesider({ goTo }: { goTo: (i: number) => void }) {
       <PixelCloud style={{ position: "absolute", right: "8%", top: "8%", animation: "floatSlow 5s ease-in-out infinite" }} />
       <PixelCloud style={{ position: "absolute", left: "20%", top: "15%", width: 90, height: 36, animation: "floatSlow 7s 2s ease-in-out infinite", opacity: 0.7 }} />
 
-      {/* Pixel laptop — top right */}
+      {/* Pixel laptop: top right */}
       <div style={{ position: "absolute", right: "4%", top: "8%", animation: "floatMed 4s ease-in-out infinite" }}>
         <svg width="220" height="150" viewBox="0 0 220 150" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ imageRendering: "pixelated" }}>
           <rect x="10" y="0" width="200" height="118" fill="#0a0820" rx="0" />
@@ -339,40 +339,40 @@ function SceneHjemmesider({ goTo }: { goTo: (i: number) => void }) {
       </div>
 
       {/* Content */}
-      <div className="absolute z-10" style={{ left: "5%", top: "7%", maxWidth: 480 }}>
-        <p className="scene-enter" style={{ ...labelStyle, color: "#0038c8", marginBottom: 18 }}>
-          ▶ LEVEL 01 — HJEMMESIDER
+      <div className="absolute z-10" style={{ left: "5%", top: "5%", maxWidth: 480 }}>
+        <p className="scene-enter" style={{ ...labelStyle, color: "#0038c8", marginBottom: 10, fontSize: 10 }}>
+          ▶ LEVEL 01 HJEMMESIDER
         </p>
         <h2 className="scene-enter-d1" style={{
-          fontSize: "clamp(2.6rem,5vw,4.5rem)", fontWeight: 900, lineHeight: 1.0,
-          color: "#0a0820", marginBottom: 6, letterSpacing: "-0.02em",
+          fontSize: "clamp(2.2rem,4.5vw,3.8rem)", fontWeight: 900, lineHeight: 1.0,
+          color: "#0a0820", marginBottom: 4, letterSpacing: "-0.02em",
         }}>
           Skarpe
         </h2>
         <h2 className="scene-enter-d1" style={{
-          fontSize: "clamp(2.6rem,5vw,4.5rem)", fontWeight: 900, lineHeight: 1.0,
-          marginBottom: 20, letterSpacing: "-0.02em",
+          fontSize: "clamp(2.2rem,4.5vw,3.8rem)", fontWeight: 900, lineHeight: 1.0,
+          marginBottom: 12, letterSpacing: "-0.02em",
           color: "#0038c8", textShadow: "4px 4px 0px rgba(0,30,150,0.2)",
         }}>
           hjemmesider.
         </h2>
         <p className="scene-enter-d2" style={{
-          color: "#2a2848", fontSize: "clamp(1rem,1.7vw,1.1rem)", lineHeight: 1.7, marginBottom: 22, maxWidth: 400,
+          color: "#2a2848", fontSize: "clamp(0.9rem,1.5vw,1.05rem)", lineHeight: 1.5, marginBottom: 12, maxWidth: 400,
         }}>
           Ingen tunge CMS-systemer. Ingen måneder i venteposition.
           Hurtig, skarp hjemmeside klar inden for få uger.
         </p>
-        <ul className="scene-enter-d2" style={{ listStyle: "none", padding: 0, marginBottom: 24, display: "flex", flexDirection: "column", gap: 10 }}>
+        <ul className="scene-enter-d2" style={{ listStyle: "none", padding: 0, marginBottom: 12, display: "flex", flexDirection: "column", gap: 5 }}>
           {["Next.js + Tailwind CSS", "Mobilvenlig & tilgængelig", "SEO-optimeret fra dag ét", "Hostet gratis på Vercel"].map(p => (
-            <li key={p} style={{ display: "flex", alignItems: "center", gap: 10, color: "#3a3860", fontSize: 15, fontWeight: 500 }}>
-              <span style={{ width: 12, height: 12, background: "#0038c8", display: "inline-block", flexShrink: 0 }} />
+            <li key={p} style={{ display: "flex", alignItems: "center", gap: 8, color: "#3a3860", fontSize: 13, fontWeight: 500 }}>
+              <span style={{ width: 10, height: 10, background: "#0038c8", display: "inline-block", flexShrink: 0 }} />
               {p}
             </li>
           ))}
         </ul>
         <div className="scene-enter-d3">
           <button onClick={() => goTo(4)} className="cta-btn"
-            style={{ ...labelStyle, padding: "12px 20px", background: "#0038c8", color: "white", border: "none", cursor: "pointer", boxShadow: "4px 4px 0px #001870" }}>
+            style={{ ...labelStyle, padding: "10px 16px", background: "#0038c8", color: "white", border: "none", cursor: "pointer", boxShadow: "4px 4px 0px #001870" }}>
             KONTAKT MIG ▶
           </button>
         </div>
@@ -384,7 +384,7 @@ function SceneHjemmesider({ goTo }: { goTo: (i: number) => void }) {
 }
 
 /* ────────────────────────────────────────────────────────────
-   SCENE 3 — AUTOMATISERING
+   SCENE 3 AUTOMATISERING
    ──────────────────────────────────────────────────────────── */
 function SceneAutomatisering({ goTo }: { goTo: (i: number) => void }) {
   return (
@@ -436,41 +436,62 @@ function SceneAutomatisering({ goTo }: { goTo: (i: number) => void }) {
         </svg>
       </div>
 
-      {/* Content */}
-      <div className="absolute z-20" style={{ left: "5%", top: "7%", maxWidth: "min(480px, 58vw)" }}>
-        <p className="scene-enter" style={{ ...labelStyle, color: "#008030", marginBottom: 18 }}>
-          ▶ LEVEL 02 — AUTOMATISERING
+      {/* Content: kompakt */}
+      <div className="absolute z-20" style={{ left: "5%", top: "5%", maxWidth: "min(480px, 58vw)" }}>
+        <p className="scene-enter" style={{ ...labelStyle, color: "#008030", marginBottom: 8, fontSize: 10 }}>
+          ▶ LEVEL 02 AUTOMATISERING
         </p>
         <h2 className="scene-enter-d1" style={{
-          fontSize: "clamp(2.6rem,5vw,4.5rem)", fontWeight: 900, lineHeight: 1.0,
-          color: "#0a0820", marginBottom: 6, letterSpacing: "-0.02em",
+          fontSize: "clamp(1.9rem,4vw,3.4rem)", fontWeight: 900, lineHeight: 1.0,
+          color: "#0a0820", marginBottom: 2, letterSpacing: "-0.02em",
         }}>
           Intelligente
         </h2>
         <h2 className="scene-enter-d1" style={{
-          fontSize: "clamp(2.6rem,5vw,4.5rem)", fontWeight: 900, lineHeight: 1.0,
-          marginBottom: 20, letterSpacing: "-0.02em",
+          fontSize: "clamp(1.9rem,4vw,3.4rem)", fontWeight: 900, lineHeight: 1.0,
+          marginBottom: 6, letterSpacing: "-0.02em",
           color: "#008030", textShadow: "4px 4px 0px rgba(0,80,30,0.2)",
         }}>
           automatiseringer.
         </h2>
         <p className="scene-enter-d2" style={{
-          color: "#1a3020", fontSize: "clamp(1rem,1.7vw,1.1rem)", lineHeight: 1.7, marginBottom: 22, maxWidth: 400,
+          color: "#0a1820", fontSize: "clamp(0.9rem,1.5vw,1.05rem)", lineHeight: 1.5, marginBottom: 6, maxWidth: 400, fontWeight: 500,
         }}>
-          Har du opgaver der gentages igen og igen?
-          Dem løser vi én gang — og så kører det selv.
+          Har du opgaver der gentages igen og igen? Dem løser vi én gang, og så kører det selv.
         </p>
-        <ul className="scene-enter-d2" style={{ listStyle: "none", padding: 0, marginBottom: 24, display: "flex", flexDirection: "column", gap: 10 }}>
+        <p className="scene-enter-d2" style={{ ...labelStyle, fontSize: 8, color: "#008030", marginBottom: 2 }}>GoHighLevel</p>
+        <p className="scene-enter-d2" style={{ color: "#1a3020", fontSize: 11, marginBottom: 6, maxWidth: 420 }}>Kan bl.a.: CRM, workflows, funnels, pipelines, kalender, 500+ integrationer</p>
+        <div className="scene-enter-d2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginBottom: 8, fontSize: 12 }}>
+          <div style={{ background: "#1a3020", color: "#c0c0c0", padding: 6, border: "2px solid #0a0820", fontFamily: "Inter, sans-serif" }}>
+            <p style={{ ...labelStyle, fontSize: 7, marginBottom: 3, color: "#aaa" }}>GoHighLevel</p>
+            <p style={{ fontWeight: 700, fontSize: 14, marginBottom: 4, color: "#ddd", textDecoration: "line-through" }}>$97/md</p>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0, lineHeight: 1.4, fontSize: 11 }}>
+              <li>3 Sub-Accounts</li>
+              <li>Unlimited contacts</li>
+              <li>Ingen opsætning</li>
+            </ul>
+          </div>
+          <div style={{ background: "#008030", color: "white", padding: 6, border: "2px solid #004018", fontFamily: "Inter, sans-serif" }}>
+            <p style={{ ...labelStyle, fontSize: 7, marginBottom: 3, opacity: 0.95 }}>HOS MIG</p>
+            <p style={{ fontWeight: 700, fontSize: 14, marginBottom: 4 }}>100 kr/md</p>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0, lineHeight: 1.4, fontSize: 11 }}>
+              <li>✓ Samme platform og features</li>
+              <li>✓ + Template inkluderet</li>
+              <li>✓ + Opsætning inkluderet</li>
+            </ul>
+          </div>
+        </div>
+        <ul className="scene-enter-d2" style={{ listStyle: "none", padding: 0, marginBottom: 10, display: "flex", flexDirection: "column", gap: 4 }}>
           {["AI-drevne workflows", "CRM & systemintegrationer", "Automatiske datapipelines", "Bots & agenter der virker"].map(p => (
-            <li key={p} style={{ display: "flex", alignItems: "center", gap: 10, color: "#1a3020", fontSize: 15, fontWeight: 500 }}>
-              <span style={{ width: 12, height: 12, background: "#008030", display: "inline-block", flexShrink: 0 }} />
+            <li key={p} style={{ display: "flex", alignItems: "center", gap: 6, color: "#0a1820", fontSize: 13, fontWeight: 500 }}>
+              <span style={{ width: 10, height: 10, background: "#008030", display: "inline-block", flexShrink: 0 }} />
               {p}
             </li>
           ))}
         </ul>
         <div className="scene-enter-d3">
           <button onClick={() => goTo(4)} className="cta-btn"
-            style={{ ...labelStyle, padding: "12px 20px", background: "#008030", color: "white", border: "none", cursor: "pointer", boxShadow: "4px 4px 0px #004018" }}>
+            style={{ ...labelStyle, padding: "10px 16px", background: "#008030", color: "white", border: "none", cursor: "pointer", boxShadow: "4px 4px 0px #004018" }}>
             KONTAKT MIG ▶
           </button>
         </div>
@@ -482,7 +503,7 @@ function SceneAutomatisering({ goTo }: { goTo: (i: number) => void }) {
 }
 
 /* ────────────────────────────────────────────────────────────
-   SCENE 4 — MARKEDSFØRING
+   SCENE 4 MARKEDSFØRING
    ──────────────────────────────────────────────────────────── */
 function SceneMarkedsforing({ goTo }: { goTo: (i: number) => void }) {
   return (
@@ -549,60 +570,61 @@ function SceneMarkedsforing({ goTo }: { goTo: (i: number) => void }) {
         </svg>
       </div>
 
-      {/* Content */}
-      <div className="absolute z-20" style={{ left: "5%", top: "7%", maxWidth: "min(480px, 58vw)" }}>
-        <p className="scene-enter" style={{ ...labelStyle, color: "#6020c8", marginBottom: 18 }}>
-          ▶ LEVEL 03 — MARKEDSFØRING
+      {/* Content: kompakt */}
+      <div className="absolute z-20" style={{ left: "5%", top: "5%", maxWidth: "min(480px, 58vw)" }}>
+        <p className="scene-enter" style={{ ...labelStyle, color: "#6020c8", marginBottom: 6, fontSize: 10 }}>
+          ▶ LEVEL 03 MARKEDSFØRING
         </p>
         <h2 className="scene-enter-d1" style={{
-          fontSize: "clamp(2.6rem,5vw,4.5rem)", fontWeight: 900, lineHeight: 1.0,
-          color: "#0a0820", marginBottom: 6, letterSpacing: "-0.02em",
+          fontSize: "clamp(1.9rem,4vw,3.4rem)", fontWeight: 900, lineHeight: 1.0,
+          color: "#0a0820", marginBottom: 2, letterSpacing: "-0.02em",
         }}>
           Annoncer der
         </h2>
         <h2 className="scene-enter-d1" style={{
-          fontSize: "clamp(2.6rem,5vw,4.5rem)", fontWeight: 900, lineHeight: 1.0,
-          marginBottom: 20, letterSpacing: "-0.02em",
+          fontSize: "clamp(1.9rem,4vw,3.4rem)", fontWeight: 900, lineHeight: 1.0,
+          marginBottom: 8, letterSpacing: "-0.02em",
           color: "#6020c8", textShadow: "4px 4px 0px rgba(80,20,160,0.2)",
         }}>
           konverterer.
         </h2>
         <p className="scene-enter-d2" style={{
-          color: "#2a1848", fontSize: "clamp(1rem,1.7vw,1.1rem)", lineHeight: 1.7, marginBottom: 22, maxWidth: 400,
+          color: "#2a1848", fontSize: "clamp(0.85rem,1.4vw,1rem)", lineHeight: 1.45, marginBottom: 8, maxWidth: 400,
         }}>
           Få flere kunder med målrettede annoncer på LinkedIn og Meta.
-          Vi opsætter, tester og optimerer — du ser resultater.
+          Vi opsætter, tester og optimerer. Du ser resultater.
         </p>
 
-        {/* LinkedIn section */}
-        <div className="scene-enter-d2" style={{ marginBottom: 14 }}>
-          <p style={{ ...labelStyle, fontSize: 9, color: "#0A66C2", marginBottom: 8 }}>LINKEDIN ADS</p>
-          <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 7 }}>
-            {["B2B-målretning på beslutningstagere", "Sponsored Content & Lead Gen Forms", "Retargeting af besøgende"].map(p => (
-              <li key={p} style={{ display: "flex", alignItems: "center", gap: 10, color: "#1a1040", fontSize: 14, fontWeight: 500 }}>
-                <span style={{ width: 12, height: 12, background: "#0A66C2", display: "inline-block", flexShrink: 0 }} />
-                {p}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Meta section */}
-        <div className="scene-enter-d2" style={{ marginBottom: 22 }}>
-          <p style={{ ...labelStyle, fontSize: 9, color: "#1877F2", marginBottom: 8 }}>META ADS</p>
-          <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 7 }}>
-            {["Facebook & Instagram annoncer", "Lookalike audiences & remarketing", "A/B-test af kreativt indhold"].map(p => (
-              <li key={p} style={{ display: "flex", alignItems: "center", gap: 10, color: "#1a1040", fontSize: 14, fontWeight: 500 }}>
-                <span style={{ width: 12, height: 12, background: "#1877F2", display: "inline-block", flexShrink: 0 }} />
-                {p}
-              </li>
-            ))}
-          </ul>
+        <div className="scene-enter-d2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 16px", marginBottom: 10 }}>
+          {/* LinkedIn */}
+          <div>
+            <p style={{ ...labelStyle, fontSize: 7, color: "#0A66C2", marginBottom: 3 }}>LINKEDIN ADS</p>
+            <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 2 }}>
+              {["B2B-målretning på beslutningstagere", "Sponsored Content & Lead Gen", "Retargeting af besøgende"].map(p => (
+                <li key={p} style={{ display: "flex", alignItems: "center", gap: 6, color: "#1a1040", fontSize: 12, fontWeight: 500 }}>
+                  <span style={{ width: 10, height: 10, background: "#0A66C2", display: "inline-block", flexShrink: 0 }} />
+                  {p}
+                </li>
+              ))}
+            </ul>
+          </div>
+          {/* Meta */}
+          <div>
+            <p style={{ ...labelStyle, fontSize: 7, color: "#1877F2", marginBottom: 3 }}>META ADS</p>
+            <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 2 }}>
+              {["Facebook & Instagram annoncer", "Lookalike audiences", "A/B-test af kreativt"].map(p => (
+                <li key={p} style={{ display: "flex", alignItems: "center", gap: 6, color: "#1a1040", fontSize: 12, fontWeight: 500 }}>
+                  <span style={{ width: 10, height: 10, background: "#1877F2", display: "inline-block", flexShrink: 0 }} />
+                  {p}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <div className="scene-enter-d3">
           <button onClick={() => goTo(4)} className="cta-btn"
-            style={{ ...labelStyle, padding: "12px 20px", background: "#6020c8", color: "white", border: "none", cursor: "pointer", boxShadow: "4px 4px 0px #300870" }}>
+            style={{ ...labelStyle, padding: "10px 16px", background: "#6020c8", color: "white", border: "none", cursor: "pointer", boxShadow: "4px 4px 0px #300870" }}>
             KONTAKT MIG ▶
           </button>
         </div>
@@ -614,7 +636,7 @@ function SceneMarkedsforing({ goTo }: { goTo: (i: number) => void }) {
 }
 
 /* ────────────────────────────────────────────────────────────
-   SCENE 5 — KONTAKT
+   SCENE 5 KONTAKT
    ──────────────────────────────────────────────────────────── */
 function SceneKontakt() {
   const [name, setName] = useState("");
@@ -648,10 +670,10 @@ function SceneKontakt() {
   }
 
   const inputStyle: React.CSSProperties = {
-    width: "100%", padding: "clamp(10px, 2.5vw, 14px) clamp(12px, 3vw, 16px)",
+    width: "100%", padding: "clamp(8px, 2vw, 11px) clamp(10px, 2.5vw, 14px)",
     border: "3px solid #0a0820",
     background: "white", color: "#0a0820",
-    fontSize: "clamp(14px, 2.5vw, 16px)", outline: "none",
+    fontSize: "clamp(13px, 2.2vw, 15px)", outline: "none",
     fontFamily: "Inter, sans-serif",
     boxSizing: "border-box",
   };
@@ -677,35 +699,35 @@ function SceneKontakt() {
       </div>
 
       {/* Content */}
-      <div className="absolute z-10" style={{ left: "5%", top: "7%", maxWidth: "min(480px, 90vw)" }}>
-        <p className="scene-enter" style={{ ...labelStyle, color: "#c08000", marginBottom: 18 }}>
+      <div className="absolute z-10" style={{ left: "5%", top: "5%", maxWidth: "min(480px, 90vw)" }}>
+        <p className="scene-enter" style={{ ...labelStyle, color: "#c08000", marginBottom: 10, fontSize: 10 }}>
           ▶ LEVEL 04 KONTAKT
         </p>
         <h2 className="scene-enter-d1" style={{
-          fontSize: "clamp(2.6rem,5vw,4.5rem)", fontWeight: 900, lineHeight: 1.0,
-          color: "#0a0820", marginBottom: 6, letterSpacing: "-0.02em",
+          fontSize: "clamp(2.2rem,4.5vw,3.8rem)", fontWeight: 900, lineHeight: 1.0,
+          color: "#0a0820", marginBottom: 4, letterSpacing: "-0.02em",
         }}>
           Tag fat i
         </h2>
         <h2 className="scene-enter-d1" style={{
-          fontSize: "clamp(2.6rem,5vw,4.5rem)", fontWeight: 900, lineHeight: 1.0,
-          marginBottom: 16, letterSpacing: "-0.02em",
+          fontSize: "clamp(2.2rem,4.5vw,3.8rem)", fontWeight: 900, lineHeight: 1.0,
+          marginBottom: 10, letterSpacing: "-0.02em",
           color: "#c08000", textShadow: "4px 4px 0px rgba(150,100,0,0.2)",
         }}>
           mig.
         </h2>
         <a href="tel:+4531552108" className="scene-enter-d1"
-          style={{ ...labelStyle, display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 18, color: "#0a0820", textDecoration: "none", padding: "11px 16px", border: "3px solid #0a0820", background: "white" }}>
+          style={{ ...labelStyle, display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 12, color: "#0a0820", textDecoration: "none", padding: "9px 14px", border: "3px solid #0a0820", background: "white", fontSize: 10 }}>
           ☎ +45 31 55 21 08
         </a>
 
         {status === "sent" ? (
-          <div style={{ padding: "20px 24px", border: "4px solid #008030", background: "white", textAlign: "center" }}>
-            <p style={{ ...labelStyle, color: "#008030", marginBottom: 8 }}>BESKED SENDT!</p>
+          <div style={{ padding: "14px 18px", border: "4px solid #008030", background: "white", textAlign: "center" }}>
+            <p style={{ ...labelStyle, color: "#008030", marginBottom: 4, fontSize: 9 }}>BESKED SENDT!</p>
             <p style={{ color: "#1a3020", fontSize: 15 }}>Jeg vender tilbage hurtigst muligt.</p>
           </div>
         ) : (
-          <form className="scene-enter-d2" onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "clamp(10px, 2vw, 14px)" }}>
+          <form className="scene-enter-d2" onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "clamp(8px, 1.5vw, 10px)" }}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(8px, 2vw, 12px)" }}>
               <div>
                 <label style={{ ...labelStyle, display: "block", fontSize: "clamp(8px, 1.8vw, 10px)", color: "#6a5820", marginBottom: 4 }}>NAVN *</label>
@@ -722,13 +744,13 @@ function SceneKontakt() {
             </div>
             <div>
               <label style={{ ...labelStyle, display: "block", fontSize: "clamp(8px, 1.8vw, 10px)", color: "#6a5820", marginBottom: 4 }}>BESKED</label>
-              <textarea style={{ ...inputStyle, minHeight: "clamp(80px, 15vw, 120px)", resize: "vertical" }} placeholder="Din besked..." value={message} onChange={e => setMessage(e.target.value)} />
+              <textarea style={{ ...inputStyle, minHeight: "clamp(70px, 12vw, 100px)", resize: "vertical" }} placeholder="Din besked..." value={message} onChange={e => setMessage(e.target.value)} />
             </div>
             {status === "error" && (
               <p style={{ ...labelStyle, fontSize: "clamp(8px, 1.8vw, 10px)", color: "#e80010" }}>FEJL. {errorMsg || "Prøv igen."}</p>
             )}
             <button type="submit" disabled={status === "sending"} className="cta-btn"
-              style={{ ...labelStyle, padding: "clamp(11px, 2.5vw, 14px) clamp(18px, 4vw, 24px)", fontSize: "clamp(9px, 2vw, 11px)", background: status === "sending" ? "#a08000" : "#c08000", color: "white", border: "none", cursor: status === "sending" ? "not-allowed" : "pointer", boxShadow: status === "sending" ? "none" : "4px 4px 0px #604000", marginTop: 4 }}>
+              style={{ ...labelStyle, padding: "clamp(9px, 2vw, 11px) clamp(14px, 3vw, 20px)", fontSize: "clamp(8px, 1.8vw, 10px)", background: status === "sending" ? "#a08000" : "#c08000", color: "white", border: "none", cursor: status === "sending" ? "not-allowed" : "pointer", boxShadow: status === "sending" ? "none" : "4px 4px 0px #604000", marginTop: 2 }}>
               {status === "sending" ? "SENDER..." : "SEND BESKED ▶"}
             </button>
           </form>
@@ -786,7 +808,7 @@ export default function Home() {
 
   return (
     <>
-      {/* Scanlines — subtle on light bg */}
+      {/* Scanlines: subtle on light bg */}
       <div className="scanline-overlay" style={{ opacity: 0.4 }} />
 
       {/* Top pixel progress bar */}
@@ -798,7 +820,7 @@ export default function Home() {
         transition: "width 0.2s steps(16, end)",
       }} />
 
-      {/* HUD — top right */}
+      {/* HUD: top right */}
       <div style={{
         position: "fixed", top: 14, right: 18, zIndex: 100,
         display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4,
@@ -864,10 +886,10 @@ export default function Home() {
         <SceneKontakt />
       </div>
 
-      {/* Mikkel — faces right, looks up at text */}
+      {/* Mikkel: faces right, looks up at text */}
       <div style={{
         position: "fixed",
-        bottom: "13vh",
+        bottom: "11vh",
         left: "50%",
         transform: "translateX(-50%)",
         zIndex: 30,
