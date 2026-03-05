@@ -4,19 +4,32 @@ import { useRef, useState, useCallback, useEffect } from "react";
 
 /* ────────────────────────────────────────────────────────────
    MIKKEL CHARACTER
-   Faces RIGHT (scaleX -1), looks UP (pupils at cy=26)
+   scene 0: looking up (default)
+   scene 1: pointing at laptop (excited)
+   scene 2: WOW — both arms up, open mouth, "!!"
+   scene 3: thumbs up + wink
+   scene 4: call me 🤙, looking straight at viewer
    ──────────────────────────────────────────────────────────── */
-function MikkelCharacter({ walking }: { walking: boolean }) {
+function MikkelCharacter({ walking, scene = 0 }: { walking: boolean; scene?: number }) {
+  const headRot = [−12, −8, −20, −4,  0][scene] ?? −12;
+  const pupilCy = [ 26,  27,  23,  28, 30][scene] ?? 26;
+  const browY   = scene === 2 ? 14 : 20;
+  const eyeR    = scene === 2 ? 7  :  6;
+  const pupilR  = scene === 2 ? 3.8 : 3.2;
+  const wink    = scene === 3; // wink left eye (screen-right after flip)
+
+  const mouthPath = [
+    "M36,41 Q42,47 48,41",   // 0 slight smile
+    "M34,40 Q42,50 50,40",   // 1 excited smile
+    "",                       // 2 handled separately (open O)
+    "M33,39 Q42,52 51,39",   // 3 big grin
+    "M36,41 Q42,47 48,41",   // 4 warm smile
+  ][scene] ?? "M36,41 Q42,47 48,41";
+
   return (
     <div
       className={walking ? "is-walking" : ""}
-      style={{
-        width: 96,
-        height: 154,
-        /* flip to face right */
-        transform: "scaleX(-1)",
-        filter: "drop-shadow(0 6px 14px rgba(0,0,0,0.25))",
-      }}
+      style={{ width: 96, height: 154, transform: "scaleX(-1)", filter: "drop-shadow(0 6px 14px rgba(0,0,0,0.25))" }}
     >
       <svg viewBox="0 0 84 136" xmlns="http://www.w3.org/2000/svg" overflow="visible">
         <ellipse cx="42" cy="134" rx="22" ry="4" fill="rgba(0,0,0,0.12)" />
@@ -37,44 +50,99 @@ function MikkelCharacter({ walking }: { walking: boolean }) {
           <rect x="30" y="50" width="24" height="18" rx="4" fill="#111111" />
           <rect x="32" y="50" width="20" height="10" rx="3" fill="#1a1a1a" />
 
-          {/* Arms */}
+          {/* Left arm (= screen-right after scaleX flip) */}
           <g className="char-arm-left">
-            <path d="M7,63 Q4,67 4,82 Q4,93 12,95 L18,93 L20,68 L14,61 Z" fill="#111111" />
-            <circle cx="11" cy="96" r="7" fill="#f3c49e" />
+            {scene === 4 ? (
+              // 🤙 Call me — arm raised to ear
+              <>
+                <path d="M14,61 Q10,54 10,42 Q10,30 14,24 L19,26 L20,58 L18,62 Z" fill="#111111" />
+                <circle cx="14" cy="20" r="6"  fill="#f3c49e" />
+                <rect   x="5"  y="14" width="10" height="7" rx="3.5" fill="#f3c49e" />
+                <rect   x="12" y="8"  width="6"  height="13" rx="3"  fill="#f3c49e" />
+              </>
+            ) : scene === 2 ? (
+              // WOW — left arm raised high
+              <>
+                <path d="M14,61 Q5,52 2,40 Q0,30 5,24 L11,28 L18,58 Z" fill="#111111" />
+                <circle cx="4" cy="22" r="7" fill="#f3c49e" />
+              </>
+            ) : scene === 1 ? (
+              // Pointing toward laptop (upper-left in SVG = upper-right on screen)
+              <>
+                <path d="M14,61 Q8,55 4,45 Q1,35 5,27 L11,31 L18,58 Z" fill="#111111" />
+                <circle cx="4" cy="25" r="7" fill="#f3c49e" />
+              </>
+            ) : scene === 3 ? (
+              // Thumbs up
+              <>
+                <path d="M14,61 Q8,55 6,45 Q6,35 10,29 L16,33 L20,58 Z" fill="#111111" />
+                <rect x="6"  y="27" width="13" height="10" rx="3"   fill="#f3c49e" />
+                <rect x="7"  y="14" width="8"  height="15" rx="4"   fill="#f3c49e" />
+              </>
+            ) : (
+              // Default — arm down
+              <>
+                <path d="M7,63 Q4,67 4,82 Q4,93 12,95 L18,93 L20,68 L14,61 Z" fill="#111111" />
+                <circle cx="11" cy="96" r="7" fill="#f3c49e" />
+              </>
+            )}
           </g>
+
+          {/* Right arm (= screen-left after scaleX flip) */}
           <g className="char-arm-right">
-            <path d="M77,63 Q80,67 80,82 Q80,93 72,95 L66,93 L64,68 L70,61 Z" fill="#111111" />
-            <circle cx="73" cy="96" r="7" fill="#f3c49e" />
+            {scene === 2 ? (
+              // WOW — right arm raised high
+              <>
+                <path d="M70,61 Q79,52 82,40 Q84,30 79,24 L73,28 L66,58 Z" fill="#111111" />
+                <circle cx="80" cy="22" r="7" fill="#f3c49e" />
+              </>
+            ) : (
+              <>
+                <path d="M77,63 Q80,67 80,82 Q80,93 72,95 L66,93 L64,68 L70,61 Z" fill="#111111" />
+                <circle cx="73" cy="96" r="7" fill="#f3c49e" />
+              </>
+            )}
           </g>
 
           {/* Neck */}
           <rect x="34" y="48" width="16" height="14" rx="4" fill="#f3c49e" />
 
-          {/* Head — tilted back slightly to look UP */}
-          <g transform="rotate(-12, 42, 34)">
+          {/* Head */}
+          <g transform={`rotate(${headRot}, 42, 34)`}>
             <circle cx="42" cy="34" r="26" fill="#f3c49e" />
-            {/* Jaw/chin shadow */}
             <path d="M20,37 Q20,55 42,59 Q64,55 64,37" fill="#d4a860" />
             <path d="M23,40 Q23,52 42,56 Q61,52 61,40" fill="#e0bc76" />
 
             {/* Eyes — whites */}
-            <circle cx="32" cy="30" r="6"   fill="white" />
-            <circle cx="52" cy="30" r="6"   fill="white" />
-            {/* Pupils shifted UP (cy=26) = looking up */}
-            <circle cx="32" cy="26" r="3.2" fill="#3868c8" />
-            <circle cx="52" cy="26" r="3.2" fill="#3868c8" />
-            <circle cx="32" cy="26" r="1.6" fill="#0a0e1a" />
-            <circle cx="52" cy="26" r="1.6" fill="#0a0e1a" />
-            {/* Catchlight */}
-            <circle cx="33" cy="25" r="1.1" fill="white" />
-            <circle cx="53" cy="25" r="1.1" fill="white" />
+            <circle cx="32" cy="30" r={eyeR} fill="white" />
+            <circle cx="52" cy="30" r={eyeR} fill="white" />
 
-            {/* Raised eyebrows (surprise/looking up) */}
-            <path d="M24,20 Q31,15 38,20" stroke="#8a6018" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-            <path d="M46,20 Q53,15 60,20" stroke="#8a6018" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+            {/* Left eye — wink on scene 3 */}
+            {wink ? (
+              <path d="M26,30 Q32,24 38,30" stroke="#c8922a" strokeWidth="3.5" fill="#f3c49e" strokeLinecap="round" />
+            ) : (
+              <>
+                <circle cx="32" cy={pupilCy} r={pupilR}       fill="#3868c8" />
+                <circle cx="32" cy={pupilCy} r={pupilR * 0.5} fill="#0a0e1a" />
+                <circle cx="33" cy={pupilCy - 1} r="1.1"      fill="white" />
+              </>
+            )}
 
-            {/* Mouth — slight smile */}
-            <path d="M36,41 Q42,47 48,41" stroke="#c06828" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+            {/* Right eye — always visible */}
+            <circle cx="52" cy={pupilCy} r={pupilR}       fill="#3868c8" />
+            <circle cx="52" cy={pupilCy} r={pupilR * 0.5} fill="#0a0e1a" />
+            <circle cx="53" cy={pupilCy - 1} r="1.1"      fill="white" />
+
+            {/* Eyebrows */}
+            <path d={`M24,${browY} Q31,${browY - 5} 38,${browY}`} stroke="#8a6018" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+            <path d={`M46,${browY} Q53,${browY - 5} 60,${browY}`} stroke="#8a6018" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+
+            {/* Mouth */}
+            {scene === 2 ? (
+              <ellipse cx="42" cy="45" rx="5" ry="5" fill="#8a3a10" />
+            ) : (
+              <path d={mouthPath} stroke="#c06828" strokeWidth="2" fill="none" strokeLinecap="round" />
+            )}
 
             {/* Hair */}
             <path d="M17,28 Q16,14 42,10 Q68,14 67,28 Q65,16 42,14 Q19,16 17,28 Z" fill="#c8922a" />
@@ -84,6 +152,14 @@ function MikkelCharacter({ walking }: { walking: boolean }) {
             <path d="M66,26 Q68,32 66,38 Q64,30 62,26" fill="#c8922a" />
           </g>
         </g>
+
+        {/* WOW reaction — pixel "!!" marks above head */}
+        {scene === 2 && (
+          <>
+            <text x="57" y="16" fontFamily="'Press Start 2P', monospace" fontSize="15" fill="#f8c800">!</text>
+            <text x="69" y="8"  fontFamily="'Press Start 2P', monospace" fontSize="10" fill="#e80010">!</text>
+          </>
+        )}
       </svg>
     </div>
   );
@@ -702,11 +778,12 @@ export default function Home() {
       <div style={{
         position: "fixed", top: 14, right: 18, zIndex: 100,
         display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4,
+        maxWidth: "45vw",
       }}>
         <span style={{ ...labelStyle, fontSize: 8, color: "rgba(0,0,0,0.3)" }}>
           {(scene + 1).toString().padStart(2, "0")} / 05
         </span>
-        <span style={{ ...labelStyle, fontSize: 10, color: scenes[scene].color }}>
+        <span style={{ ...labelStyle, fontSize: 8, color: scenes[scene].color, textAlign: "right", lineHeight: 1.4 }}>
           {scenes[scene].label}
         </span>
       </div>
@@ -772,7 +849,7 @@ export default function Home() {
         zIndex: 30,
         pointerEvents: "none",
       }}>
-        <MikkelCharacter walking={walking} />
+        <MikkelCharacter walking={walking} scene={scene} />
       </div>
     </>
   );
