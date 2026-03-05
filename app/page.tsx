@@ -118,7 +118,7 @@ const TRANSLATIONS = {
     hudLabels: ["HI", "WEBSITES", "AUTOMATION", "MARKETING", "CONTACT"],
     scrollHint: "▶ SCROLL",
   },
-} as const;
+};
 
 type T = typeof TRANSLATIONS["da"];
 
