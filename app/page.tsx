@@ -3,6 +3,126 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 
 /* ────────────────────────────────────────────────────────────
+   TRANSLATIONS
+   ──────────────────────────────────────────────────────────── */
+const TRANSLATIONS = {
+  da: {
+    badge: "ÅBEN FOR PROJEKTER",
+    introP1: "Datamatiker. Uddannet coach (NLP). Født 97. Tidl. selvstændig forsikringsagent.",
+    introP2a: "I dag laver jeg",
+    introP2b: "og",
+    introP2c: "der konverterer,",
+    introP2d: "der sparer timer",
+    introP2e: "og",
+    introP2f: "folk faktisk bruger.",
+    cta1: "KOM I GANG",
+    cta2: "SE MERE ▶",
+    level1Label: "▶ LEVEL 01 HJEMMESIDER",
+    level1H1: "Skarpe",
+    level1H2: "hjemmesider.",
+    level1Body: "Ingen tunge CMS-systemer. Ingen måneder i venteposition. Hurtig, skarp hjemmeside klar inden for få uger.",
+    level1Features: ["Next.js + Tailwind CSS", "Mobilvenlig & tilgængelig", "SEO-optimeret fra dag ét", "Hostet gratis på Vercel"],
+    ctaContact: "KONTAKT MIG ▶",
+    level2Label: "▶ LEVEL 02 AUTOMATISERING",
+    level2H1: "Intelligente",
+    level2H2: "automatiseringer.",
+    level2Body: "Har du opgaver der gentages igen og igen? Dem løser vi én gang, og så kører det selv.",
+    level2GhlDesc: "Kan bl.a.: CRM, workflows, funnels, pipelines, kalender, 500+ integrationer",
+    level2NoSetup: "Ingen opsætning",
+    level2BoxRightLabel: "HOS MIG",
+    level2SameFeatures: "✓ Samme platform og features",
+    level2Template: "✓ + Template inkluderet",
+    level2Setup: "✓ + Opsætning inkluderet",
+    level2Features: ["AI-drevne workflows", "CRM & systemintegrationer", "Automatiske datapipelines", "Bots & agenter der virker"],
+    level3Label: "▶ LEVEL 03 MARKEDSFØRING",
+    level3H1: "Annoncer der",
+    level3H2: "konverterer.",
+    level3Body: "Få flere kunder med målrettede annoncer på LinkedIn og Meta. Vi opsætter, tester og optimerer. Du ser resultater.",
+    linkedinFeatures: ["B2B-målretning på beslutningstagere", "Sponsored Content & Lead Gen", "Retargeting af besøgende"],
+    metaFeatures: ["Facebook & Instagram annoncer", "Lookalike audiences", "A/B-test af kreativt"],
+    level4Label: "▶ LEVEL 04 KONTAKT",
+    level4H1: "Tag fat i",
+    level4H2: "mig.",
+    formSentBadge: "BESKED SENDT!",
+    formSentMsg: "Jeg vender tilbage hurtigst muligt.",
+    formName: "NAVN *",
+    formPhone: "TELEFON *",
+    formWebsite: "HJEMMESIDE *",
+    formMessage: "BESKED",
+    formNamePh: "Dit navn",
+    formPhonePh: "Dit nr.",
+    formWebsitePh: "Din hjemmeside (fx godik.dk)",
+    formMessagePh: "Din besked...",
+    formError: "FEJL.",
+    formErrorDefault: "Prøv igen.",
+    formErrorServer: "Noget gik galt",
+    formErrorConn: "Kunne ikke oprette forbindelse",
+    formSend: "SEND BESKED ▶",
+    formSending: "SENDER...",
+    hudLabels: ["HEJ", "HJEMMESIDER", "AUTOMATISERING", "MARKEDSFØRING", "KONTAKT"],
+    scrollHint: "▶ SCROLL",
+  },
+  en: {
+    badge: "OPEN FOR PROJECTS",
+    introP1: "Computer scientist. Certified NLP coach. Born '97. Former independent insurance agent.",
+    introP2a: "Today I build",
+    introP2b: "and",
+    introP2c: "ads that convert,",
+    introP2d: "that save hours,",
+    introP2e: "and",
+    introP2f: "people actually use.",
+    cta1: "GET STARTED",
+    cta2: "SEE MORE ▶",
+    level1Label: "▶ LEVEL 01 WEBSITES",
+    level1H1: "Sharp",
+    level1H2: "websites.",
+    level1Body: "No heavy CMS systems. No months in a queue. A fast, sharp website ready within a few weeks.",
+    level1Features: ["Next.js + Tailwind CSS", "Mobile-friendly & accessible", "SEO-optimized from day one", "Hosted free on Vercel"],
+    ctaContact: "CONTACT ME ▶",
+    level2Label: "▶ LEVEL 02 AUTOMATION",
+    level2H1: "Intelligent",
+    level2H2: "automations.",
+    level2Body: "Do you have tasks that repeat over and over? We solve them once, and then they run themselves.",
+    level2GhlDesc: "Includes: CRM, workflows, funnels, pipelines, calendar, 500+ integrations",
+    level2NoSetup: "No setup included",
+    level2BoxRightLabel: "WITH ME",
+    level2SameFeatures: "✓ Same platform and features",
+    level2Template: "✓ + Template included",
+    level2Setup: "✓ + Setup included",
+    level2Features: ["AI-driven workflows", "CRM & system integrations", "Automated data pipelines", "Bots & agents that work"],
+    level3Label: "▶ LEVEL 03 MARKETING",
+    level3H1: "Ads that",
+    level3H2: "convert.",
+    level3Body: "Get more customers with targeted ads on LinkedIn and Meta. We set up, test and optimize. You see results.",
+    linkedinFeatures: ["B2B targeting of decision-makers", "Sponsored Content & Lead Gen", "Retargeting of visitors"],
+    metaFeatures: ["Facebook & Instagram ads", "Lookalike audiences", "A/B testing of creatives"],
+    level4Label: "▶ LEVEL 04 CONTACT",
+    level4H1: "Get in",
+    level4H2: "touch.",
+    formSentBadge: "MESSAGE SENT!",
+    formSentMsg: "I will get back to you as soon as possible.",
+    formName: "NAME *",
+    formPhone: "PHONE *",
+    formWebsite: "WEBSITE *",
+    formMessage: "MESSAGE",
+    formNamePh: "Your name",
+    formPhonePh: "Your number",
+    formWebsitePh: "Your website (e.g. godik.dk)",
+    formMessagePh: "Your message...",
+    formError: "ERROR.",
+    formErrorDefault: "Try again.",
+    formErrorServer: "Something went wrong",
+    formErrorConn: "Could not connect",
+    formSend: "SEND MESSAGE ▶",
+    formSending: "SENDING...",
+    hudLabels: ["HI", "WEBSITES", "AUTOMATION", "MARKETING", "CONTACT"],
+    scrollHint: "▶ SCROLL",
+  },
+} as const;
+
+type T = typeof TRANSLATIONS["da"];
+
+/* ────────────────────────────────────────────────────────────
    MIKKEL CHARACTER
    scene 0: looking up (default)
    scene 1: pointing at laptop (excited)
@@ -214,9 +334,80 @@ const labelStyle: React.CSSProperties = {
 };
 
 /* ────────────────────────────────────────────────────────────
+   LANGUAGE POPUP
+   ──────────────────────────────────────────────────────────── */
+function LanguagePopup({ onSelect }: { onSelect: (lang: "da" | "en") => void }) {
+  return (
+    <div style={{
+      position: "fixed", inset: 0, zIndex: 9999,
+      background: "#0a0820",
+      display: "flex", flexDirection: "column",
+      alignItems: "center", justifyContent: "center",
+      gap: 32,
+    }}>
+      {/* Pixel border box */}
+      <div style={{
+        border: "4px solid #f8c800",
+        padding: "40px 48px",
+        display: "flex", flexDirection: "column",
+        alignItems: "center", gap: 28,
+        boxShadow: "8px 8px 0px #c8a000",
+        background: "#0e0c2a",
+      }}>
+        <p style={{
+          ...labelStyle,
+          fontSize: 10,
+          color: "#f8c800",
+          textAlign: "center",
+          lineHeight: 2,
+        }}>
+          CHOOSE YOUR LANGUAGE<br />
+          <span style={{ color: "rgba(248,200,0,0.5)" }}>VÆLG DIT SPROG</span>
+        </p>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 14, width: "100%" }}>
+          <button
+            onClick={() => onSelect("da")}
+            style={{
+              ...labelStyle,
+              fontSize: 11,
+              padding: "14px 32px",
+              background: "#e80010",
+              color: "white",
+              border: "none",
+              cursor: "pointer",
+              boxShadow: "4px 4px 0px #880008",
+              letterSpacing: "0.1em",
+            }}
+          >
+            🇩🇰  DANSK
+          </button>
+          <button
+            onClick={() => onSelect("en")}
+            style={{
+              ...labelStyle,
+              fontSize: 11,
+              padding: "14px 32px",
+              background: "#0038c8",
+              color: "white",
+              border: "none",
+              cursor: "pointer",
+              boxShadow: "4px 4px 0px #001870",
+              letterSpacing: "0.1em",
+            }}
+          >
+            🇬🇧  ENGLISH
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
    SCENE 1 HEJ
    ──────────────────────────────────────────────────────────── */
-function SceneHej({ goTo }: { goTo: (i: number) => void }) {
+function SceneHej({ goTo, t }: { goTo: (i: number) => void; t: T }) {
   return (
     <div className="relative flex-shrink-0 overflow-hidden"
       style={{ width: "100vw", height: "100vh", background: "#d8eeff" }}>
@@ -257,7 +448,7 @@ function SceneHej({ goTo }: { goTo: (i: number) => void }) {
           marginBottom: 12,
         }}>
           <span style={{ width: 8, height: 8, background: "white", display: "inline-block", animation: "blink 1s step-end infinite" }} />
-          ÅBEN FOR PROJEKTER
+          {t.badge}
         </div>
 
         <h1 className="scene-enter-d1" style={{
@@ -273,20 +464,20 @@ function SceneHej({ goTo }: { goTo: (i: number) => void }) {
           fontSize: "clamp(0.95rem,1.7vw,1.1rem)", color: "#2a2848",
           lineHeight: 1.55, marginBottom: 14, maxWidth: 440,
         }}>
-          Datamatiker. Uddannet coach (NLP). Født 97. Tidl. selvstændig forsikringsagent.
-          I dag laver jeg <strong style={{ color: "#e80010" }}>LinkedIn</strong> og <strong style={{ color: "#1877F2" }}>Meta ads</strong> der konverterer,
-          <strong style={{ color: "#0038c8" }}> automatiseringer</strong> der sparer timer
-          og <strong style={{ color: "#38a830" }}>hjemmesider</strong> folk faktisk bruger.
+          {t.introP1}{" "}
+          {t.introP2a} <strong style={{ color: "#e80010" }}>LinkedIn</strong> {t.introP2b} <strong style={{ color: "#1877F2" }}>Meta ads</strong> {t.introP2c}
+          <strong style={{ color: "#0038c8" }}> automations</strong> {t.introP2d}{" "}
+          {t.introP2e} <strong style={{ color: "#38a830" }}>websites</strong> {t.introP2f}
         </p>
 
         <div className="scene-enter-d3" style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
           <button onClick={() => goTo(4)} className="cta-btn"
             style={{ ...labelStyle, padding: "10px 18px", background: "#e80010", color: "white", border: "none", cursor: "pointer", boxShadow: "4px 4px 0px #880008" }}>
-            KOM I GANG
+            {t.cta1}
           </button>
           <button onClick={() => goTo(1)}
             style={{ ...labelStyle, background: "none", border: "3px solid #0a0820", cursor: "pointer", color: "#0a0820", padding: "8px 14px" }}>
-            SE MERE ▶
+            {t.cta2}
           </button>
         </div>
       </div>
@@ -299,7 +490,7 @@ function SceneHej({ goTo }: { goTo: (i: number) => void }) {
 /* ────────────────────────────────────────────────────────────
    SCENE 2 HJEMMESIDER
    ──────────────────────────────────────────────────────────── */
-function SceneHjemmesider({ goTo }: { goTo: (i: number) => void }) {
+function SceneHjemmesider({ goTo, t }: { goTo: (i: number) => void; t: T }) {
   return (
     <div className="relative flex-shrink-0 overflow-hidden"
       style={{ width: "100vw", height: "100vh", background: "#e8f0ff" }}>
@@ -335,29 +526,28 @@ function SceneHjemmesider({ goTo }: { goTo: (i: number) => void }) {
       {/* Content */}
       <div className="absolute z-10" style={{ left: "5%", top: "5%", maxWidth: 480, background: "rgba(255,255,255,0.88)", padding: "16px 20px" }}>
         <p className="scene-enter" style={{ ...labelStyle, color: "#0038c8", marginBottom: 10, fontSize: 10 }}>
-          ▶ LEVEL 01 HJEMMESIDER
+          {t.level1Label}
         </p>
         <h2 className="scene-enter-d1" style={{
           fontSize: "clamp(2.2rem,4.5vw,3.8rem)", fontWeight: 900, lineHeight: 1.0,
           color: "#0a0820", marginBottom: 4, letterSpacing: "-0.02em",
         }}>
-          Skarpe
+          {t.level1H1}
         </h2>
         <h2 className="scene-enter-d1" style={{
           fontSize: "clamp(2.2rem,4.5vw,3.8rem)", fontWeight: 900, lineHeight: 1.0,
           marginBottom: 12, letterSpacing: "-0.02em",
           color: "#0038c8", textShadow: "4px 4px 0px rgba(0,30,150,0.2)",
         }}>
-          hjemmesider.
+          {t.level1H2}
         </h2>
         <p className="scene-enter-d2" style={{
           color: "#2a2848", fontSize: "clamp(0.9rem,1.5vw,1.05rem)", lineHeight: 1.5, marginBottom: 12, maxWidth: 400,
         }}>
-          Ingen tunge CMS-systemer. Ingen måneder i venteposition.
-          Hurtig, skarp hjemmeside klar inden for få uger.
+          {t.level1Body}
         </p>
         <ul className="scene-enter-d2" style={{ listStyle: "none", padding: 0, marginBottom: 12, display: "flex", flexDirection: "column", gap: 5 }}>
-          {["Next.js + Tailwind CSS", "Mobilvenlig & tilgængelig", "SEO-optimeret fra dag ét", "Hostet gratis på Vercel"].map(p => (
+          {t.level1Features.map(p => (
             <li key={p} style={{ display: "flex", alignItems: "center", gap: 8, color: "#3a3860", fontSize: 13, fontWeight: 500 }}>
               <span style={{ width: 10, height: 10, background: "#0038c8", display: "inline-block", flexShrink: 0 }} />
               {p}
@@ -367,7 +557,7 @@ function SceneHjemmesider({ goTo }: { goTo: (i: number) => void }) {
         <div className="scene-enter-d3">
           <button onClick={() => goTo(4)} className="cta-btn"
             style={{ ...labelStyle, padding: "10px 16px", background: "#0038c8", color: "white", border: "none", cursor: "pointer", boxShadow: "4px 4px 0px #001870" }}>
-            KONTAKT MIG ▶
+            {t.ctaContact}
           </button>
         </div>
       </div>
@@ -380,7 +570,7 @@ function SceneHjemmesider({ goTo }: { goTo: (i: number) => void }) {
 /* ────────────────────────────────────────────────────────────
    SCENE 3 AUTOMATISERING
    ──────────────────────────────────────────────────────────── */
-function SceneAutomatisering({ goTo }: { goTo: (i: number) => void }) {
+function SceneAutomatisering({ goTo, t }: { goTo: (i: number) => void; t: T }) {
   return (
     <div className="relative flex-shrink-0 overflow-hidden"
       style={{ width: "100vw", height: "100vh", background: "#e0f5e8" }}>
@@ -433,28 +623,28 @@ function SceneAutomatisering({ goTo }: { goTo: (i: number) => void }) {
       {/* Content: kompakt */}
       <div className="absolute z-20" style={{ left: "5%", top: "5%", maxWidth: "min(480px, 58vw)", background: "rgba(220,255,230,0.90)", padding: "16px 20px" }}>
         <p className="scene-enter" style={{ ...labelStyle, color: "#008030", marginBottom: 8, fontSize: 10 }}>
-          ▶ LEVEL 02 AUTOMATISERING
+          {t.level2Label}
         </p>
         <h2 className="scene-enter-d1" style={{
           fontSize: "clamp(1.9rem,4vw,3.4rem)", fontWeight: 900, lineHeight: 1.0,
           color: "#0a0820", marginBottom: 2, letterSpacing: "-0.02em",
         }}>
-          Intelligente
+          {t.level2H1}
         </h2>
         <h2 className="scene-enter-d1" style={{
           fontSize: "clamp(1.9rem,4vw,3.4rem)", fontWeight: 900, lineHeight: 1.0,
           marginBottom: 6, letterSpacing: "-0.02em",
           color: "#008030", textShadow: "4px 4px 0px rgba(0,80,30,0.2)",
         }}>
-          automatiseringer.
+          {t.level2H2}
         </h2>
         <p className="scene-enter-d2" style={{
           color: "#0a1820", fontSize: "clamp(0.9rem,1.5vw,1.05rem)", lineHeight: 1.5, marginBottom: 6, maxWidth: 400, fontWeight: 500,
         }}>
-          Har du opgaver der gentages igen og igen? Dem løser vi én gang, og så kører det selv.
+          {t.level2Body}
         </p>
         <p className="scene-enter-d2" style={{ ...labelStyle, fontSize: 8, color: "#008030", marginBottom: 2 }}>GoHighLevel</p>
-        <p className="scene-enter-d2" style={{ color: "#1a3020", fontSize: 11, marginBottom: 6, maxWidth: 420 }}>Kan bl.a.: CRM, workflows, funnels, pipelines, kalender, 500+ integrationer</p>
+        <p className="scene-enter-d2" style={{ color: "#1a3020", fontSize: 11, marginBottom: 6, maxWidth: 420 }}>{t.level2GhlDesc}</p>
         <div className="scene-enter-d2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginBottom: 8, fontSize: 12 }}>
           <div style={{ background: "#1a3020", color: "#c0c0c0", padding: 6, border: "2px solid #0a0820", fontFamily: "Inter, sans-serif" }}>
             <p style={{ ...labelStyle, fontSize: 7, marginBottom: 3, color: "#aaa" }}>GoHighLevel</p>
@@ -462,21 +652,21 @@ function SceneAutomatisering({ goTo }: { goTo: (i: number) => void }) {
             <ul style={{ listStyle: "none", padding: 0, margin: 0, lineHeight: 1.4, fontSize: 11 }}>
               <li>3 Sub-Accounts</li>
               <li>Unlimited contacts</li>
-              <li>Ingen opsætning</li>
+              <li>{t.level2NoSetup}</li>
             </ul>
           </div>
           <div style={{ background: "#008030", color: "white", padding: 6, border: "2px solid #004018", fontFamily: "Inter, sans-serif" }}>
-            <p style={{ ...labelStyle, fontSize: 7, marginBottom: 3, opacity: 0.95 }}>HOS MIG</p>
+            <p style={{ ...labelStyle, fontSize: 7, marginBottom: 3, opacity: 0.95 }}>{t.level2BoxRightLabel}</p>
             <p style={{ fontWeight: 700, fontSize: 14, marginBottom: 4 }}>100 kr/md</p>
             <ul style={{ listStyle: "none", padding: 0, margin: 0, lineHeight: 1.4, fontSize: 11 }}>
-              <li>✓ Samme platform og features</li>
-              <li>✓ + Template inkluderet</li>
-              <li>✓ + Opsætning inkluderet</li>
+              <li>{t.level2SameFeatures}</li>
+              <li>{t.level2Template}</li>
+              <li>{t.level2Setup}</li>
             </ul>
           </div>
         </div>
         <ul className="scene-enter-d2" style={{ listStyle: "none", padding: 0, marginBottom: 10, display: "flex", flexDirection: "column", gap: 4 }}>
-          {["AI-drevne workflows", "CRM & systemintegrationer", "Automatiske datapipelines", "Bots & agenter der virker"].map(p => (
+          {t.level2Features.map(p => (
             <li key={p} style={{ display: "flex", alignItems: "center", gap: 6, color: "#0a1820", fontSize: 13, fontWeight: 500 }}>
               <span style={{ width: 10, height: 10, background: "#008030", display: "inline-block", flexShrink: 0 }} />
               {p}
@@ -486,7 +676,7 @@ function SceneAutomatisering({ goTo }: { goTo: (i: number) => void }) {
         <div className="scene-enter-d3">
           <button onClick={() => goTo(4)} className="cta-btn"
             style={{ ...labelStyle, padding: "10px 16px", background: "#008030", color: "white", border: "none", cursor: "pointer", boxShadow: "4px 4px 0px #004018" }}>
-            KONTAKT MIG ▶
+            {t.ctaContact}
           </button>
         </div>
       </div>
@@ -499,7 +689,7 @@ function SceneAutomatisering({ goTo }: { goTo: (i: number) => void }) {
 /* ────────────────────────────────────────────────────────────
    SCENE 4 MARKEDSFØRING
    ──────────────────────────────────────────────────────────── */
-function SceneMarkedsforing({ goTo }: { goTo: (i: number) => void }) {
+function SceneMarkedsforing({ goTo, t }: { goTo: (i: number) => void; t: T }) {
   return (
     <div className="relative flex-shrink-0 overflow-hidden"
       style={{ width: "100vw", height: "100vh", background: "#f0ebff" }}>
@@ -567,26 +757,25 @@ function SceneMarkedsforing({ goTo }: { goTo: (i: number) => void }) {
       {/* Content: kompakt */}
       <div className="absolute z-20" style={{ left: "5%", top: "5%", maxWidth: "min(480px, 58vw)", background: "rgba(248,240,255,0.90)", padding: "16px 20px" }}>
         <p className="scene-enter" style={{ ...labelStyle, color: "#6020c8", marginBottom: 6, fontSize: 10 }}>
-          ▶ LEVEL 03 MARKEDSFØRING
+          {t.level3Label}
         </p>
         <h2 className="scene-enter-d1" style={{
           fontSize: "clamp(1.9rem,4vw,3.4rem)", fontWeight: 900, lineHeight: 1.0,
           color: "#0a0820", marginBottom: 2, letterSpacing: "-0.02em",
         }}>
-          Annoncer der
+          {t.level3H1}
         </h2>
         <h2 className="scene-enter-d1" style={{
           fontSize: "clamp(1.9rem,4vw,3.4rem)", fontWeight: 900, lineHeight: 1.0,
           marginBottom: 8, letterSpacing: "-0.02em",
           color: "#6020c8", textShadow: "4px 4px 0px rgba(80,20,160,0.2)",
         }}>
-          konverterer.
+          {t.level3H2}
         </h2>
         <p className="scene-enter-d2" style={{
           color: "#2a1848", fontSize: "clamp(0.85rem,1.4vw,1rem)", lineHeight: 1.45, marginBottom: 8, maxWidth: 400,
         }}>
-          Få flere kunder med målrettede annoncer på LinkedIn og Meta.
-          Vi opsætter, tester og optimerer. Du ser resultater.
+          {t.level3Body}
         </p>
 
         <div className="scene-enter-d2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 16px", marginBottom: 10 }}>
@@ -594,7 +783,7 @@ function SceneMarkedsforing({ goTo }: { goTo: (i: number) => void }) {
           <div>
             <p style={{ ...labelStyle, fontSize: 7, color: "#0A66C2", marginBottom: 3 }}>LINKEDIN ADS</p>
             <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 2 }}>
-              {["B2B-målretning på beslutningstagere", "Sponsored Content & Lead Gen", "Retargeting af besøgende"].map(p => (
+              {t.linkedinFeatures.map(p => (
                 <li key={p} style={{ display: "flex", alignItems: "center", gap: 6, color: "#1a1040", fontSize: 12, fontWeight: 500 }}>
                   <span style={{ width: 10, height: 10, background: "#0A66C2", display: "inline-block", flexShrink: 0 }} />
                   {p}
@@ -606,7 +795,7 @@ function SceneMarkedsforing({ goTo }: { goTo: (i: number) => void }) {
           <div>
             <p style={{ ...labelStyle, fontSize: 7, color: "#1877F2", marginBottom: 3 }}>META ADS</p>
             <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 2 }}>
-              {["Facebook & Instagram annoncer", "Lookalike audiences", "A/B-test af kreativt"].map(p => (
+              {t.metaFeatures.map(p => (
                 <li key={p} style={{ display: "flex", alignItems: "center", gap: 6, color: "#1a1040", fontSize: 12, fontWeight: 500 }}>
                   <span style={{ width: 10, height: 10, background: "#1877F2", display: "inline-block", flexShrink: 0 }} />
                   {p}
@@ -619,7 +808,7 @@ function SceneMarkedsforing({ goTo }: { goTo: (i: number) => void }) {
         <div className="scene-enter-d3">
           <button onClick={() => goTo(4)} className="cta-btn"
             style={{ ...labelStyle, padding: "10px 16px", background: "#6020c8", color: "white", border: "none", cursor: "pointer", boxShadow: "4px 4px 0px #300870" }}>
-            KONTAKT MIG ▶
+            {t.ctaContact}
           </button>
         </div>
       </div>
@@ -632,7 +821,7 @@ function SceneMarkedsforing({ goTo }: { goTo: (i: number) => void }) {
 /* ────────────────────────────────────────────────────────────
    SCENE 5 KONTAKT
    ──────────────────────────────────────────────────────────── */
-function SceneKontakt() {
+function SceneKontakt({ t }: { t: T }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [website, setWebsite] = useState("");
@@ -655,11 +844,11 @@ function SceneKontakt() {
         setStatus("sent");
       } else {
         setStatus("error");
-        setErrorMsg(data.error || "Noget gik galt");
+        setErrorMsg(data.error || t.formErrorServer);
       }
     } catch {
       setStatus("error");
-      setErrorMsg("Kunne ikke oprette forbindelse");
+      setErrorMsg(t.formErrorConn);
     }
   }
 
@@ -695,53 +884,53 @@ function SceneKontakt() {
       {/* Content */}
       <div className="absolute z-10" style={{ left: "5%", top: "5%", maxWidth: "min(480px, 90vw)" }}>
         <p className="scene-enter" style={{ ...labelStyle, color: "#c08000", marginBottom: 10, fontSize: 10 }}>
-          ▶ LEVEL 04 KONTAKT
+          {t.level4Label}
         </p>
         <h2 className="scene-enter-d1" style={{
           fontSize: "clamp(2.2rem,4.5vw,3.8rem)", fontWeight: 900, lineHeight: 1.0,
           color: "#0a0820", marginBottom: 4, letterSpacing: "-0.02em",
         }}>
-          Tag fat i
+          {t.level4H1}
         </h2>
         <h2 className="scene-enter-d1" style={{
           fontSize: "clamp(2.2rem,4.5vw,3.8rem)", fontWeight: 900, lineHeight: 1.0,
           marginBottom: 10, letterSpacing: "-0.02em",
           color: "#c08000", textShadow: "4px 4px 0px rgba(150,100,0,0.2)",
         }}>
-          mig.
+          {t.level4H2}
         </h2>
 
         {status === "sent" ? (
           <div style={{ padding: "14px 18px", border: "4px solid #008030", background: "white", textAlign: "center" }}>
-            <p style={{ ...labelStyle, color: "#008030", marginBottom: 4, fontSize: 9 }}>BESKED SENDT!</p>
-            <p style={{ color: "#1a3020", fontSize: 15 }}>Jeg vender tilbage hurtigst muligt.</p>
+            <p style={{ ...labelStyle, color: "#008030", marginBottom: 4, fontSize: 9 }}>{t.formSentBadge}</p>
+            <p style={{ color: "#1a3020", fontSize: 15 }}>{t.formSentMsg}</p>
           </div>
         ) : (
           <form className="scene-enter-d2" onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "clamp(8px, 1.5vw, 10px)" }}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(8px, 2vw, 12px)" }}>
               <div>
-                <label style={{ ...labelStyle, display: "block", fontSize: "clamp(8px, 1.8vw, 10px)", color: "#6a5820", marginBottom: 4 }}>NAVN *</label>
-                <input style={inputStyle} type="text" required placeholder="Dit navn" value={name} onChange={e => setName(e.target.value)} />
+                <label style={{ ...labelStyle, display: "block", fontSize: "clamp(8px, 1.8vw, 10px)", color: "#6a5820", marginBottom: 4 }}>{t.formName}</label>
+                <input style={inputStyle} type="text" required placeholder={t.formNamePh} value={name} onChange={e => setName(e.target.value)} />
               </div>
               <div>
-                <label style={{ ...labelStyle, display: "block", fontSize: "clamp(8px, 1.8vw, 10px)", color: "#6a5820", marginBottom: 4 }}>TELEFON *</label>
-                <input style={inputStyle} type="tel" required placeholder="Dit nr." value={phone} onChange={e => setPhone(e.target.value)} />
+                <label style={{ ...labelStyle, display: "block", fontSize: "clamp(8px, 1.8vw, 10px)", color: "#6a5820", marginBottom: 4 }}>{t.formPhone}</label>
+                <input style={inputStyle} type="tel" required placeholder={t.formPhonePh} value={phone} onChange={e => setPhone(e.target.value)} />
               </div>
             </div>
             <div>
-              <label style={{ ...labelStyle, display: "block", fontSize: "clamp(8px, 1.8vw, 10px)", color: "#6a5820", marginBottom: 4 }}>HJEMMESIDE *</label>
-              <input style={inputStyle} type="text" required placeholder="Din hjemmeside (fx godik.dk)" value={website} onChange={e => setWebsite(e.target.value)} />
+              <label style={{ ...labelStyle, display: "block", fontSize: "clamp(8px, 1.8vw, 10px)", color: "#6a5820", marginBottom: 4 }}>{t.formWebsite}</label>
+              <input style={inputStyle} type="text" required placeholder={t.formWebsitePh} value={website} onChange={e => setWebsite(e.target.value)} />
             </div>
             <div>
-              <label style={{ ...labelStyle, display: "block", fontSize: "clamp(8px, 1.8vw, 10px)", color: "#6a5820", marginBottom: 4 }}>BESKED</label>
-              <textarea style={{ ...inputStyle, minHeight: "clamp(70px, 12vw, 100px)", resize: "vertical" }} placeholder="Din besked..." value={message} onChange={e => setMessage(e.target.value)} />
+              <label style={{ ...labelStyle, display: "block", fontSize: "clamp(8px, 1.8vw, 10px)", color: "#6a5820", marginBottom: 4 }}>{t.formMessage}</label>
+              <textarea style={{ ...inputStyle, minHeight: "clamp(70px, 12vw, 100px)", resize: "vertical" }} placeholder={t.formMessagePh} value={message} onChange={e => setMessage(e.target.value)} />
             </div>
             {status === "error" && (
-              <p style={{ ...labelStyle, fontSize: "clamp(8px, 1.8vw, 10px)", color: "#e80010" }}>FEJL. {errorMsg || "Prøv igen."}</p>
+              <p style={{ ...labelStyle, fontSize: "clamp(8px, 1.8vw, 10px)", color: "#e80010" }}>{t.formError} {errorMsg || t.formErrorDefault}</p>
             )}
             <button type="submit" disabled={status === "sending"} className="cta-btn"
               style={{ ...labelStyle, padding: "clamp(9px, 2vw, 11px) clamp(14px, 3vw, 20px)", fontSize: "clamp(8px, 1.8vw, 10px)", background: status === "sending" ? "#a08000" : "#c08000", color: "white", border: "none", cursor: status === "sending" ? "not-allowed" : "pointer", boxShadow: status === "sending" ? "none" : "4px 4px 0px #604000", marginTop: 2 }}>
-              {status === "sending" ? "SENDER..." : "SEND BESKED ▶"}
+              {status === "sending" ? t.formSending : t.formSend}
             </button>
           </form>
         )}
@@ -759,14 +948,17 @@ export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scene, setScene] = useState(0);
   const [walking, setWalking] = useState(false);
+  const [lang, setLang] = useState<"da" | "en" | null>(null);
   const walkTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const t = TRANSLATIONS[lang ?? "da"];
+
   const scenes = [
-    { label: "HEJ",             color: "#e80010" },
-    { label: "HJEMMESIDER",     color: "#0038c8" },
-    { label: "AUTOMATISERING",  color: "#008030" },
-    { label: "MARKEDSFØRING",   color: "#6020c8" },
-    { label: "KONTAKT",         color: "#c08000" },
+    { label: t.hudLabels[0], color: "#e80010" },
+    { label: t.hudLabels[1], color: "#0038c8" },
+    { label: t.hudLabels[2], color: "#008030" },
+    { label: t.hudLabels[3], color: "#6020c8" },
+    { label: t.hudLabels[4], color: "#c08000" },
   ];
 
   const handleScroll = useCallback(() => {
@@ -798,6 +990,9 @@ export default function Home() {
 
   return (
     <>
+      {/* Language popup */}
+      {lang === null && <LanguagePopup onSelect={setLang} />}
+
       {/* Scanlines: subtle on light bg */}
       <div className="scanline-overlay" style={{ opacity: 0.4 }} />
 
@@ -850,7 +1045,7 @@ export default function Home() {
           fontSize: 8, color: "rgba(0,0,0,0.25)",
           animation: "floatMed 1.8s ease-in-out infinite",
         }}>
-          ▶ SCROLL
+          {t.scrollHint}
         </div>
       )}
 
@@ -869,11 +1064,11 @@ export default function Home() {
           width: "100vw",
         }}
       >
-        <SceneHej goTo={goTo} />
-        <SceneHjemmesider goTo={goTo} />
-        <SceneAutomatisering goTo={goTo} />
-        <SceneMarkedsforing goTo={goTo} />
-        <SceneKontakt />
+        <SceneHej goTo={goTo} t={t} />
+        <SceneHjemmesider goTo={goTo} t={t} />
+        <SceneAutomatisering goTo={goTo} t={t} />
+        <SceneMarkedsforing goTo={goTo} t={t} />
+        <SceneKontakt t={t} />
       </div>
 
       {/* Mikkel: faces right, looks up at text */}
