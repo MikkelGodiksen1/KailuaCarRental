@@ -949,7 +949,10 @@ export default function Home() {
   const [scene, setScene] = useState(0);
   const [walking, setWalking] = useState(false);
   const [lang, setLang] = useState<"da" | "en" | null>(null);
+  const [mounted, setMounted] = useState(false);
   const walkTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => { setMounted(true); }, []);
 
   const t = TRANSLATIONS[lang ?? "da"];
 
@@ -991,7 +994,7 @@ export default function Home() {
   return (
     <>
       {/* Language popup */}
-      {lang === null && <LanguagePopup onSelect={setLang} />}
+      {mounted && lang === null && <LanguagePopup onSelect={setLang} />}
 
       {/* Scanlines: subtle on light bg */}
       <div className="scanline-overlay" style={{ opacity: 0.4 }} />
