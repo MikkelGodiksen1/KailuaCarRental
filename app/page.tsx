@@ -710,10 +710,6 @@ function SceneKontakt() {
         }}>
           mig.
         </h2>
-        <a href="tel:+4531552108" className="scene-enter-d1"
-          style={{ ...labelStyle, display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 12, color: "#0a0820", textDecoration: "none", padding: "9px 14px", border: "3px solid #0a0820", background: "white", fontSize: 10 }}>
-          ☎ +45 31 55 21 08
-        </a>
 
         {status === "sent" ? (
           <div style={{ padding: "14px 18px", border: "4px solid #008030", background: "white", textAlign: "center" }}>
