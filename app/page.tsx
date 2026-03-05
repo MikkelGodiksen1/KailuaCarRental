@@ -782,13 +782,13 @@ function SceneMarkedsforing({ goTo, t }: { goTo: (i: number) => void; t: T }) {
           {t.level3Body}
         </p>
 
-        <div className="scene-enter-d2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 16px", marginBottom: 10 }}>
+        <div className="scene-enter-d2" style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 10 }}>
           {/* LinkedIn */}
           <div>
             <p style={{ ...labelStyle, fontSize: 7, color: "#0A66C2", marginBottom: 3 }}>LINKEDIN ADS</p>
-            <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 5 }}>
+            <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 4 }}>
               {t.linkedinFeatures.map(p => (
-                <li key={p} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1040", fontSize: 13, fontWeight: 600, lineHeight: 1.3 }}>
+                <li key={p} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1040", fontSize: 12, fontWeight: 600, lineHeight: 1.3 }}>
                   <span style={{ width: 10, height: 10, background: "#0A66C2", display: "inline-block", flexShrink: 0, boxShadow: "2px 2px 0 #064a8a" }} />
                   {p}
                 </li>
@@ -798,9 +798,9 @@ function SceneMarkedsforing({ goTo, t }: { goTo: (i: number) => void; t: T }) {
           {/* Meta */}
           <div>
             <p style={{ ...labelStyle, fontSize: 7, color: "#1877F2", marginBottom: 3 }}>META ADS</p>
-            <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 5 }}>
+            <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 4 }}>
               {t.metaFeatures.map(p => (
-                <li key={p} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1040", fontSize: 13, fontWeight: 600, lineHeight: 1.3 }}>
+                <li key={p} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1040", fontSize: 12, fontWeight: 600, lineHeight: 1.3 }}>
                   <span style={{ width: 10, height: 10, background: "#1877F2", display: "inline-block", flexShrink: 0, boxShadow: "2px 2px 0 #0a4aaa" }} />
                   {p}
                 </li>
