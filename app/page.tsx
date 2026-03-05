@@ -458,7 +458,7 @@ function SceneAutomatisering({ goTo }: { goTo: (i: number) => void }) {
         <div className="scene-enter-d2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginBottom: 8, fontSize: 12 }}>
           <div style={{ background: "#1a3020", color: "#c0c0c0", padding: 6, border: "2px solid #0a0820", fontFamily: "Inter, sans-serif" }}>
             <p style={{ ...labelStyle, fontSize: 7, marginBottom: 3, color: "#aaa" }}>GoHighLevel</p>
-            <p style={{ fontWeight: 700, fontSize: 14, marginBottom: 4, color: "#ddd", textDecoration: "line-through" }}>$97/md</p>
+            <p style={{ fontWeight: 700, fontSize: 14, marginBottom: 4, color: "#ddd", textDecoration: "line-through" }}>600 kr+/md</p>
             <ul style={{ listStyle: "none", padding: 0, margin: 0, lineHeight: 1.4, fontSize: 11 }}>
               <li>3 Sub-Accounts</li>
               <li>Unlimited contacts</li>
@@ -710,10 +710,6 @@ function SceneKontakt() {
         }}>
           mig.
         </h2>
-        <a href="tel:+4531552108" className="scene-enter-d1"
-          style={{ ...labelStyle, display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 12, color: "#0a0820", textDecoration: "none", padding: "9px 14px", border: "3px solid #0a0820", background: "white", fontSize: 10 }}>
-          ☎ +45 31 55 21 08
-        </a>
 
         {status === "sent" ? (
           <div style={{ padding: "14px 18px", border: "4px solid #008030", background: "white", textAlign: "center" }}>
