@@ -53,12 +53,12 @@ function MikkelCharacter({ walking, scene = 0 }: { walking: boolean; scene?: num
           {/* Left arm (= screen-right after scaleX flip) */}
           <g className="char-arm-left">
             {scene === 4 ? (
-              // 🤙 Call me — arm raised to ear
+              // 🤙 Call me — thumb UP, pinky DOWN
               <>
                 <path d="M14,61 Q10,54 10,42 Q10,30 14,24 L19,26 L20,58 L18,62 Z" fill="#111111" />
-                <circle cx="14" cy="20" r="6"  fill="#f3c49e" />
-                <rect   x="5"  y="14" width="10" height="7" rx="3.5" fill="#f3c49e" />
-                <rect   x="12" y="8"  width="6"  height="13" rx="3"  fill="#f3c49e" />
+                <circle cx="14" cy="20" r="6"   fill="#f3c49e" />
+                <rect   x="11" y="4"   width="7" height="13" rx="3.5" fill="#f3c49e" />
+                <rect   x="11" y="26"  width="7" height="14" rx="3.5" fill="#f3c49e" />
               </>
             ) : scene === 2 ? (
               // WOW — left arm raised high
@@ -279,7 +279,7 @@ function SceneHej({ goTo }: { goTo: (i: number) => void }) {
         </p>
 
         <div className="scene-enter-d3" style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-          <button onClick={() => goTo(3)} className="cta-btn"
+          <button onClick={() => goTo(4)} className="cta-btn"
             style={{ ...labelStyle, padding: "13px 22px", background: "#e80010", color: "white", border: "none", cursor: "pointer", boxShadow: "4px 4px 0px #880008" }}>
             KOM I GANG
           </button>
@@ -364,7 +364,7 @@ function SceneHjemmesider({ goTo }: { goTo: (i: number) => void }) {
           ))}
         </ul>
         <div className="scene-enter-d3">
-          <button onClick={() => goTo(3)} className="cta-btn"
+          <button onClick={() => goTo(4)} className="cta-btn"
             style={{ ...labelStyle, padding: "12px 20px", background: "#0038c8", color: "white", border: "none", cursor: "pointer", boxShadow: "4px 4px 0px #001870" }}>
             KONTAKT MIG ▶
           </button>
@@ -462,7 +462,7 @@ function SceneAutomatisering({ goTo }: { goTo: (i: number) => void }) {
           ))}
         </ul>
         <div className="scene-enter-d3">
-          <button onClick={() => goTo(3)} className="cta-btn"
+          <button onClick={() => goTo(4)} className="cta-btn"
             style={{ ...labelStyle, padding: "12px 20px", background: "#008030", color: "white", border: "none", cursor: "pointer", boxShadow: "4px 4px 0px #004018" }}>
             KONTAKT MIG ▶
           </button>
