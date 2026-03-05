@@ -116,19 +116,6 @@ function MikkelCharacter({ walking, scene = 0 }: { walking: boolean; scene?: num
             <path d="M20,37 Q20,55 42,59 Q64,55 64,37" fill="#d4a860" />
             <path d="M23,40 Q23,52 42,56 Q61,52 61,40" fill="#e0bc76" />
 
-            {/* Rosy cheeks */}
-            <ellipse cx="26" cy="38" rx="7" ry="5" fill="#e8908a" opacity="0.35" />
-            <ellipse cx="58" cy="38" rx="7" ry="5" fill="#e8908a" opacity="0.35" />
-
-            {/* Beard - sideburns */}
-            <path d="M16,38 Q13,50 16,60 Q19,58 19,48 Q19,42 21,38 Z" fill="#8B6530" />
-            <path d="M68,38 Q71,50 68,60 Q65,58 65,48 Q65,42 63,38 Z" fill="#8B6530" />
-            {/* Beard - full lower face */}
-            <path d="M17,46 Q16,66 42,70 Q68,66 67,46 Q64,57 42,61 Q20,57 17,46 Z" fill="#8B6530" />
-            <path d="M20,48 Q20,63 42,66 Q64,63 64,48 Q62,57 42,60 Q22,57 20,48 Z" fill="#a07840" />
-            {/* Beard highlight */}
-            <path d="M30,57 Q42,65 54,57" stroke="#c09040" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.4" />
-
             {/* Eyes: whites (kun venstre hvis ikke blink) */}
             {!wink && <circle cx="32" cy="30" r={eyeR} fill="white" />}
             <circle cx="52" cy="30" r={eyeR} fill="white" />
