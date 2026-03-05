@@ -313,7 +313,7 @@ function SceneAutomatisering({ goTo }: { goTo: (i: number) => void }) {
       <PixelCloud style={{ position: "absolute", right: "20%", top: "14%", width: 80, animation: "floatSlow 5s 1.5s ease-in-out infinite", opacity: 0.7 }} />
 
       {/* Pixel terminal */}
-      <div style={{ position: "absolute", right: "4%", top: "8%", animation: "floatMed 5s ease-in-out infinite" }}>
+      <div style={{ position: "absolute", right: "4%", top: "14%", animation: "floatMed 5s ease-in-out infinite", zIndex: 5 }}>
         <svg width="220" height="160" viewBox="0 0 220 160" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ imageRendering: "pixelated" }}>
           <rect x="0" y="0" width="220" height="140" fill="#0a1a10" stroke="#0a0820" strokeWidth="4" />
           <rect x="8" y="8" width="204" height="124" fill="#001808" />
@@ -354,7 +354,7 @@ function SceneAutomatisering({ goTo }: { goTo: (i: number) => void }) {
       </div>
 
       {/* Content */}
-      <div className="absolute z-10" style={{ left: "5%", top: "7%", maxWidth: 480 }}>
+      <div className="absolute z-20" style={{ left: "5%", top: "7%", maxWidth: "min(480px, 58vw)" }}>
         <p className="scene-enter" style={{ ...labelStyle, color: "#008030", marginBottom: 18 }}>
           ▶ LEVEL 02 — AUTOMATISERING
         </p>
@@ -399,7 +399,139 @@ function SceneAutomatisering({ goTo }: { goTo: (i: number) => void }) {
 }
 
 /* ────────────────────────────────────────────────────────────
-   SCENE 4 — KONTAKT
+   SCENE 4 — MARKEDSFØRING
+   ──────────────────────────────────────────────────────────── */
+function SceneMarkedsforing({ goTo }: { goTo: (i: number) => void }) {
+  return (
+    <div className="relative flex-shrink-0 overflow-hidden"
+      style={{ width: "100vw", height: "100vh", background: "#f0ebff" }}>
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, #c8b8f8 0%, #f0ebff 60%)" }} />
+
+      <PixelCloud style={{ position: "absolute", left: "6%", top: "6%", animation: "floatSlow 6s ease-in-out infinite" }} />
+      <PixelCloud style={{ position: "absolute", right: "18%", top: "16%", width: 80, animation: "floatSlow 8s 1s ease-in-out infinite", opacity: 0.7 }} />
+
+      {/* LinkedIn pixel card */}
+      <div style={{ position: "absolute", right: "4%", top: "8%", animation: "floatMed 4.5s ease-in-out infinite", zIndex: 5 }}>
+        <svg width="210" height="130" viewBox="0 0 210 130" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ imageRendering: "pixelated" }}>
+          {/* Card background */}
+          <rect x="0" y="0" width="210" height="130" fill="#0A66C2" rx="0" />
+          <rect x="4" y="4" width="202" height="122" fill="#0855a4" />
+          {/* "in" logo */}
+          <rect x="12" y="12" width="28" height="28" fill="white" />
+          <rect x="16" y="18" width="6" height="16" fill="#0A66C2" />
+          <rect x="16" y="16" width="6" height="5" fill="#0A66C2" />
+          <rect x="25" y="22" width="6" height="12" fill="#0A66C2" />
+          <rect x="23" y="20" width="10" height="5" fill="#0A66C2" />
+          {/* Profile line */}
+          <rect x="48" y="14" width="100" height="8" fill="white" opacity="0.9" />
+          <rect x="48" y="26" width="70" height="6" fill="white" opacity="0.5" />
+          {/* Content lines */}
+          <rect x="12" y="52" width="160" height="6" fill="white" opacity="0.7" />
+          <rect x="12" y="63" width="140" height="6" fill="white" opacity="0.5" />
+          <rect x="12" y="74" width="120" height="6" fill="white" opacity="0.5" />
+          {/* Sponsored tag */}
+          <rect x="12" y="90" width="60" height="14" fill="#38c878" />
+          <rect x="14" y="93" width="56" height="8" fill="#38c878" />
+          {/* CTA button */}
+          <rect x="130" y="88" width="68" height="18" fill="white" />
+          <rect x="134" y="92" width="60" height="10" fill="#0A66C2" opacity="0.7" />
+          {/* Stats bar */}
+          <rect x="12" y="114" width="40" height="6" fill="white" opacity="0.4" />
+          <rect x="60" y="114" width="40" height="6" fill="white" opacity="0.4" />
+        </svg>
+      </div>
+
+      {/* Meta pixel card */}
+      <div style={{ position: "absolute", right: "6%", top: "52%", animation: "floatMed 5.5s 0.8s ease-in-out infinite", zIndex: 5 }}>
+        <svg width="190" height="110" viewBox="0 0 190 110" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ imageRendering: "pixelated" }}>
+          {/* Card background */}
+          <rect x="0" y="0" width="190" height="110" fill="#1877F2" />
+          <rect x="4" y="4" width="182" height="102" fill="#1464d0" />
+          {/* "f" logo */}
+          <rect x="12" y="12" width="24" height="24" fill="#1877F2" />
+          <rect x="14" y="10" width="20" height="28" fill="white" />
+          <rect x="14" y="10" width="20" height="8" fill="#1877F2" />
+          <rect x="14" y="21" width="14" height="4" fill="#1877F2" />
+          <rect x="16" y="12" width="12" height="6" fill="white" />
+          {/* Profile line */}
+          <rect x="44" y="14" width="90" height="8" fill="white" opacity="0.9" />
+          <rect x="44" y="26" width="60" height="6" fill="white" opacity="0.5" />
+          {/* Image placeholder */}
+          <rect x="12" y="46" width="166" height="40" fill="#1055b0" />
+          <rect x="70" y="54" width="50" height="24" fill="white" opacity="0.2" />
+          {/* Reactions */}
+          <rect x="12" y="92" width="12" height="10" fill="#e80010" opacity="0.8" />
+          <rect x="28" y="92" width="12" height="10" fill="#f8c800" opacity="0.8" />
+          <rect x="50" y="93" width="50" height="7" fill="white" opacity="0.4" />
+        </svg>
+      </div>
+
+      {/* Content */}
+      <div className="absolute z-20" style={{ left: "5%", top: "7%", maxWidth: "min(480px, 58vw)" }}>
+        <p className="scene-enter" style={{ ...labelStyle, color: "#6020c8", marginBottom: 18 }}>
+          ▶ LEVEL 03 — MARKEDSFØRING
+        </p>
+        <h2 className="scene-enter-d1" style={{
+          fontSize: "clamp(2.6rem,5vw,4.5rem)", fontWeight: 900, lineHeight: 1.0,
+          color: "#0a0820", marginBottom: 6, letterSpacing: "-0.02em",
+        }}>
+          Annoncer der
+        </h2>
+        <h2 className="scene-enter-d1" style={{
+          fontSize: "clamp(2.6rem,5vw,4.5rem)", fontWeight: 900, lineHeight: 1.0,
+          marginBottom: 20, letterSpacing: "-0.02em",
+          color: "#6020c8", textShadow: "4px 4px 0px rgba(80,20,160,0.2)",
+        }}>
+          konverterer.
+        </h2>
+        <p className="scene-enter-d2" style={{
+          color: "#2a1848", fontSize: "clamp(1rem,1.7vw,1.1rem)", lineHeight: 1.7, marginBottom: 22, maxWidth: 400,
+        }}>
+          Få flere kunder med målrettede annoncer på LinkedIn og Meta.
+          Vi opsætter, tester og optimerer — du ser resultater.
+        </p>
+
+        {/* LinkedIn section */}
+        <div className="scene-enter-d2" style={{ marginBottom: 14 }}>
+          <p style={{ ...labelStyle, fontSize: 9, color: "#0A66C2", marginBottom: 8 }}>LINKEDIN ADS</p>
+          <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 7 }}>
+            {["B2B-målretning på beslutningstagere", "Sponsored Content & Lead Gen Forms", "Retargeting af besøgende"].map(p => (
+              <li key={p} style={{ display: "flex", alignItems: "center", gap: 10, color: "#1a1040", fontSize: 14, fontWeight: 500 }}>
+                <span style={{ width: 12, height: 12, background: "#0A66C2", display: "inline-block", flexShrink: 0 }} />
+                {p}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Meta section */}
+        <div className="scene-enter-d2" style={{ marginBottom: 22 }}>
+          <p style={{ ...labelStyle, fontSize: 9, color: "#1877F2", marginBottom: 8 }}>META ADS</p>
+          <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 7 }}>
+            {["Facebook & Instagram annoncer", "Lookalike audiences & remarketing", "A/B-test af kreativt indhold"].map(p => (
+              <li key={p} style={{ display: "flex", alignItems: "center", gap: 10, color: "#1a1040", fontSize: 14, fontWeight: 500 }}>
+                <span style={{ width: 12, height: 12, background: "#1877F2", display: "inline-block", flexShrink: 0 }} />
+                {p}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="scene-enter-d3">
+          <button onClick={() => goTo(4)} className="cta-btn"
+            style={{ ...labelStyle, padding: "12px 20px", background: "#6020c8", color: "white", border: "none", cursor: "pointer", boxShadow: "4px 4px 0px #300870" }}>
+            KONTAKT MIG ▶
+          </button>
+        </div>
+      </div>
+
+      <PixelGround />
+    </div>
+  );
+}
+
+/* ────────────────────────────────────────────────────────────
+   SCENE 5 — KONTAKT
    ──────────────────────────────────────────────────────────── */
 function SceneKontakt() {
   const [name, setName] = useState("");
@@ -451,7 +583,7 @@ function SceneKontakt() {
       {/* Content */}
       <div className="absolute z-10" style={{ left: "5%", top: "7%", maxWidth: 480 }}>
         <p className="scene-enter" style={{ ...labelStyle, color: "#c08000", marginBottom: 18 }}>
-          ▶ LEVEL 03 — KONTAKT
+          ▶ LEVEL 04 — KONTAKT
         </p>
         <h2 className="scene-enter-d1" style={{
           fontSize: "clamp(2.6rem,5vw,4.5rem)", fontWeight: 900, lineHeight: 1.0,
@@ -518,10 +650,11 @@ export default function Home() {
   const walkTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const scenes = [
-    { label: "HEJ",            color: "#e80010" },
-    { label: "HJEMMESIDER",    color: "#0038c8" },
-    { label: "AUTOMATISERING", color: "#008030" },
-    { label: "KONTAKT",        color: "#c08000" },
+    { label: "HEJ",             color: "#e80010" },
+    { label: "HJEMMESIDER",     color: "#0038c8" },
+    { label: "AUTOMATISERING",  color: "#008030" },
+    { label: "MARKEDSFØRING",   color: "#6020c8" },
+    { label: "KONTAKT",         color: "#c08000" },
   ];
 
   const handleScroll = useCallback(() => {
@@ -571,7 +704,7 @@ export default function Home() {
         display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4,
       }}>
         <span style={{ ...labelStyle, fontSize: 8, color: "rgba(0,0,0,0.3)" }}>
-          {(scene + 1).toString().padStart(2, "0")} / 04
+          {(scene + 1).toString().padStart(2, "0")} / 05
         </span>
         <span style={{ ...labelStyle, fontSize: 10, color: scenes[scene].color }}>
           {scenes[scene].label}
@@ -626,6 +759,7 @@ export default function Home() {
         <SceneHej goTo={goTo} />
         <SceneHjemmesider goTo={goTo} />
         <SceneAutomatisering goTo={goTo} />
+        <SceneMarkedsforing goTo={goTo} />
         <SceneKontakt />
       </div>
 
