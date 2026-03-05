@@ -28,6 +28,8 @@ const TRANSLATIONS = {
     level2H2: "automatiseringer.",
     level2Body: "Har du opgaver der gentages igen og igen? Dem løser vi én gang, og så kører det selv.",
     level2GhlDesc: "Kan bl.a.: CRM, workflows, funnels, pipelines, kalender, 500+ integrationer",
+    level2PriceOld: "600 kr+/md",
+    level2PriceNew: "100 kr/md",
     level2NoSetup: "Ingen opsætning",
     level2BoxRightLabel: "HOS MIG",
     level2SameFeatures: "✓ Samme platform og features",
@@ -84,6 +86,8 @@ const TRANSLATIONS = {
     level2H2: "automations.",
     level2Body: "Do you have tasks that repeat over and over? We solve them once, and then they run themselves.",
     level2GhlDesc: "Includes: CRM, workflows, funnels, pipelines, calendar, 500+ integrations",
+    level2PriceOld: "$97/mo",
+    level2PriceNew: "$15/mo",
     level2NoSetup: "No setup included",
     level2BoxRightLabel: "WITH ME",
     level2SameFeatures: "✓ Same platform and features",
@@ -648,7 +652,7 @@ function SceneAutomatisering({ goTo, t }: { goTo: (i: number) => void; t: T }) {
         <div className="scene-enter-d2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginBottom: 8, fontSize: 12 }}>
           <div style={{ background: "#1a3020", color: "#c0c0c0", padding: 6, border: "2px solid #0a0820", fontFamily: "Inter, sans-serif" }}>
             <p style={{ ...labelStyle, fontSize: 7, marginBottom: 3, color: "#aaa" }}>GoHighLevel</p>
-            <p style={{ fontWeight: 700, fontSize: 14, marginBottom: 4, color: "#ddd", textDecoration: "line-through" }}>600 kr+/md</p>
+            <p style={{ fontWeight: 700, fontSize: 14, marginBottom: 4, color: "#ddd", textDecoration: "line-through" }}>{t.level2PriceOld}</p>
             <ul style={{ listStyle: "none", padding: 0, margin: 0, lineHeight: 1.4, fontSize: 11 }}>
               <li>3 Sub-Accounts</li>
               <li>Unlimited contacts</li>
@@ -657,7 +661,7 @@ function SceneAutomatisering({ goTo, t }: { goTo: (i: number) => void; t: T }) {
           </div>
           <div style={{ background: "#008030", color: "white", padding: 6, border: "2px solid #004018", fontFamily: "Inter, sans-serif" }}>
             <p style={{ ...labelStyle, fontSize: 7, marginBottom: 3, opacity: 0.95 }}>{t.level2BoxRightLabel}</p>
-            <p style={{ fontWeight: 700, fontSize: 14, marginBottom: 4 }}>100 kr/md</p>
+            <p style={{ fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{t.level2PriceNew}</p>
             <ul style={{ listStyle: "none", padding: 0, margin: 0, lineHeight: 1.4, fontSize: 11 }}>
               <li>{t.level2SameFeatures}</li>
               <li>{t.level2Template}</li>
@@ -665,10 +669,10 @@ function SceneAutomatisering({ goTo, t }: { goTo: (i: number) => void; t: T }) {
             </ul>
           </div>
         </div>
-        <ul className="scene-enter-d2" style={{ listStyle: "none", padding: 0, marginBottom: 10, display: "flex", flexDirection: "column", gap: 4 }}>
+        <ul className="scene-enter-d2" style={{ listStyle: "none", padding: 0, marginBottom: 10, display: "flex", flexDirection: "column", gap: 6 }}>
           {t.level2Features.map(p => (
-            <li key={p} style={{ display: "flex", alignItems: "center", gap: 6, color: "#0a1820", fontSize: 13, fontWeight: 500 }}>
-              <span style={{ width: 10, height: 10, background: "#008030", display: "inline-block", flexShrink: 0 }} />
+            <li key={p} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1820", fontSize: 14, fontWeight: 600, lineHeight: 1.3 }}>
+              <span style={{ width: 10, height: 10, background: "#008030", display: "inline-block", flexShrink: 0, boxShadow: "2px 2px 0 #004018" }} />
               {p}
             </li>
           ))}
@@ -782,10 +786,10 @@ function SceneMarkedsforing({ goTo, t }: { goTo: (i: number) => void; t: T }) {
           {/* LinkedIn */}
           <div>
             <p style={{ ...labelStyle, fontSize: 7, color: "#0A66C2", marginBottom: 3 }}>LINKEDIN ADS</p>
-            <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 2 }}>
+            <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 5 }}>
               {t.linkedinFeatures.map(p => (
-                <li key={p} style={{ display: "flex", alignItems: "center", gap: 6, color: "#1a1040", fontSize: 12, fontWeight: 500 }}>
-                  <span style={{ width: 10, height: 10, background: "#0A66C2", display: "inline-block", flexShrink: 0 }} />
+                <li key={p} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1040", fontSize: 13, fontWeight: 600, lineHeight: 1.3 }}>
+                  <span style={{ width: 10, height: 10, background: "#0A66C2", display: "inline-block", flexShrink: 0, boxShadow: "2px 2px 0 #064a8a" }} />
                   {p}
                 </li>
               ))}
@@ -794,10 +798,10 @@ function SceneMarkedsforing({ goTo, t }: { goTo: (i: number) => void; t: T }) {
           {/* Meta */}
           <div>
             <p style={{ ...labelStyle, fontSize: 7, color: "#1877F2", marginBottom: 3 }}>META ADS</p>
-            <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 2 }}>
+            <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: 5 }}>
               {t.metaFeatures.map(p => (
-                <li key={p} style={{ display: "flex", alignItems: "center", gap: 6, color: "#1a1040", fontSize: 12, fontWeight: 500 }}>
-                  <span style={{ width: 10, height: 10, background: "#1877F2", display: "inline-block", flexShrink: 0 }} />
+                <li key={p} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1040", fontSize: 13, fontWeight: 600, lineHeight: 1.3 }}>
+                  <span style={{ width: 10, height: 10, background: "#1877F2", display: "inline-block", flexShrink: 0, boxShadow: "2px 2px 0 #0a4aaa" }} />
                   {p}
                 </li>
               ))}
