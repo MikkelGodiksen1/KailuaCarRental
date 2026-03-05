@@ -17,6 +17,7 @@ const TRANSLATIONS = {
     introP2d: "der sparer timer",
     introP2e: "og",
     introP2f: "folk faktisk bruger.",
+    trustPoints: ["Full transparens", "Ingen bindingsperiode", "Direkte kontakt"],
     cta1: "KOM I GANG",
     cta2: "SE MERE ▶",
     level1Label: "▶ LEVEL 01 HJEMMESIDER",
@@ -80,6 +81,7 @@ const TRANSLATIONS = {
     introP2d: "that save hours,",
     introP2e: "and",
     introP2f: "people actually use.",
+    trustPoints: ["Full transparency", "No lock-in period", "Direct contact"],
     cta1: "GET STARTED",
     cta2: "SEE MORE ▶",
     level1Label: "▶ LEVEL 01 WEBSITES",
@@ -483,6 +485,21 @@ function SceneHej({ goTo, t }: { goTo: (i: number) => void; t: T }) {
           <strong style={{ color: "#0038c8" }}> automations</strong> {t.introP2d}{" "}
           {t.introP2e} <strong style={{ color: "#38a830" }}>websites</strong> {t.introP2f}
         </p>
+
+        <div className="scene-enter-d2" style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>
+          {t.trustPoints.map(p => (
+            <span key={p} style={{
+              ...labelStyle, fontSize: 7,
+              display: "inline-flex", alignItems: "center", gap: 5,
+              padding: "5px 9px",
+              background: "#f0f0ff", color: "#2a2848",
+              border: "2px solid #0a0820",
+              boxShadow: "2px 2px 0 #0a0820",
+            }}>
+              <span style={{ color: "#38a830", fontWeight: 900 }}>✓</span> {p}
+            </span>
+          ))}
+        </div>
 
         <div className="scene-enter-d3" style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
           <button onClick={() => goTo(4)} className="cta-btn"
