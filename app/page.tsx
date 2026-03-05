@@ -873,6 +873,7 @@ function SceneKontakt({ t }: { t: T }) {
       const data = await res.json().catch(() => ({}));
       if (res.ok) {
         setStatus("sent");
+        fetch("/api/track", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "lead" }) }).catch(() => {});
       } else {
         setStatus("error");
         setErrorMsg(data.error || t.formErrorServer);
@@ -990,6 +991,18 @@ export default function Home() {
   const walkTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => { setMounted(true); }, []);
+
+  // Tracking: log besøg når sprog vælges
+  useEffect(() => {
+    if (lang !== null) {
+      fetch("/api/track", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "visit", lang }) }).catch(() => {});
+    }
+  }, [lang]);
+
+  // Tracking: log hvilken scene brugeren ser
+  useEffect(() => {
+    fetch("/api/track", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "scene", scene }) }).catch(() => {});
+  }, [scene]);
 
   const t = TRANSLATIONS[lang ?? "da"];
 
