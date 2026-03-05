@@ -264,7 +264,7 @@ function SceneHej({ goTo }: { goTo: (i: number) => void }) {
           fontSize: "clamp(2.6rem,5.5vw,4.8rem)", fontWeight: 900, lineHeight: 1.0,
           color: "#0a0820", marginBottom: 4, letterSpacing: "-0.02em",
         }}>
-          Hej, jeg er
+          Hej,
         </h1>
         <h1 className="scene-enter-d1" style={{
           fontSize: "clamp(2.6rem,5.5vw,4.8rem)", fontWeight: 900, lineHeight: 1.0,
@@ -339,7 +339,7 @@ function SceneHjemmesider({ goTo }: { goTo: (i: number) => void }) {
       </div>
 
       {/* Content */}
-      <div className="absolute z-10" style={{ left: "5%", top: "5%", maxWidth: 480 }}>
+      <div className="absolute z-10" style={{ left: "5%", top: "5%", maxWidth: 480, background: "rgba(255,255,255,0.88)", padding: "16px 20px" }}>
         <p className="scene-enter" style={{ ...labelStyle, color: "#0038c8", marginBottom: 10, fontSize: 10 }}>
           ▶ LEVEL 01 HJEMMESIDER
         </p>
@@ -437,7 +437,7 @@ function SceneAutomatisering({ goTo }: { goTo: (i: number) => void }) {
       </div>
 
       {/* Content: kompakt */}
-      <div className="absolute z-20" style={{ left: "5%", top: "5%", maxWidth: "min(480px, 58vw)" }}>
+      <div className="absolute z-20" style={{ left: "5%", top: "5%", maxWidth: "min(480px, 58vw)", background: "rgba(220,255,230,0.90)", padding: "16px 20px" }}>
         <p className="scene-enter" style={{ ...labelStyle, color: "#008030", marginBottom: 8, fontSize: 10 }}>
           ▶ LEVEL 02 AUTOMATISERING
         </p>
@@ -571,7 +571,7 @@ function SceneMarkedsforing({ goTo }: { goTo: (i: number) => void }) {
       </div>
 
       {/* Content: kompakt */}
-      <div className="absolute z-20" style={{ left: "5%", top: "5%", maxWidth: "min(480px, 58vw)" }}>
+      <div className="absolute z-20" style={{ left: "5%", top: "5%", maxWidth: "min(480px, 58vw)", background: "rgba(248,240,255,0.90)", padding: "16px 20px" }}>
         <p className="scene-enter" style={{ ...labelStyle, color: "#6020c8", marginBottom: 6, fontSize: 10 }}>
           ▶ LEVEL 03 MARKEDSFØRING
         </p>
