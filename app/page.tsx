@@ -10,7 +10,7 @@ const TRANSLATIONS = {
     badge: "ÅBEN FOR PROJEKTER", // ubrugt — erstattes af dynamisk badge
     badgePrefix: "2 SPOTS TILBAGE I",
     months: ["JANUAR","FEBRUAR","MARTS","APRIL","MAJ","JUNI","JULI","AUGUST","SEPTEMBER","OKTOBER","NOVEMBER","DECEMBER"],
-    introP1: "Datamatiker. Uddannet coach (NLP). Født 97. Tidl. selvstændig forsikringsagent.",
+    introP1: "Datamatiker. Uddannet coach (NLP). Født 97. Tidl. forsikringsrådgiver.",
     introP2a: "I dag laver jeg",
     introP2b: "og",
     introP2c: "der konverterer,",
@@ -18,6 +18,11 @@ const TRANSLATIONS = {
     introP2e: "og",
     introP2f: "folk faktisk bruger.",
     trustPoints: ["Full transparens", "Ingen bindingsperiode", "Direkte kontakt"],
+    reportTitle: "DAGLIG RAPPORT",
+    reportVisits: "Besøg i dag",
+    reportLang: "Sprog",
+    reportLeads: "Nye leads",
+    reportTop: "Mest set",
     cta1: "KOM I GANG",
     cta2: "SE MERE ▶",
     level1Label: "▶ LEVEL 01 HJEMMESIDER",
@@ -74,7 +79,7 @@ const TRANSLATIONS = {
     badge: "OPEN FOR PROJECTS", // ubrugt — erstattes af dynamisk badge
     badgePrefix: "2 SPOTS LEFT IN",
     months: ["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"],
-    introP1: "Computer scientist. Certified NLP coach. Born '97. Former independent insurance agent.",
+    introP1: "Computer scientist. Certified NLP coach. Born '97. Former insurance advisor.",
     introP2a: "Today I build",
     introP2b: "and",
     introP2c: "ads that convert,",
@@ -82,6 +87,11 @@ const TRANSLATIONS = {
     introP2e: "and",
     introP2f: "people actually use.",
     trustPoints: ["Full transparency", "No lock-in period", "Direct contact"],
+    reportTitle: "DAILY REPORT",
+    reportVisits: "Visits today",
+    reportLang: "Language",
+    reportLeads: "New leads",
+    reportTop: "Most viewed",
     cta1: "GET STARTED",
     cta2: "SEE MORE ▶",
     level1Label: "▶ LEVEL 01 WEBSITES",
@@ -513,6 +523,35 @@ function SceneHej({ goTo, t }: { goTo: (i: number) => void; t: T }) {
         </div>
       </div>
 
+      {/* Daglig rapport-kort */}
+      <div className="scene-enter-d2" style={{
+        position: "absolute", right: "4%", top: "12%",
+        background: "#0a0820", color: "white",
+        border: "3px solid #e80010",
+        boxShadow: "4px 4px 0 #e80010",
+        padding: "12px 14px", minWidth: 200,
+        animation: "floatSlow 5s ease-in-out infinite",
+        zIndex: 5,
+      }}>
+        <p style={{ ...labelStyle, fontSize: 7, color: "#e80010", marginBottom: 8 }}>
+          📊 GODIK.AI — {t.reportTitle}
+        </p>
+        <p style={{ fontSize: 10, color: "#aaa", marginBottom: 8, fontFamily: "monospace" }}>
+          📅 {new Date().toLocaleDateString("da-DK", { day: "numeric", month: "long", year: "numeric" })}
+        </p>
+        {[
+          { icon: "👀", label: t.reportVisits, value: "47" },
+          { icon: "🌍", label: t.reportLang,   value: "34 DA / 13 EN" },
+          { icon: "📬", label: t.reportLeads,  value: "2" },
+          { icon: "🔥", label: t.reportTop,    value: t.hudLabels[3] },
+        ].map(row => (
+          <div key={row.label} style={{ display: "flex", justifyContent: "space-between", gap: 12, marginBottom: 4, fontSize: 11, lineHeight: 1.4 }}>
+            <span style={{ color: "#ccc" }}>{row.icon} {row.label}:</span>
+            <span style={{ color: "white", fontWeight: 700 }}>{row.value}</span>
+          </div>
+        ))}
+      </div>
+
       <PixelGround />
     </div>
   );
@@ -873,7 +912,6 @@ function SceneKontakt({ t }: { t: T }) {
       const data = await res.json().catch(() => ({}));
       if (res.ok) {
         setStatus("sent");
-        fetch("/api/track", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "lead" }) }).catch(() => {});
       } else {
         setStatus("error");
         setErrorMsg(data.error || t.formErrorServer);
@@ -992,19 +1030,7 @@ export default function Home() {
 
   useEffect(() => { setMounted(true); }, []);
 
-  // Tracking: log besøg når sprog vælges
-  useEffect(() => {
-    if (lang !== null) {
-      fetch("/api/track", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "visit", lang }) }).catch(() => {});
-    }
-  }, [lang]);
-
-  // Tracking: log hvilken scene brugeren ser
-  useEffect(() => {
-    fetch("/api/track", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "scene", scene }) }).catch(() => {});
-  }, [scene]);
-
-  const t = TRANSLATIONS[lang ?? "da"];
+const t = TRANSLATIONS[lang ?? "da"];
 
   const scenes = [
     { label: t.hudLabels[0], color: "#e80010" },
