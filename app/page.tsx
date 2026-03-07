@@ -523,35 +523,6 @@ function SceneHej({ goTo, t }: { goTo: (i: number) => void; t: T }) {
         </div>
       </div>
 
-      {/* Daglig rapport-kort */}
-      <div className="scene-enter-d2" style={{
-        position: "absolute", right: "4%", top: "12%",
-        background: "#0a0820", color: "white",
-        border: "3px solid #e80010",
-        boxShadow: "4px 4px 0 #e80010",
-        padding: "12px 14px", minWidth: 200,
-        animation: "floatSlow 5s ease-in-out infinite",
-        zIndex: 5,
-      }}>
-        <p style={{ ...labelStyle, fontSize: 7, color: "#e80010", marginBottom: 8 }}>
-          📊 GODIK.AI — {t.reportTitle}
-        </p>
-        <p style={{ fontSize: 10, color: "#aaa", marginBottom: 8, fontFamily: "monospace" }}>
-          📅 {new Date().toLocaleDateString("da-DK", { day: "numeric", month: "long", year: "numeric" })}
-        </p>
-        {[
-          { icon: "👀", label: t.reportVisits, value: "47" },
-          { icon: "🌍", label: t.reportLang,   value: "34 DA / 13 EN" },
-          { icon: "📬", label: t.reportLeads,  value: "2" },
-          { icon: "🔥", label: t.reportTop,    value: t.hudLabels[3] },
-        ].map(row => (
-          <div key={row.label} style={{ display: "flex", justifyContent: "space-between", gap: 12, marginBottom: 4, fontSize: 11, lineHeight: 1.4 }}>
-            <span style={{ color: "#ccc" }}>{row.icon} {row.label}:</span>
-            <span style={{ color: "white", fontWeight: 700 }}>{row.value}</span>
-          </div>
-        ))}
-      </div>
-
       <PixelGround />
     </div>
   );
