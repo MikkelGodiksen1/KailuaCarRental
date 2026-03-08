@@ -13,7 +13,7 @@ const services = [
     points: [
       "Next.js + Tailwind",
       "Mobile-first & accessible",
-      "SEO-optimized",
+      "SEO (GPT) optimized",
       "Vercel / edge deployment",
     ],
     gradient: "from-violet-500/10 to-indigo-500/5",
